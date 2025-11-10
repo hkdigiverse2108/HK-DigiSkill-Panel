@@ -8,13 +8,13 @@ class AdminResponsiveDesign extends StatelessWidget {
     required this.tablet,
   });
 
-  /// widget for mobile layout
+  /// widgets for mobile layout
   final Widget mobile;
 
-  /// widget for tablet layout
+  /// widgets for tablet layout
   final Widget tablet;
 
-  /// widget for desktop layout
+  /// widgets for desktop layout
   final Widget desktop;
 
   @override

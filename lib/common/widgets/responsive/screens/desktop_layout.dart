@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hkdigiskill_admin/common/widgets/layouts/headers/header.dart';
+import 'package:hkdigiskill_admin/common/widgets/layouts/sidebars/sidebar.dart';
 
 class DesktopLayout extends StatelessWidget {
   const DesktopLayout({super.key, this.body});
@@ -11,22 +13,14 @@ class DesktopLayout extends StatelessWidget {
     return Scaffold(
       body: Row(
         children: [
-          Expanded(
-            child: Drawer(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-            ),
-          ),
+          Expanded(child: AdminSidebar()),
           // Gap(20),
           Expanded(
             flex: 5,
             child: Column(
               children: [
                 // header
-                Container(
-                  height: 75,
-                  width: double.infinity,
-                  decoration: BoxDecoration(color: Color(0xff1d1b20)),
-                ),
+                AdminHeader(),
 
                 body ?? const SizedBox(),
               ],
