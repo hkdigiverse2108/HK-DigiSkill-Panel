@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hkdigiskill_admin/common/widgets/layouts/headers/header.dart';
 import 'package:hkdigiskill_admin/screens/login/widgets/login_form.dart';
 import 'package:hkdigiskill_admin/screens/login/widgets/login_header.dart';
-import 'package:hkdigiskill_admin/util/constants/sizes.dart';
+import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
 class LoginPageMobile extends StatelessWidget {
   const LoginPageMobile({super.key});

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
-import 'package:hkdigiskill_admin/util/device/device_utility.dart';
+import 'package:hkdigiskill_admin/utils/device/device_utility.dart';
 
 class SidebarController extends GetxController {
   final activeItem = AdminRoutes.login.obs;

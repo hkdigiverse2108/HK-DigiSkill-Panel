@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hkdigiskill_admin/screens/forgot_password/widgets/header_form.dart';
-import 'package:hkdigiskill_admin/util/constants/sizes.dart';
+import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
 class ForgotPasswordScreenMobile extends StatelessWidget {
   const ForgotPasswordScreenMobile({super.key});

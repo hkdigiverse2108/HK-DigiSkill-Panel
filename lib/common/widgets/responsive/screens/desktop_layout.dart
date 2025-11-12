@@ -22,7 +22,7 @@ class DesktopLayout extends StatelessWidget {
                 // header
                 AdminHeader(),
 
-                body ?? const SizedBox(),
+                Expanded(child: body ?? const SizedBox()),
               ],
             ),
           ),

@@ -3,10 +3,10 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:hkdigiskill_admin/util/constants/colors.dart';
-import 'package:hkdigiskill_admin/util/constants/enum.dart';
-import 'package:hkdigiskill_admin/util/constants/sizes.dart';
-import 'package:hkdigiskill_admin/util/helpers/helpers.dart';
+import 'package:hkdigiskill_admin/utils/constants/colors.dart';
+import 'package:hkdigiskill_admin/utils/constants/enums.dart';
+import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
+import 'package:hkdigiskill_admin/utils/helpers/helpers.dart';
 
 class AdminCircularImage extends StatelessWidget {
   const AdminCircularImage({

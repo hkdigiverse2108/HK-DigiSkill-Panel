@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hkdigiskill_admin/common/widgets/images/rounded_image.dart';
-import 'package:hkdigiskill_admin/util/constants/colors.dart';
-import 'package:hkdigiskill_admin/util/constants/enum.dart';
-import 'package:hkdigiskill_admin/util/constants/image_strings.dart';
-import 'package:hkdigiskill_admin/util/constants/sizes.dart';
-import 'package:hkdigiskill_admin/util/device/device_utility.dart';
-import 'package:hkdigiskill_admin/util/helpers/helpers.dart';
+import 'package:hkdigiskill_admin/utils/constants/colors.dart';
+import 'package:hkdigiskill_admin/utils/constants/enums.dart';
+import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
+import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
+import 'package:hkdigiskill_admin/utils/device/device_utility.dart';
+import 'package:hkdigiskill_admin/utils/helpers/helpers.dart';
 import 'package:iconsax/iconsax.dart';
 
 class AdminHeader extends StatelessWidget implements PreferredSizeWidget {
@@ -28,6 +28,7 @@ class AdminHeader extends StatelessWidget implements PreferredSizeWidget {
         vertical: AdminSizes.sm,
       ),
       child: AppBar(
+        scrolledUnderElevation: 0,
         leading: !AdminDeviceUtility.isDesktopScreen(context)
             ? IconButton(
                 onPressed: () => scaffoldKey?.currentState?.openDrawer(),

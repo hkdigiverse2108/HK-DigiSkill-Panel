@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get_navigation/src/routes/route_middleware.dart';
+import 'package:hkdigiskill_admin/data/repositories/auth_repositories.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
 
 class RoutesMiddleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
-    final isAuthenticated = true;
+    final isAuthenticated = AuthRepositories.instance.isAuthenticated;
 
     return isAuthenticated
         ? null

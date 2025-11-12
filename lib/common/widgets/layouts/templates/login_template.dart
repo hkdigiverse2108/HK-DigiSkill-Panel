@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hkdigiskill_admin/common/styles/spacing_styles.dart';
-import 'package:hkdigiskill_admin/util/constants/colors.dart';
-import 'package:hkdigiskill_admin/util/constants/sizes.dart';
-import 'package:hkdigiskill_admin/util/helpers/helpers.dart';
+import 'package:hkdigiskill_admin/utils/constants/colors.dart';
+import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
+import 'package:hkdigiskill_admin/utils/helpers/helpers.dart';
 
 class LoginTemplate extends StatelessWidget {
   const LoginTemplate({super.key, required this.child});

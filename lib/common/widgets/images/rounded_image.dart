@@ -3,8 +3,8 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:hkdigiskill_admin/util/constants/enum.dart';
-import 'package:hkdigiskill_admin/util/constants/sizes.dart';
+import 'package:hkdigiskill_admin/utils/constants/enums.dart';
+import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
 class AdminRoundedImage extends StatelessWidget {
   const AdminRoundedImage({

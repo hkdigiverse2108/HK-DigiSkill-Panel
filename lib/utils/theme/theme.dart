@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hkdigiskill_admin/util/constants/colors.dart';
-import 'package:hkdigiskill_admin/util/constants/sizes.dart';
+import 'package:hkdigiskill_admin/utils/constants/colors.dart';
+import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
 class AdminTheme {
   static final ThemeData adminLightTheme = ThemeData(
@@ -152,9 +152,6 @@ class AdminTheme {
       actionTextColor: AdminColors.accent,
     ),
     checkboxTheme: CheckboxThemeData(
-      fillColor: WidgetStatePropertyAll(AdminColors.primary),
-      // overlayColor: WidgetStatePropertyAll(AdminColors.primary),
-      // splashRadius: 20,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AdminSizes.borderRadiusSm),
       ),
@@ -270,6 +267,9 @@ class AdminTheme {
         textStyle: WidgetStatePropertyAll(
           GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16),
         ),
+        minimumSize: WidgetStatePropertyAll(
+          Size.fromHeight(AdminSizes.buttonHeight),
+        ),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
@@ -300,6 +300,11 @@ class AdminTheme {
       backgroundColor: AdminColors.darkGrey,
       contentTextStyle: TextStyle(color: AdminColors.textWhite),
       actionTextColor: AdminColors.accent,
+    ),
+    checkboxTheme: CheckboxThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AdminSizes.borderRadiusSm),
+      ),
     ),
   );
 }

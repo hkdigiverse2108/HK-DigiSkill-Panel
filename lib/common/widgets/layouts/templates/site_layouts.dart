@@ -3,7 +3,7 @@ import 'package:hkdigiskill_admin/common/widgets/responsive/responsive_design.da
 import 'package:hkdigiskill_admin/common/widgets/responsive/screens/desktop_layout.dart';
 import 'package:hkdigiskill_admin/common/widgets/responsive/screens/mobile_layout.dart';
 import 'package:hkdigiskill_admin/common/widgets/responsive/screens/tablet_layout.dart';
-import 'package:hkdigiskill_admin/util/constants/colors.dart';
+import 'package:hkdigiskill_admin/utils/constants/colors.dart';
 
 class AdminSiteLayouts extends StatelessWidget {
   const AdminSiteLayouts({

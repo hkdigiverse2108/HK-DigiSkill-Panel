@@ -3,11 +3,11 @@ import 'package:gap/gap.dart';
 import 'package:hkdigiskill_admin/common/widgets/images/circular_image.dart';
 import 'package:hkdigiskill_admin/common/widgets/layouts/sidebars/menu/menu_item.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
-import 'package:hkdigiskill_admin/util/constants/colors.dart';
-import 'package:hkdigiskill_admin/util/constants/enum.dart';
-import 'package:hkdigiskill_admin/util/constants/image_strings.dart';
-import 'package:hkdigiskill_admin/util/constants/sizes.dart';
-import 'package:hkdigiskill_admin/util/helpers/helpers.dart';
+import 'package:hkdigiskill_admin/utils/constants/colors.dart';
+import 'package:hkdigiskill_admin/utils/constants/enums.dart';
+import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
+import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
+import 'package:hkdigiskill_admin/utils/helpers/helpers.dart';
 import 'package:iconsax/iconsax.dart';
 
 class AdminSidebar extends StatelessWidget {
@@ -20,13 +20,14 @@ class AdminSidebar extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: AdminHelperFunctions.isDarkMode(context)
-              ? AdminColors.black
+              ? AdminColors.dark
               : AdminColors.white,
           border: Border(right: BorderSide(color: AdminColors.grey, width: 1)),
         ),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              // Gap(AdminSizes.spaceBtwSections),
               // image
               AdminCircularImage(
                 imageType: ImageType.network,
@@ -35,7 +36,7 @@ class AdminSidebar extends StatelessWidget {
                 height: 100,
                 backgroundColor: Colors.transparent,
               ),
-              Gap(AdminSizes.spaceBtwSections),
+              // Gap(AdminSizes.spaceBtwSections),
               Padding(
                 padding: EdgeInsetsGeometry.all(AdminSizes.md),
                 child: Column(
@@ -50,19 +51,176 @@ class AdminSidebar extends StatelessWidget {
 
                     // menu items
                     AdminMenuItem(
-                      route: AdminRoutes.login,
-                      title: 'Login',
-                      icon: Iconsax.login,
-                    ),
-                    AdminMenuItem(
                       route: AdminRoutes.dashboard,
                       title: 'Dashboard',
                       icon: Iconsax.status,
                     ),
                     AdminMenuItem(
-                      route: AdminRoutes.forgotPassword,
-                      title: 'Forgot Password',
-                      icon: Iconsax.password_check,
+                      route: AdminRoutes.transactions,
+                      title: 'Transactions',
+                      icon: Iconsax.wallet_2,
+                    ),
+                    AdminMenuItem(
+                      route: AdminRoutes.category,
+                      title: 'Category',
+                      icon: Iconsax.document,
+                    ),
+                    AdminMenuItem(
+                      route: AdminRoutes.workshop,
+                      title: 'Workshop',
+                      icon: Iconsax.monitor,
+                      subItems: const [
+                        AdminMenuItem(
+                          route: AdminRoutes.wUpdate,
+                          title: 'Update Workshop',
+                          icon: Iconsax.edit,
+                        ),
+                        AdminMenuItem(
+                          route: AdminRoutes.wCurriculum,
+                          title: 'Curriculum',
+                          icon: Iconsax.book,
+                        ),
+                        AdminMenuItem(
+                          route: AdminRoutes.wTestimonials,
+                          title: 'Testimonials',
+                          icon: Iconsax.message,
+                        ),
+                        AdminMenuItem(
+                          route: AdminRoutes.wFaq,
+                          title: 'FAQ',
+                          icon: Iconsax.message_question,
+                        ),
+                        AdminMenuItem(
+                          route: AdminRoutes.wBuy,
+                          title: 'Buy Workshop',
+                          icon: Iconsax.shopping_cart,
+                        ),
+                      ],
+                    ),
+                    AdminMenuItem(
+                      route: AdminRoutes.course,
+                      title: 'Course',
+                      icon: Iconsax.book_1,
+                      subItems: const [
+                        AdminMenuItem(
+                          route: AdminRoutes.cCourses,
+                          title: 'Courses',
+                          icon: Iconsax.book_square,
+                        ),
+                        AdminMenuItem(
+                          route: AdminRoutes.cLessons,
+                          title: 'Lessons',
+                          icon: Iconsax.video_play,
+                        ),
+                        AdminMenuItem(
+                          route: AdminRoutes.cCurriculum,
+                          title: 'Curriculum',
+                          icon: Iconsax.book,
+                        ),
+                        AdminMenuItem(
+                          route: AdminRoutes.cTestimonials,
+                          title: 'Testimonials',
+                          icon: Iconsax.message,
+                        ),
+                        AdminMenuItem(
+                          route: AdminRoutes.cFaq,
+                          title: 'FAQ',
+                          icon: Iconsax.message_question,
+                        ),
+                        AdminMenuItem(
+                          route: AdminRoutes.cBuy,
+                          title: 'Buy Courses',
+                          icon: Iconsax.shopping_cart,
+                        ),
+                      ],
+                    ),
+
+                    /// ───────── General Sections ─────────
+                    const AdminMenuItem(
+                      route: AdminRoutes.couponCode,
+                      title: 'Coupon Code',
+                      icon: Iconsax.discount_shape,
+                    ),
+                    const AdminMenuItem(
+                      route: AdminRoutes.deletedAccounts,
+                      title: 'Deleted Accounts',
+                      icon: Iconsax.trash,
+                    ),
+                    const AdminMenuItem(
+                      route: AdminRoutes.trustedPartners,
+                      title: 'Our Trusted Partners',
+                      icon: Iconsax.people,
+                    ),
+                    const AdminMenuItem(
+                      route: AdminRoutes.faq,
+                      title: 'FAQ',
+                      icon: Iconsax.message_question,
+                    ),
+                    const AdminMenuItem(
+                      route: AdminRoutes.testimonials,
+                      title: 'Testimonials',
+                      icon: Iconsax.message,
+                    ),
+                    const AdminMenuItem(
+                      route: AdminRoutes.adminUsers,
+                      title: 'Admin Users',
+                      icon: Iconsax.user_tag,
+                    ),
+                    const AdminMenuItem(
+                      route: AdminRoutes.blog,
+                      title: 'Blog',
+                      icon: Iconsax.note_2,
+                    ),
+                    const AdminMenuItem(
+                      route: AdminRoutes.getInTouch,
+                      title: 'Get In Touch',
+                      icon: Iconsax.call,
+                    ),
+                    const AdminMenuItem(
+                      route: AdminRoutes.gallery,
+                      title: 'Gallery',
+                      icon: Iconsax.gallery,
+                    ),
+                    const AdminMenuItem(
+                      route: AdminRoutes.newsLetter,
+                      title: 'News Letter',
+                      icon: Iconsax.send_2,
+                    ),
+                    const AdminMenuItem(
+                      route: AdminRoutes.banners,
+                      title: 'Banners',
+                      icon: Iconsax.image,
+                    ),
+
+                    /// ───────── Legality Section ─────────
+                    AdminMenuItem(
+                      route: AdminRoutes.legality,
+                      title: 'Legality',
+                      icon: Iconsax.security_safe,
+                      subItems: const [
+                        AdminMenuItem(
+                          route: AdminRoutes.privacyPolicy,
+                          title: 'Privacy Policy',
+                          icon: Iconsax.lock,
+                        ),
+                        AdminMenuItem(
+                          route: AdminRoutes.termsConditions,
+                          title: 'Terms & Conditions',
+                          icon: Iconsax.document_text,
+                        ),
+                      ],
+                    ),
+
+                    /// ───────── User Management ─────────
+                    const AdminMenuItem(
+                      route: AdminRoutes.users,
+                      title: 'Users',
+                      icon: Iconsax.user,
+                    ),
+                    const AdminMenuItem(
+                      route: AdminRoutes.settings,
+                      title: 'Settings',
+                      icon: Iconsax.setting_2,
                     ),
                   ],
                 ),

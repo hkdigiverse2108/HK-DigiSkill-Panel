@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:hkdigiskill_admin/util/constants/image_strings.dart';
-import 'package:hkdigiskill_admin/util/constants/sizes.dart';
-import 'package:hkdigiskill_admin/util/constants/text_strings.dart';
+import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
+import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
+import 'package:hkdigiskill_admin/utils/constants/text_strings.dart';
 
 class AdminLoginHeader extends StatelessWidget {
   const AdminLoginHeader({super.key});

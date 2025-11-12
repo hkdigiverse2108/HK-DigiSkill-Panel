@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:hkdigiskill_admin/util/constants/sizes.dart';
+import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
 class AdminSpacingStyles {
   static const EdgeInsetsGeometry paddingWithAppBarHeight = EdgeInsets.only(

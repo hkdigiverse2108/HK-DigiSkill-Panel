@@ -1,88 +1,126 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/layouts/sidebars/controllers/sidebar_controller.dart';
-import 'package:hkdigiskill_admin/util/constants/colors.dart';
-import 'package:hkdigiskill_admin/util/constants/sizes.dart';
+import 'package:hkdigiskill_admin/utils/constants/colors.dart';
+import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 import 'package:iconsax/iconsax.dart';
 
-class AdminMenuItem extends StatelessWidget {
+class AdminMenuItem extends StatefulWidget {
   const AdminMenuItem({
     super.key,
     required this.route,
     required this.title,
     required this.icon,
+    this.subItems,
   });
 
   final String route;
   final String title;
   final IconData icon;
+  final List<AdminMenuItem>? subItems; // ✅ Optional nested menu items
+
+  @override
+  State<AdminMenuItem> createState() => _AdminMenuItemState();
+}
+
+class _AdminMenuItemState extends State<AdminMenuItem> {
+  final manuController = Get.put(SidebarController());
+  final isExpanded = false.obs; // ✅ reactive expand/collapse state
 
   @override
   Widget build(BuildContext context) {
-    final manuController = Get.put(SidebarController());
-    return InkWell(
-      onTap: () => manuController.menuOnTap(route),
-      onHover: (hovering) => hovering
-          ? manuController.changeHoverItem(route)
-          : manuController.changeHoverItem(''),
-      child: Obx(
-        () => Padding(
-          padding: const EdgeInsets.symmetric(vertical: AdminSizes.xs),
-          child: Container(
-            decoration: BoxDecoration(
-              color:
-                  manuController.isHovering(route) ||
-                      manuController.isActive(route)
-                  ? AdminColors.primary
-                  : Colors.transparent,
-              borderRadius: BorderRadius.circular(AdminSizes.cardRadiusMd),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // icon
-                Padding(
-                  padding: EdgeInsetsGeometry.only(
-                    left: AdminSizes.lg,
-                    top: AdminSizes.md,
-                    bottom: AdminSizes.md,
-                    right: AdminSizes.md,
-                  ),
-                  child: manuController.isActive(route)
-                      ? Icon(icon, size: 22, color: AdminColors.white)
-                      : Icon(
-                          icon,
-                          size: 22,
-                          color: manuController.isHovering(route)
+    return Obx(
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InkWell(
+            onTap: () {
+              if (widget.subItems != null && widget.subItems!.isNotEmpty) {
+                // Toggle expansion for items with children
+                isExpanded.value = !isExpanded.value;
+              } else {
+                manuController.menuOnTap(widget.route);
+              }
+            },
+            onHover: (hovering) => hovering
+                ? manuController.changeHoverItem(widget.route)
+                : manuController.changeHoverItem(''),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: AdminSizes.xs),
+              child: Container(
+                decoration: BoxDecoration(
+                  color:
+                      manuController.isHovering(widget.route) ||
+                          manuController.isActive(widget.route)
+                      ? AdminColors.primary
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(AdminSizes.cardRadiusMd),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Icon
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: AdminSizes.lg,
+                        top: AdminSizes.md,
+                        bottom: AdminSizes.md,
+                        right: AdminSizes.md,
+                      ),
+                      child: Icon(
+                        widget.icon,
+                        size: 22,
+                        color:
+                            manuController.isActive(widget.route) ||
+                                manuController.isHovering(widget.route)
+                            ? AdminColors.white
+                            : AdminColors.darkGrey,
+                      ),
+                    ),
+
+                    // Title
+                    Expanded(
+                      child: Text(
+                        widget.title,
+                        style: Theme.of(context).textTheme.bodyMedium!.apply(
+                          color:
+                              manuController.isActive(widget.route) ||
+                                  manuController.isHovering(widget.route)
                               ? AdminColors.white
                               : AdminColors.darkGrey,
                         ),
-                ),
-
-                // Text
-                if (manuController.isHovering(route) ||
-                    manuController.isActive(route))
-                  Flexible(
-                    child: Text(
-                      title,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyMedium!.apply(color: AdminColors.white),
-                    ),
-                  )
-                else
-                  Flexible(
-                    child: Text(
-                      title,
-                      style: Theme.of(context).textTheme.bodyMedium!.apply(
-                        color: AdminColors.darkGrey,
                       ),
                     ),
-                  ),
-              ],
+
+                    // Expand arrow if sub-items exist
+                    if (widget.subItems != null && widget.subItems!.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(right: AdminSizes.sm),
+                        child: Icon(
+                          isExpanded.value
+                              ? Icons.arrow_drop_up
+                              : Icons.arrow_drop_down,
+                          size: 18,
+                          color: manuController.isActive(widget.route)
+                              ? AdminColors.white
+                              : AdminColors.darkGrey,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
+
+          // Submenu items (visible when expanded)
+          if (widget.subItems != null &&
+              widget.subItems!.isNotEmpty &&
+              isExpanded.value)
+            Padding(
+              padding: const EdgeInsets.only(left: 40),
+              child: Column(children: widget.subItems!),
+            ),
+        ],
       ),
     );
   }
