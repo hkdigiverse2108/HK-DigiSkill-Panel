@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hkdigiskill_admin/bindings/category_binding.dart';
 import 'package:hkdigiskill_admin/bindings/login_binding.dart';
 import 'package:hkdigiskill_admin/bindings/otp_binding.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
 import 'package:hkdigiskill_admin/routes/routes_middleware.dart';
+import 'package:hkdigiskill_admin/screens/category/category.dart';
 import 'package:hkdigiskill_admin/screens/dashboard/dashboard.dart';
 import 'package:hkdigiskill_admin/screens/forgot_password/forgot_password.dart';
 import 'package:hkdigiskill_admin/screens/login/login_page.dart';
@@ -33,6 +35,16 @@ class AppRoute {
       page: () => DashboardScreen(),
       middlewares: [RoutesMiddleware()],
     ),
-    GetPage(name: AdminRoutes.transactions, page: () => TransactionsScreen()),
+    GetPage(
+      name: AdminRoutes.transactions,
+      page: () => TransactionsScreen(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.category,
+      page: () => CategoryScreen(),
+      binding: CategoryBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
   ];
 }

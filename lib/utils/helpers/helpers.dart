@@ -1,8 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hkdigiskill_admin/utils/constants/colors.dart';
+import 'package:hkdigiskill_admin/utils/constants/enums.dart';
+import 'package:intl/intl.dart';
 
 class AdminHelperFunctions {
+  static DateTime getStartOfWeek(DateTime date) {
+    final int daysUntilMonday = DateTime.now().weekday - 1;
+    final DateTime startOfWeek = DateTime.now().subtract(
+      Duration(days: daysUntilMonday),
+    );
+    return DateTime(
+      startOfWeek.year,
+      startOfWeek.month,
+      startOfWeek.day,
+      0,
+      0,
+      0,
+      0,
+      0,
+    );
+  }
+
+  static Color getCategoryStatusColor(CategoryStatus value) {
+    switch (value) {
+      case CategoryStatus.active:
+        return AdminColors.primary;
+      case CategoryStatus.inactive:
+        return AdminColors.error;
+    }
+  }
+
+  static void navigateToScreen(BuildContext context, Widget screen) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
+  }
+
+  static String truncateText(String text, int maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    } else {
+      return '${text.substring(0, maxLength)}...';
+    }
+  }
+
   static bool isDarkMode(BuildContext context) {
     return false;
     // return MediaQuery.of(context).platformBrightness == Brightness.dark;
+  }
+
+  static Size screenSize() {
+    return MediaQuery.of(Get.context!).size;
+  }
+
+  static double screenWidth() {
+    return MediaQuery.of(Get.context!).size.width;
+  }
+
+  static double screenHeight() {
+    return MediaQuery.of(Get.context!).size.height;
+  }
+
+  static String getFormattedDate(
+    DateTime date, {
+    String format = 'dd MMM yyyy',
+  }) {
+    return DateFormat(format).format(date);
   }
 }

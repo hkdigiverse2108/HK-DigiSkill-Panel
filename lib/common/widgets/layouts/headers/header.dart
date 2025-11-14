@@ -35,6 +35,7 @@ class AdminHeader extends StatelessWidget implements PreferredSizeWidget {
                 icon: const Icon(Iconsax.menu, fill: 0.0),
               )
             : null,
+        automaticallyImplyLeading: false,
         title: AdminDeviceUtility.isDesktopScreen(context)
             ? SizedBox(
                 width: 400,

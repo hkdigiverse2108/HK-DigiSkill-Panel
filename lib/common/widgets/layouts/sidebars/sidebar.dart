@@ -71,9 +71,9 @@ class AdminSidebar extends StatelessWidget {
                       icon: Iconsax.monitor,
                       subItems: const [
                         AdminMenuItem(
-                          route: AdminRoutes.wUpdate,
-                          title: 'Update Workshop',
-                          icon: Iconsax.edit,
+                          route: AdminRoutes.wWorkshops,
+                          title: 'Workshops',
+                          icon: Iconsax.monitor_recorder,
                         ),
                         AdminMenuItem(
                           route: AdminRoutes.wCurriculum,

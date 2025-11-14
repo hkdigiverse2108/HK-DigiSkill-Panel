@@ -8,7 +8,7 @@ class AdminRoutes {
   static const category = '/category';
   static const workshop = '/workshop';
   static const course = '/course';
-  static const wUpdate = '$workshop/update';
+  static const wWorkshops = '$workshop/workshops';
   static const wCurriculum = '$workshop/curriculum';
   static const wBuy = '$workshop/buy';
   static const wFaq = '$workshop/faq';

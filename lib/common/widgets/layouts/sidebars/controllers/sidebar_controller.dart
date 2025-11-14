@@ -3,7 +3,7 @@ import 'package:hkdigiskill_admin/routes/routes.dart';
 import 'package:hkdigiskill_admin/utils/device/device_utility.dart';
 
 class SidebarController extends GetxController {
-  final activeItem = AdminRoutes.login.obs;
+  final activeItem = AdminRoutes.dashboard.obs;
   final hoverItem = ''.obs;
 
   void changeActiveItem(String route) => activeItem.value = route;
