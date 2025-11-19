@@ -45,17 +45,17 @@ class AdminTheme {
       ),
       headlineLarge: GoogleFonts.poppins(
         color: AdminColors.textPrimary,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w600,
         fontSize: 32,
       ),
       headlineMedium: GoogleFonts.poppins(
         color: AdminColors.textPrimary,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w600,
         fontSize: 28,
       ),
       headlineSmall: GoogleFonts.poppins(
         color: AdminColors.textPrimary,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w600,
         fontSize: 24,
       ),
       titleLarge: GoogleFonts.poppins(
@@ -99,7 +99,6 @@ class AdminTheme {
         fontSize: 11,
       ),
     ),
-
     buttonTheme: ButtonThemeData(
       buttonColor: AdminColors.buttonPrimary,
       disabledColor: AdminColors.buttonDisabled,
@@ -115,7 +114,7 @@ class AdminTheme {
           ),
         ),
         textStyle: WidgetStatePropertyAll(
-          GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16),
+          GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14),
         ),
         minimumSize: WidgetStatePropertyAll(
           Size.fromHeight(AdminSizes.buttonHeight),
@@ -265,7 +264,7 @@ class AdminTheme {
           ),
         ),
         textStyle: WidgetStatePropertyAll(
-          GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 16),
+          GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14),
         ),
         minimumSize: WidgetStatePropertyAll(
           Size.fromHeight(AdminSizes.buttonHeight),

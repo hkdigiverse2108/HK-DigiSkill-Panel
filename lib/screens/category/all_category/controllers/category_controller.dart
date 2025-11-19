@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/data/models/category_model.dart';
+import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
 
 class CategoryController extends GetxController {
   static CategoryController get instance => Get.find();
@@ -11,7 +12,7 @@ class CategoryController extends GetxController {
   var dataList = <CategoryModel>[].obs;
   var filteredDataList = <CategoryModel>[].obs;
 
-  RxList<bool> selectedRows = <bool>[].obs;
+  // RxList<bool> selectedRows = <bool>[].obs;
   final searchController = TextEditingController();
 
   @override
@@ -27,14 +28,15 @@ class CategoryController extends GetxController {
         (index) => CategoryModel(
           id: index + 1,
           name: "Category ${index + 1}",
-          image: '',
+          image: AdminImages.profile,
+          description: 'Category Description',
           courseCount: 2,
           isFeatured: false,
         ),
       ),
     );
 
-    selectedRows.assignAll(List.generate(36, (index) => false));
+    // selectedRows.assignAll(List.generate(36, (index) => false));
 
     filteredDataList.assignAll(dataList);
   }
@@ -58,6 +60,11 @@ class CategoryController extends GetxController {
       }
       return ascending ? compareResult : -compareResult;
     });
+  }
+
+  void deleteCategory(int id) {
+    dataList.removeWhere((workshop) => workshop.id == id);
+    filteredDataList.removeWhere((workshop) => workshop.id == id);
   }
 
   void searchQuery(String query) {

@@ -1,25 +1,20 @@
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
-import 'package:hkdigiskill_admin/common/widgets/data_table/paginated_data_table.dart';
-import 'package:hkdigiskill_admin/common/widgets/images/rounded_image.dart';
-import 'package:hkdigiskill_admin/screens/category/controllers/category_controller.dart';
-import 'package:hkdigiskill_admin/screens/category/table/data_table.dart';
-import 'package:hkdigiskill_admin/screens/category/table/table_source.dart';
+import 'package:hkdigiskill_admin/common/widgets/containers/rounded_container.dart';
+import 'package:hkdigiskill_admin/common/widgets/data_table/table_header.dart';
+import 'package:hkdigiskill_admin/routes/routes.dart';
+import 'package:hkdigiskill_admin/screens/category/all_category/table/data_table.dart';
 import 'package:hkdigiskill_admin/utils/constants/colors.dart';
-import 'package:hkdigiskill_admin/utils/constants/enums.dart';
-import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 import 'package:hkdigiskill_admin/utils/helpers/helpers.dart';
 
-class CategoryDesktopScreen extends StatelessWidget {
-  const CategoryDesktopScreen({super.key});
+class CategoryTabletScreen extends StatelessWidget {
+  const CategoryTabletScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = CategoryController.instance;
     return Scaffold(
       body: SingleChildScrollView(
         padding: EdgeInsets.all(AdminSizes.defaultSpace),
@@ -38,7 +33,22 @@ class CategoryDesktopScreen extends StatelessWidget {
               ],
             ),
             const Gap(AdminSizes.spaceBtwSections),
-            Center(child: CategoryTable()),
+            AdminRoundedContainer(
+              backgroundColor: AdminHelperFunctions.isDarkMode(context)
+                  ? AdminColors.black
+                  : AdminColors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AdminTableHeader(
+                    buttonText: "Create New Category",
+                    onPressed: () => Get.toNamed(AdminRoutes.createCategory),
+                  ),
+                  Gap(AdminSizes.spaceBtwSections),
+                  CategoryTable(),
+                ],
+              ),
+            ),
           ],
         ),
       ),

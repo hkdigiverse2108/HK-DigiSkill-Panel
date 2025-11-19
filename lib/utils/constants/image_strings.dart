@@ -9,4 +9,7 @@ class AdminImages {
   static const String loginAnimation = 'assets/lottie/login_success.json';
   static const String sendOtpAnimation = 'assets/lottie/send_user.json';
   static const String emptyAnimation = 'assets/lottie/empty.json';
+
+  // images
+  static const String defaultImage = 'assets/images/d_image.png';
 }

@@ -89,7 +89,7 @@ class AdminRoundedImage extends StatelessWidget {
         color: overlayColor,
         errorWidget: (context, url, error) => const Icon(Icons.error),
         progressIndicatorBuilder: (context, url, progress) =>
-            CircularProgressIndicator(value: progress.progress),
+            _buildLoadingWidget(),
       );
     } else {
       // Return empty container if no image is provided
@@ -125,5 +125,9 @@ class AdminRoundedImage extends StatelessWidget {
       // Return empty container if no image is provided
       return Container();
     }
+  }
+
+  Widget _buildLoadingWidget() {
+    return const Center(child: CircularProgressIndicator());
   }
 }

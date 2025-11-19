@@ -19,6 +19,7 @@ class AdminPaginatedDataTable extends StatelessWidget {
     this.dataRowHeight = AdminSizes.xl * 2,
     this.tableHeight = 760,
     this.minWidth = 1000,
+    this.showCheckboxColumn = false,
   });
 
   /// Whether the data is sorted in ascending order.
@@ -40,6 +41,8 @@ class AdminPaginatedDataTable extends StatelessWidget {
   final double tableHeight;
 
   final double? minWidth;
+
+  final bool showCheckboxColumn;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +85,7 @@ class AdminPaginatedDataTable extends StatelessWidget {
               topRight: Radius.circular(AdminSizes.borderRadiusMd),
             ),
           ),
-          showCheckboxColumn: true,
+          showCheckboxColumn: showCheckboxColumn,
           onPageChanged: onPageChanged,
           showFirstLastButtons: true,
           renderEmptyRowsInTheEnd: false,

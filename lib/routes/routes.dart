@@ -5,7 +5,13 @@ class AdminRoutes {
   static const resetPassword = '/reset-password/';
   static const dashboard = '/dashboard';
   static const transactions = '/transactions';
+
+  // Category
   static const category = '/category';
+  static const createCategory = '/create-category';
+  static const editCategory = '/edit-category';
+
+  // Workshop
   static const workshop = '/workshop';
   static const course = '/course';
   static const wWorkshops = '$workshop/workshops';
