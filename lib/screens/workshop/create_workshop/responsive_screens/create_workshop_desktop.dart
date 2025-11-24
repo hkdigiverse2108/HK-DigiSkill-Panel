@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:hkdigiskill_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
 import 'package:hkdigiskill_admin/screens/workshop/create_workshop/widgets/title_description.dart';
+import 'package:hkdigiskill_admin/screens/workshop/create_workshop/widgets/workshop_thumbnail_image.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 import 'package:hkdigiskill_admin/utils/device/device_utility.dart';
 
@@ -43,7 +44,7 @@ class CreateWorkshopDesktopScreen extends StatelessWidget {
                   ),
                 ),
                 Gap(AdminSizes.defaultSpace),
-                Expanded(child: Container()),
+                Expanded(child: Column(children: [WorkshopThumbnailImage()])),
               ],
             ),
           ],

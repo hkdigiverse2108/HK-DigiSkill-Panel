@@ -101,8 +101,8 @@ class ConfirmDialog {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          onConfirm();
                           Get.back();
+                          onConfirm();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: iconColor,

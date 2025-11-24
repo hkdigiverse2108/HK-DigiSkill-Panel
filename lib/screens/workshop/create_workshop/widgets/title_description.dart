@@ -19,7 +19,7 @@ class WorkshopTitleAndDescription extends StatelessWidget {
               "Basic Information",
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            const Gap(AdminSizes.spaceBtwSections),
+            const Gap(AdminSizes.spaceBtwItems),
 
             // workshop title
             TextFormField(
@@ -28,6 +28,29 @@ class WorkshopTitleAndDescription extends StatelessWidget {
               decoration: const InputDecoration(labelText: "Workshop Title"),
             ),
             const Gap(AdminSizes.spaceBtwInputFields),
+
+            // workshop subtitle
+            TextFormField(
+              decoration: const InputDecoration(labelText: "Workshop SubTitle"),
+            ),
+            const Gap(AdminSizes.spaceBtwInputFields),
+
+            // Description
+            SizedBox(
+              height: 200,
+              child: TextFormField(
+                expands: true,
+                maxLines: null,
+                textAlign: TextAlign.start,
+                keyboardType: TextInputType.multiline,
+                textAlignVertical: TextAlignVertical.top,
+                decoration: InputDecoration(
+                  labelText: "Description",
+                  hintText: "Add Workshop Description here...",
+                  alignLabelWithHint: true,
+                ),
+              ),
+            ),
           ],
         ),
       ),

@@ -3,8 +3,11 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/utils/constants/enums.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
+import 'package:hkdigiskill_admin/utils/helpers/helpers.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AdminRoundedImage extends StatelessWidget {
   const AdminRoundedImage({
@@ -128,6 +131,19 @@ class AdminRoundedImage extends StatelessWidget {
   }
 
   Widget _buildLoadingWidget() {
-    return const Center(child: CircularProgressIndicator());
+    final isDark = AdminHelperFunctions.isDarkMode(Get.context!);
+
+    return Shimmer.fromColors(
+      baseColor: isDark ? Colors.grey[800]! : Colors.grey[300]!,
+      highlightColor: isDark ? Colors.grey[700]! : Colors.grey[100]!,
+      child: Container(
+        height: 120,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: isDark ? Colors.grey[800] : Colors.grey[300],
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+    );
   }
 }

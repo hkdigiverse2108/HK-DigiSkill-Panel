@@ -15,7 +15,6 @@ import 'package:hkdigiskill_admin/utils/constants/enums.dart';
 import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 import 'package:hkdigiskill_admin/utils/device/device_utility.dart';
-import 'package:universal_html/html.dart' as html;
 
 class MediaUploader extends StatelessWidget {
   const MediaUploader({super.key});
@@ -52,22 +51,20 @@ class MediaUploader extends StatelessWidget {
                               onCreated: (ctrl) =>
                                   controller.dropzoneController = ctrl,
 
-                              onDropFile: (file) async {
-                                if (file is html.File) {
-                                  final bytes = await controller
-                                      .dropzoneController
-                                      .getFileData(file);
-                                  final image = ImageModel(
-                                    url: '',
-                                    filename: file.name,
-                                    file: file,
-                                    folder: '',
-                                    localImageToDisplay: Uint8List.fromList(
-                                      bytes,
-                                    ),
-                                  );
-                                  controller.selectedImages.add(image);
-                                }
+                              onDropFile: (DropzoneFileInterface file) async {
+                                final bytes = await controller
+                                    .dropzoneController
+                                    .getFileData(file);
+                                final image = ImageModel(
+                                  url: '',
+                                  filename: file.name,
+                                  file: file,
+                                  folder: '',
+                                  localImageToDisplay: Uint8List.fromList(
+                                    bytes,
+                                  ),
+                                );
+                                controller.selectedImagesToUpload.add(image);
                               },
                               onDropInvalid: (error) =>
                                   log("Invalid file: $error"),
@@ -90,7 +87,7 @@ class MediaUploader extends StatelessWidget {
                                 ),
                                 const Gap(AdminSizes.spaceBtwItems),
                                 OutlinedButton(
-                                  onPressed: () {},
+                                  onPressed: controller.selectLocalImages,
                                   child: const Text("Select Image"),
                                 ),
                               ],
@@ -101,102 +98,95 @@ class MediaUploader extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Gap(AdminSizes.spaceBtwSections),
+
+                if (controller.selectedImagesToUpload.isNotEmpty)
+                  const Gap(AdminSizes.spaceBtwSections),
 
                 /// Locally Selected images
-                AdminRoundedContainer(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Folders Dropdown
-                          Row(
-                            children: [
-                              Text(
-                                "Select Folder",
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                              const Gap(AdminSizes.spaceBtwItems),
-                              MediaFolderDropdown(
-                                onChanged: (MediaCategory? newValue) {
-                                  if (newValue != null) {
-                                    controller.selectedCategory.value =
-                                        newValue;
-                                  }
-                                },
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text("Remove All"),
-                              ),
-                              const Gap(AdminSizes.spaceBtwItems),
-                              AdminDeviceUtility.isMobileScreen(context)
-                                  ? const SizedBox.shrink()
-                                  : SizedBox(
-                                      width: AdminSizes.buttonWidth,
-                                      child: ElevatedButton(
-                                        onPressed: () {},
-                                        child: const Text("Upload"),
+                if (controller.selectedImagesToUpload.isNotEmpty)
+                  AdminRoundedContainer(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Folders Dropdown
+                            Row(
+                              children: [
+                                Text(
+                                  "Select Folder",
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium,
+                                ),
+                                const Gap(AdminSizes.spaceBtwItems),
+                                MediaFolderDropdown(
+                                  onChanged: (MediaCategory? newValue) {
+                                    if (newValue != null) {
+                                      controller.selectedCategory.value =
+                                          newValue;
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                TextButton(
+                                  onPressed:
+                                      controller.selectedImagesToUpload.clear,
+                                  child: const Text("Remove All"),
+                                ),
+                                const Gap(AdminSizes.spaceBtwItems),
+                                AdminDeviceUtility.isMobileScreen(context)
+                                    ? const SizedBox.shrink()
+                                    : SizedBox(
+                                        width: AdminSizes.buttonWidth,
+                                        child: ElevatedButton(
+                                          onPressed: controller
+                                              .uploadImagesConfirmation,
+                                          child: const Text("Upload"),
+                                        ),
                                       ),
-                                    ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Gap(AdminSizes.spaceBtwSections),
-                      Wrap(
-                        alignment: WrapAlignment.start,
-                        spacing: AdminSizes.spaceBtwItems / 2,
-                        runSpacing: AdminSizes.spaceBtwItems / 2,
-                        children: [
-                          AdminRoundedImage(
-                            imageType: ImageType.asset,
-                            height: 90,
-                            width: 90,
-                            padding: AdminSizes.sm,
-                            backgroundColor: AdminColors.primaryBackground,
-                            image: AdminImages.defaultImage,
-                            // memoryImage: element.localImageToDisplay,
-                          ),
-                          AdminRoundedImage(
-                            imageType: ImageType.asset,
-                            height: 90,
-                            width: 90,
-                            padding: AdminSizes.sm,
-                            backgroundColor: AdminColors.primaryBackground,
-                            image: AdminImages.defaultImage,
-                            // memoryImage: element.localImageToDisplay,
-                          ),
-                          AdminRoundedImage(
-                            imageType: ImageType.asset,
-                            height: 90,
-                            width: 90,
-                            padding: AdminSizes.sm,
-                            backgroundColor: AdminColors.primaryBackground,
-                            image: AdminImages.defaultImage,
-                            // memoryImage: element.localImageToDisplay,
-                          ),
-                        ],
-                      ),
-                      const Gap(AdminSizes.spaceBtwSections),
-                      AdminDeviceUtility.isMobileScreen(context)
-                          ? SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                child: Text('Upload'),
-                              ),
-                            )
-                          : const SizedBox.shrink(),
-                    ],
+                              ],
+                            ),
+                          ],
+                        ),
+                        Gap(AdminSizes.spaceBtwSections),
+                        Wrap(
+                          alignment: WrapAlignment.start,
+                          spacing: AdminSizes.spaceBtwItems / 2,
+                          runSpacing: AdminSizes.spaceBtwItems / 2,
+                          children: controller.selectedImagesToUpload
+                              .where((e) => e.localImageToDisplay != null)
+                              .map((e) {
+                                return AdminRoundedImage(
+                                  imageType: ImageType.memory,
+                                  height: 90,
+                                  width: 90,
+                                  padding: AdminSizes.sm,
+                                  memoryImage: e.localImageToDisplay,
+                                  backgroundColor:
+                                      AdminColors.primaryBackground,
+                                );
+                              })
+                              .toList(),
+                        ),
+                        const Gap(AdminSizes.spaceBtwSections),
+                        AdminDeviceUtility.isMobileScreen(context)
+                            ? SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed:
+                                      controller.uploadImagesConfirmation,
+                                  child: Text('Upload'),
+                                ),
+                              )
+                            : const SizedBox.shrink(),
+                      ],
+                    ),
                   ),
-                ),
                 const Gap(AdminSizes.spaceBtwSections),
               ],
             )
