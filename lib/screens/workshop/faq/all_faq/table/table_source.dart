@@ -4,11 +4,11 @@ import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/data_table/table_action_icon_buttons.dart';
 import 'package:hkdigiskill_admin/common/widgets/dialogs/confirm_dialog.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
-import 'package:hkdigiskill_admin/screens/faq/all_faq/controllers/faq_controller.dart';
+import 'package:hkdigiskill_admin/screens/workshop/faq/all_faq/controllers/faq_controller.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
-class FaqDataSource extends DataTableSource {
-  final controller = FaqController.instance;
+class WorkshopFaqDataSource extends DataTableSource {
+  final controller = WorkshopFaqController.instance;
 
   @override
   DataRow? getRow(int index) {
@@ -51,7 +51,7 @@ class FaqDataSource extends DataTableSource {
             edit: true,
             delete: true,
             onEditPressed: () =>
-                Get.toNamed(AdminRoutes.editFaq, arguments: faq),
+                Get.toNamed(AdminRoutes.wEditFaq, arguments: faq),
             onDeletePressed: () {
               ConfirmDialog.show(
                 title: "Delete FAQ",

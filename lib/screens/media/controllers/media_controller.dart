@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -7,8 +8,10 @@ import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/dialogs/confirm_dialog.dart';
 import 'package:hkdigiskill_admin/common/widgets/loaders/loaders.dart';
 import 'package:hkdigiskill_admin/data/models/image_model.dart';
+import 'package:hkdigiskill_admin/data/services/api_service.dart';
 import 'package:hkdigiskill_admin/screens/media/widgets/media_content.dart';
 import 'package:hkdigiskill_admin/screens/media/widgets/media_uploader.dart';
+import 'package:hkdigiskill_admin/utils/constants/api_constants.dart';
 import 'package:hkdigiskill_admin/utils/constants/colors.dart';
 import 'package:hkdigiskill_admin/utils/constants/enums.dart';
 import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
@@ -34,8 +37,73 @@ class MediaController extends GetxController {
   final RxList<ImageModel> allCategoryImages = <ImageModel>[].obs;
   final RxList<ImageModel> allWorkshopImages = <ImageModel>[].obs;
   final RxList<ImageModel> allPartnerImages = <ImageModel>[].obs;
+  final RxList<ImageModel> allCourseImages = <ImageModel>[].obs;
+  final RxList<ImageModel> allGalleryImages = <ImageModel>[].obs;
+  final RxList<ImageModel> allCurriculumImages = <ImageModel>[].obs;
+  final RxList<ImageModel> allInstructorsImages = <ImageModel>[].obs;
+
+  final apiService = ApiService(baseUrl: ApiConstants.baseUrl);
 
   void getMediaImages() async {
+    isLoading.value = true;
+    final category = selectedCategory.value.name;
+
+    try {
+      final response = await apiService.get(
+        path: "${ApiConstants.media}/$category",
+        decoder: (json) {
+          final images = json['data'] as List;
+
+          return images
+              .map((url) => ImageModel.fromString(url as String))
+              .toList();
+        },
+      );
+
+      switch (category) {
+        case 'folders':
+          allImages.value = response;
+          break;
+        case 'banner':
+          allBannerImages.value = response;
+          break;
+        case 'blog':
+          allBlogImages.value = response;
+          break;
+        case 'category':
+          allCategoryImages.value = response;
+          break;
+        case 'workshop':
+          allWorkshopImages.value = response;
+          break;
+        case 'partner':
+          allPartnerImages.value = response;
+          break;
+        case 'course':
+          allCourseImages.value = response;
+          break;
+        case 'gallery':
+          allGalleryImages.value = response;
+          break;
+        case 'curriculum':
+          allCurriculumImages.value = response;
+          break;
+        case 'instructors':
+          allInstructorsImages.value = response;
+          break;
+      }
+    } catch (e) {
+      AdminLoaders.errorSnackBar(
+        title: 'Error',
+        message: "Failed to get media images: $e",
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  // load more
+  void loadMoreImages() async {
     try {
       isLoading.value = true;
       RxList<ImageModel> targetedList = <ImageModel>[].obs;
@@ -58,11 +126,31 @@ class MediaController extends GetxController {
         case MediaCategory.partner:
           targetedList = allPartnerImages;
           break;
+        case MediaCategory.course:
+          targetedList = allCourseImages;
+          break;
+        case MediaCategory.gallery:
+          targetedList = allGalleryImages;
+          break;
+        case MediaCategory.curriculum:
+          targetedList = allCurriculumImages;
+          break;
+        case MediaCategory.instructors:
+          targetedList = allInstructorsImages;
+          break;
       }
 
       // load more
-      // final images = await
-      // targetedList.addAll(images);
+      final response = await apiService.get(
+        path: ApiConstants.media,
+        decoder: (json) {
+          final images = json['data'] as List;
+
+          return images
+              .map((url) => ImageModel.fromString(url as String))
+              .toList();
+        },
+      );
     } catch (e) {
       AdminLoaders.errorSnackBar(
         title: 'Error',
@@ -72,9 +160,6 @@ class MediaController extends GetxController {
       isLoading.value = false;
     }
   }
-
-  // load more
-  void loadMoreImages() async {}
 
   Future<void> selectLocalImages() async {
     final files = await dropzoneController.pickFiles(
@@ -98,6 +183,13 @@ class MediaController extends GetxController {
   }
 
   void uploadImagesConfirmation() async {
+    if (selectedImagesToUpload.isEmpty) {
+      AdminLoaders.warningSnackBar(
+        title: 'No Images Selected',
+        message: "Please select at least one image to upload",
+      );
+      return;
+    }
     if (selectedCategory.value == MediaCategory.folders) {
       AdminLoaders.warningSnackBar(
         title: 'Select Folder',
@@ -120,13 +212,37 @@ class MediaController extends GetxController {
   Future<void> uploadImages() async {
     try {
       uploadImagesLoader();
-      await Future.delayed(const Duration(seconds: 5));
-      AdminLoaders.successSnackBar(
-        title: 'Upload Success',
-        message: "Images uploaded successfully",
+
+      final response = await apiService.postDropzoneFiles<Map<String, dynamic>>(
+        path: ApiConstants.mediaUpload,
+        fields: {"category": selectedCategory.value.name},
+        files: selectedImagesToUpload.map((e) => e.file!).toList(),
+        fileFieldName: "images",
+        decoder: (json) => json as Map<String, dynamic>,
+        dropzoneController: dropzoneController,
       );
-      selectedImagesToUpload.clear();
+
+      if (response['status'] == 200) {
+        // Refresh the media list
+        getMediaImages();
+
+        // Clear the selected images
+        selectedImagesToUpload.clear();
+
+        // Show success message
+        AdminLoaders.successSnackBar(
+          title: 'Upload Success',
+          message: response['message'] ?? 'Images uploaded successfully',
+        );
+      } else {
+        // Show error message from server or default message
+        AdminLoaders.errorSnackBar(
+          title: 'Upload Error',
+          message: response['message'] ?? 'Failed to upload images',
+        );
+      }
     } catch (e) {
+      log(e.toString());
       AdminLoaders.errorSnackBar(
         title: 'Upload Error',
         message: "Failed to upload images: $e",
@@ -167,11 +283,14 @@ class MediaController extends GetxController {
 
     List<ImageModel>? selectedImages = await Get.bottomSheet<List<ImageModel>>(
       isScrollControlled: true,
+      enableDrag: true,
+      isDismissible: true,
+
       backgroundColor: AdminColors.primaryBackground,
       FractionallySizedBox(
         heightFactor: 1,
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(AdminSizes.defaultSpace),
+          padding: const EdgeInsets.all(AdminSizes.defaultSpace),
           child: Column(
             children: [
               const MediaUploader(),

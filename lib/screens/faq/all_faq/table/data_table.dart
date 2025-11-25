@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/animations/animation_loader.dart';
 import 'package:hkdigiskill_admin/common/widgets/data_table/paginated_data_table.dart';
-import 'package:hkdigiskill_admin/screens/course/faq/all_faq/controllers/faq_controller.dart';
-import 'package:hkdigiskill_admin/screens/course/faq/all_faq/table/table_source.dart';
+import 'package:hkdigiskill_admin/screens/faq/all_faq/controllers/faq_controller.dart';
+import 'package:hkdigiskill_admin/screens/faq/all_faq/table/table_source.dart';
 import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
@@ -13,7 +13,7 @@ class FaqTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = CourseFaqController.instance;
+    final controller = FaqController.instance;
 
     return Obx(() {
       if (controller.isLoading.value) {
@@ -31,13 +31,13 @@ class FaqTable extends StatelessWidget {
         child: Text(controller.filteredDataList.length.toString()),
       );
       return AdminPaginatedDataTable(
-        minWidth: 1000,
+        minWidth: 800,
         tableHeight: 640,
         dataRowHeight: AdminSizes.xl * 1.8,
         sortAscending: controller.sortAscending.value,
         sortColumnIndex: controller.sortColumnIndex.value,
         onPageChanged: (page) {},
-        source: CourseFaqDataSource(),
+        source: FaqDataSource(),
         columns: [
           const DataColumn2(label: Text("Question")),
           DataColumn2(

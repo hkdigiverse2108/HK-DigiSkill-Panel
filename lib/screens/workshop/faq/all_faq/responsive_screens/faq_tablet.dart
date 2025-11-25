@@ -5,18 +5,18 @@ import 'package:hkdigiskill_admin/common/widgets/breadcrumbs/breadcrumb_with_hea
 import 'package:hkdigiskill_admin/common/widgets/containers/rounded_container.dart';
 import 'package:hkdigiskill_admin/common/widgets/data_table/table_header.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
-import 'package:hkdigiskill_admin/screens/faq/all_faq/controllers/faq_controller.dart';
-import 'package:hkdigiskill_admin/screens/faq/all_faq/table/data_table.dart';
+import 'package:hkdigiskill_admin/screens/workshop/faq/all_faq/controllers/faq_controller.dart';
+import 'package:hkdigiskill_admin/screens/workshop/faq/all_faq/table/data_table.dart';
 import 'package:hkdigiskill_admin/utils/constants/colors.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 import 'package:hkdigiskill_admin/utils/helpers/helpers.dart';
 
-class FaqTabletScreen extends StatelessWidget {
-  const FaqTabletScreen({super.key});
+class WorkshopFaqTabletScreen extends StatelessWidget {
+  const WorkshopFaqTabletScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = FaqController.instance;
+    final controller = WorkshopFaqController.instance;
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AdminSizes.defaultSpace),
@@ -24,8 +24,8 @@ class FaqTabletScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const AdminBreadcrumbWithHeading(
-              breadcrumbsItems: ["FAQ"],
-              heading: "FAQ",
+              breadcrumbsItems: ["Workshop FAQ"],
+              heading: "Workshop FAQ",
             ),
             const Gap(AdminSizes.spaceBtwSections),
             AdminRoundedContainer(
@@ -37,12 +37,12 @@ class FaqTabletScreen extends StatelessWidget {
                 children: [
                   AdminTableHeader(
                     buttonText: "Create FAQ",
-                    onPressed: () => Get.toNamed(AdminRoutes.createFaq),
+                    onPressed: () => Get.toNamed(AdminRoutes.wCreateFaq),
                     searchController: controller.searchController,
                     onSearchChanged: (query) {},
                   ),
                   const Gap(AdminSizes.spaceBtwSections),
-                  const FaqTable(),
+                  const WorkshopFaqTable(),
                 ],
               ),
             ),

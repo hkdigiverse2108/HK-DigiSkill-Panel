@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/animations/animation_loader.dart';
 import 'package:hkdigiskill_admin/common/widgets/data_table/paginated_data_table.dart';
-import 'package:hkdigiskill_admin/screens/faq/all_faq/controllers/faq_controller.dart';
-import 'package:hkdigiskill_admin/screens/faq/all_faq/table/table_source.dart';
+import 'package:hkdigiskill_admin/screens/workshop/faq/all_faq/controllers/faq_controller.dart';
+import 'package:hkdigiskill_admin/screens/workshop/faq/all_faq/table/table_source.dart';
 import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
-class FaqTable extends StatelessWidget {
-  const FaqTable({super.key});
+class WorkshopFaqTable extends StatelessWidget {
+  const WorkshopFaqTable({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = FaqController.instance;
+    final controller = WorkshopFaqController.instance;
 
     return Obx(() {
       if (controller.isLoading.value) {
@@ -37,7 +37,7 @@ class FaqTable extends StatelessWidget {
         sortAscending: controller.sortAscending.value,
         sortColumnIndex: controller.sortColumnIndex.value,
         onPageChanged: (page) {},
-        source: FaqDataSource(),
+        source: WorkshopFaqDataSource(),
         columns: [
           const DataColumn2(label: Text("Question")),
           DataColumn2(

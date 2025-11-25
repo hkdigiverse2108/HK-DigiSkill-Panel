@@ -9,8 +9,8 @@ import 'package:hkdigiskill_admin/data/services/storage_service.dart';
 import 'package:hkdigiskill_admin/utils/constants/api_constants.dart';
 import 'package:hkdigiskill_admin/utils/constants/enums.dart';
 
-class FaqController extends GetxController {
-  static FaqController get instance => Get.find();
+class WorkshopFaqController extends GetxController {
+  static WorkshopFaqController get instance => Get.find();
 
   var sortAscending = true.obs;
   var sortColumnIndex = 0.obs;
@@ -35,7 +35,7 @@ class FaqController extends GetxController {
 
       final response = await apiService.get(
         headers: {"authorization": storageService.token!},
-        path: ApiConstants.faqWithType(FaqType.home),
+        path: ApiConstants.faqWithType(FaqType.workshop),
         decoder: (json) {
           final data = json['data']['faq_data'] as List;
           return data.map<FaqModel>((e) => FaqModel.fromJson(e)).toList();

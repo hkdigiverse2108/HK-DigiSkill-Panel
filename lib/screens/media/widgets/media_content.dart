@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -52,6 +54,10 @@ class MediaContent extends StatelessWidget {
                     onChanged: (MediaCategory? newValue) {
                       if (newValue != null) {
                         controller.selectedCategory.value = newValue;
+                        if (controller.selectedCategory.value !=
+                            MediaCategory.folders) {
+                          controller.getMediaImages();
+                        }
                       }
                     },
                   ),
@@ -97,40 +103,45 @@ class MediaContent extends StatelessWidget {
 
             return Column(
               children: [
-                Wrap(
-                  alignment: WrapAlignment.start,
-                  spacing: AdminSizes.spaceBtwItems / 2,
-                  runSpacing: AdminSizes.spaceBtwItems / 2,
-                  children: images
-                      .map(
-                        (image) => GestureDetector(
-                          onTap: () {},
-                          child: SizedBox(
-                            width: 140,
-                            height: 180,
-                            child: Column(
-                              children: [
-                                allowSelection
-                                    ? _buildListWithCheckbox(image)
-                                    : _buildSimpleList(image),
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: AdminSizes.sm,
-                                    ),
-                                    child: Text(
-                                      image.filename,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                SizedBox(
+                  width: double.infinity,
+                  child: Wrap(
+                    alignment: WrapAlignment.start,
+                    spacing: AdminSizes.spaceBtwItems / 2,
+                    runSpacing: AdminSizes.spaceBtwItems / 2,
+                    children: images
+                        .map(
+                          (image) => InkWell(
+                            onTap: () {
+                              log(image.url);
+                            },
+                            child: SizedBox(
+                              width: 140,
+                              height: 160,
+                              child: Column(
+                                children: [
+                                  allowSelection
+                                      ? _buildListWithCheckbox(image)
+                                      : _buildSimpleList(image),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: AdminSizes.sm,
+                                      ),
+                                      child: Text(
+                                        image.filename,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                      .toList(),
+                        )
+                        .toList(),
+                  ),
                 ),
 
                 /// Load More Media Button
@@ -219,6 +230,26 @@ class MediaContent extends StatelessWidget {
             .where((element) => element.url.isNotEmpty)
             .toList();
         break;
+      case MediaCategory.course:
+        images = controller.allCourseImages
+            .where((element) => element.url.isNotEmpty)
+            .toList();
+        break;
+      case MediaCategory.gallery:
+        images = controller.allGalleryImages
+            .where((element) => element.url.isNotEmpty)
+            .toList();
+        break;
+      case MediaCategory.curriculum:
+        images = controller.allCurriculumImages
+            .where((element) => element.url.isNotEmpty)
+            .toList();
+        break;
+      case MediaCategory.instructors:
+        images = controller.allInstructorsImages
+            .where((element) => element.url.isNotEmpty)
+            .toList();
+        break;
     }
     return images;
   }
@@ -238,7 +269,7 @@ class MediaContent extends StatelessWidget {
   Widget _buildSimpleList(ImageModel image) {
     return AdminRoundedImage(
       width: 140,
-      height: 140,
+      height: 120,
       imageType: ImageType.network,
       padding: AdminSizes.sm,
       image: image.url,

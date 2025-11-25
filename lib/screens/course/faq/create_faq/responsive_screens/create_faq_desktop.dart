@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hkdigiskill_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
-import 'package:hkdigiskill_admin/screens/faq/create_faq/widgets/create_faq_form.dart';
+import 'package:hkdigiskill_admin/screens/course/faq/create_faq/widgets/create_faq_form.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
 class CourseCreateFaqDesktopScreen extends StatelessWidget {
@@ -28,7 +28,7 @@ class CourseCreateFaqDesktopScreen extends StatelessWidget {
               ],
             ),
             const Gap(AdminSizes.spaceBtwSections),
-            const CreateFaqForm(),
+            const CourseCreateFaqForm(),
           ],
         ),
       ),

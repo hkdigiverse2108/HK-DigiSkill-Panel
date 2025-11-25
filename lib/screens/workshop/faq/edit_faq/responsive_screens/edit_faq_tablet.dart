@@ -3,11 +3,11 @@ import 'package:gap/gap.dart';
 import 'package:hkdigiskill_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:hkdigiskill_admin/data/models/faq_model.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
-import 'package:hkdigiskill_admin/screens/faq/edit_faq/widgets/edit_faq_form.dart';
+import 'package:hkdigiskill_admin/screens/workshop/faq/edit_faq/widgets/edit_faq_form.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
-class EditFaqTabletScreen extends StatelessWidget {
-  const EditFaqTabletScreen({super.key, required this.faq});
+class WorkshopEditFaqTabletScreen extends StatelessWidget {
+  const WorkshopEditFaqTabletScreen({super.key, required this.faq});
 
   final FaqModel faq;
 
@@ -21,11 +21,11 @@ class EditFaqTabletScreen extends StatelessWidget {
           children: [
             const AdminBreadcrumbWithHeading(
               returnToPreviousScreen: true,
-              breadcrumbsItems: [AdminRoutes.faq, 'FAQ'],
-              heading: 'Edit FAQ',
+              breadcrumbsItems: [AdminRoutes.wFaq, 'Workshop FAQ Edit'],
+              heading: 'Workshop FAQ Edit',
             ),
             const Gap(AdminSizes.spaceBtwSections),
-            EditFaqForm(faq: faq),
+            WorkshopEditFaqForm(faq: faq),
           ],
         ),
       ),

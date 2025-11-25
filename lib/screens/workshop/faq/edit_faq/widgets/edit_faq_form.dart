@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/containers/rounded_container.dart';
 import 'package:hkdigiskill_admin/data/models/faq_model.dart';
-import 'package:hkdigiskill_admin/screens/faq/edit_faq/controllers/edit_faq_controller.dart';
+import 'package:hkdigiskill_admin/screens/workshop/faq/edit_faq/controllers/edit_faq_controller.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 import 'package:hkdigiskill_admin/utils/helpers/validators.dart';
 import 'package:iconsax/iconsax.dart';
 
-class EditFaqForm extends GetView<EditFaqController> {
-  const EditFaqForm({super.key, required this.faq});
+class WorkshopEditFaqForm extends GetView<WorkshopEditFaqController> {
+  const WorkshopEditFaqForm({super.key, required this.faq});
 
   final FaqModel faq;
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-      init: EditFaqController(),
+      init: WorkshopEditFaqController(),
       initState: (state) {
         controller.initFaq(faq);
       },
@@ -27,10 +27,7 @@ class EditFaqForm extends GetView<EditFaqController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Edit FAQ',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
+                Text('Edit FAQ', style: Theme.of(context).textTheme.titleLarge),
                 SizedBox(height: AdminSizes.spaceBtwSections),
                 TextFormField(
                   controller: controller.questionController,

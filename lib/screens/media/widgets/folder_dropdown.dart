@@ -13,7 +13,7 @@ class MediaFolderDropdown extends StatelessWidget {
     final controller = MediaController.instance;
     return Obx(
       () => SizedBox(
-        width: 140,
+        width: 150,
         child: DropdownButtonFormField(
           isExpanded: false,
           initialValue: controller.selectedCategory.value,

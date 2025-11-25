@@ -12,6 +12,9 @@ class ApiConstants {
 
   // Category
   static const String category = '/course-category/all';
+  static const String categoryCreate = '/course-category/add';
+  static const String categoryUpdate = '/course-category/edit';
+  static const String categoryDelete = '/course-category';
 
   // Get In Touch
   static const String getInTouch = '/get-in-touch/all';
@@ -23,4 +26,15 @@ class ApiConstants {
   static const String faqCreate = '/faq/add';
   static const String faqUpdate = '/faq/edit';
   static const String faqDelete = '/faq/delete';
+
+  // Coupon
+  static const String coupon = '/coupon-code/all';
+  static const String couponCreate = '/coupon-code/add';
+  static const String couponUpdate = '/coupon-code/edit';
+  static const String couponDelete = '/coupon-code/delete';
+
+  // media
+  static const String media = '/upload/images';
+  static const String mediaDelete = '/upload';
+  static const String mediaUpload = '/upload';
 }

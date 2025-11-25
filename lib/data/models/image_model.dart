@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 class ImageModel {
   String id;
   final String url;
-  final String folder;
+  final String? folder;
   final int? sizeBytes;
   String mediaCategory;
   final String filename;
@@ -23,7 +23,7 @@ class ImageModel {
   ImageModel({
     this.id = "",
     required this.url,
-    required this.folder,
+    this.folder,
     this.sizeBytes,
     this.mediaCategory = "",
     required this.filename,
@@ -37,6 +37,14 @@ class ImageModel {
 
   /// Static
   static ImageModel empty() => ImageModel(url: "", folder: "", filename: "");
+
+  factory ImageModel.fromString(String imageUrl) {
+    return ImageModel(
+      url: imageUrl,
+      filename: imageUrl.split('/').last, // extract file name
+      folder: 'gallery',
+    );
+  }
 
   // String get createdAtFormatted => ;
 }

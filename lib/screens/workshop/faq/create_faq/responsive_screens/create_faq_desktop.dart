@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hkdigiskill_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
-import 'package:hkdigiskill_admin/screens/faq/create_faq/widgets/create_faq_form.dart';
+import 'package:hkdigiskill_admin/screens/workshop/faq/create_faq/widgets/create_faq_form.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
-class CreateFaqDesktopScreen extends StatelessWidget {
-  const CreateFaqDesktopScreen({super.key});
+class WorkshopCreateFaqDesktopScreen extends StatelessWidget {
+  const WorkshopCreateFaqDesktopScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +22,13 @@ class CreateFaqDesktopScreen extends StatelessWidget {
               children: const [
                 AdminBreadcrumbWithHeading(
                   returnToPreviousScreen: true,
-                  breadcrumbsItems: [AdminRoutes.faq, 'FAQ'],
-                  heading: 'Create FAQ',
+                  breadcrumbsItems: [AdminRoutes.wFaq, 'Workshop FAQ Create'],
+                  heading: 'Workshop FAQ Create',
                 ),
               ],
             ),
             const Gap(AdminSizes.spaceBtwSections),
-            const CreateFaqForm(),
+            const WorkshopCreateFaqForm(),
           ],
         ),
       ),

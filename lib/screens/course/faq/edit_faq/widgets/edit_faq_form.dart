@@ -3,20 +3,19 @@ import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/containers/rounded_container.dart';
 import 'package:hkdigiskill_admin/data/models/faq_model.dart';
 import 'package:hkdigiskill_admin/screens/course/faq/edit_faq/controllers/edit_faq_controller.dart';
-import 'package:hkdigiskill_admin/screens/faq/edit_faq/controllers/edit_faq_controller.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 import 'package:hkdigiskill_admin/utils/helpers/validators.dart';
 import 'package:iconsax/iconsax.dart';
 
-class EditFaqForm extends GetView<CourseEditFaqController> {
-  const EditFaqForm({super.key, required this.faq});
+class CourseEditFaqForm extends GetView<CourseEditFaqController> {
+  const CourseEditFaqForm({super.key, required this.faq});
 
   final FaqModel faq;
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-      init: EditFaqController(),
+      init: CourseEditFaqController(),
       initState: (state) {
         controller.initFaq(faq);
       },

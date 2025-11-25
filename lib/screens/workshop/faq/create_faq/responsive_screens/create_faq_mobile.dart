@@ -5,8 +5,8 @@ import 'package:hkdigiskill_admin/routes/routes.dart';
 import 'package:hkdigiskill_admin/screens/faq/create_faq/widgets/create_faq_form.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
-class CreateFaqMobileScreen extends StatelessWidget {
-  const CreateFaqMobileScreen({super.key});
+class WorkshopCreateFaqMobileScreen extends StatelessWidget {
+  const WorkshopCreateFaqMobileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +18,8 @@ class CreateFaqMobileScreen extends StatelessWidget {
           children: const [
             AdminBreadcrumbWithHeading(
               returnToPreviousScreen: true,
-              breadcrumbsItems: [AdminRoutes.faq, 'FAQ'],
-              heading: 'Create FAQ',
+              breadcrumbsItems: [AdminRoutes.wFaq, 'Workshop FAQ Create'],
+              heading: 'Workshop FAQ Create',
             ),
             Gap(AdminSizes.spaceBtwSections),
             CreateFaqForm(),

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/bindings/banners_binding.dart';
 import 'package:hkdigiskill_admin/bindings/category_binding.dart';
+import 'package:hkdigiskill_admin/bindings/coupon_binding.dart';
 import 'package:hkdigiskill_admin/bindings/course_binding.dart';
 import 'package:hkdigiskill_admin/bindings/deleted_accounts_binding.dart';
 import 'package:hkdigiskill_admin/bindings/faq_binding.dart';
@@ -20,6 +21,9 @@ import 'package:hkdigiskill_admin/screens/banners/edit_banner/edit_banner.dart';
 import 'package:hkdigiskill_admin/screens/category/all_category/category.dart';
 import 'package:hkdigiskill_admin/screens/category/create_category/create_category.dart';
 import 'package:hkdigiskill_admin/screens/category/edit_category/edit_category.dart';
+import 'package:hkdigiskill_admin/screens/coupon/all_coupons/all_coupons.dart';
+import 'package:hkdigiskill_admin/screens/coupon/create_coupon/create_coupon.dart';
+// import 'package:hkdigiskill_admin/screens/coupon/create_coupon/create_coupon.dart';
 import 'package:hkdigiskill_admin/screens/course/faq/all_faq/all_faq.dart';
 import 'package:hkdigiskill_admin/screens/course/faq/create_faq/create_faq.dart';
 import 'package:hkdigiskill_admin/screens/course/faq/edit_faq/edit_faq.dart';
@@ -45,6 +49,9 @@ import 'package:hkdigiskill_admin/screens/testimonials/edit_testimonial/edit_tes
 import 'package:hkdigiskill_admin/screens/transactions/transactions.dart';
 import 'package:hkdigiskill_admin/screens/workshop/all_workshop/all_workshop.dart';
 import 'package:hkdigiskill_admin/screens/workshop/create_workshop/create_workshop.dart';
+import 'package:hkdigiskill_admin/screens/workshop/faq/all_faq/all_faq.dart';
+import 'package:hkdigiskill_admin/screens/workshop/faq/create_faq/create_faq.dart';
+import 'package:hkdigiskill_admin/screens/workshop/faq/edit_faq/edit_faq.dart';
 
 class AppRoute {
   static final List<GetPage> pages = [
@@ -119,6 +126,24 @@ class AppRoute {
     //   binding: WorkshopBinding(),
     //   middlewares: [RoutesMiddleware()],
     // ),
+    GetPage(
+      name: AdminRoutes.wFaq,
+      page: () => WorkshopAllFaqScreen(),
+      binding: WorkshopBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.wCreateFaq,
+      page: () => WorkshopCreateFaqScreen(),
+      binding: WorkshopBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.wEditFaq,
+      page: () => WorkshopEditFaqScreen(),
+      binding: WorkshopBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
 
     // FAQ
     GetPage(
@@ -249,5 +274,25 @@ class AppRoute {
       binding: CourseBinding(),
       middlewares: [RoutesMiddleware()],
     ),
+
+    // Coupon
+    GetPage(
+      name: AdminRoutes.couponCode,
+      page: () => AllCoupons(),
+      binding: CouponBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.createCouponCode,
+      page: () => CreateCoupon(),
+      binding: CouponBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    // GetPage(
+    //   name: AdminRoutes.editCouponCode,
+    //   page: () => EditCoupon(),
+    //   binding: CouponBinding(),
+    //   middlewares: [RoutesMiddleware()],
+    // ),
   ];
 }

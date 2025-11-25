@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/containers/rounded_container.dart';
-import 'package:hkdigiskill_admin/screens/faq/create_faq/controllers/create_faq_controller.dart';
+import 'package:hkdigiskill_admin/screens/workshop/faq/create_faq/controllers/create_faq_controller.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 import 'package:hkdigiskill_admin/utils/helpers/validators.dart';
 import 'package:iconsax/iconsax.dart';
 
-class CreateFaqForm extends GetView<CreateFaqController> {
-  const CreateFaqForm({super.key});
+class WorkshopCreateFaqForm extends GetView<WorkshopCreateFaqController> {
+  const WorkshopCreateFaqForm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +18,7 @@ class CreateFaqForm extends GetView<CreateFaqController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Create FAQ',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            Text('Create FAQ', style: Theme.of(context).textTheme.titleLarge),
             SizedBox(height: AdminSizes.spaceBtwSections),
             TextFormField(
               controller: controller.questionController,

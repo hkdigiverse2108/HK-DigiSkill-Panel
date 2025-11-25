@@ -75,11 +75,19 @@ class EditCategoryForm extends GetView<EditCategoryController> {
                   ),
                 ),
                 Gap(AdminSizes.spaceBtwInputFields * 2),
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text("Create"),
+                Obx(
+                  () => SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: controller.isLoading.value
+                          ? null
+                          : () {
+                              controller.updateCategory(category);
+                            },
+                      child: controller.isLoading.value
+                          ? const CircularProgressIndicator()
+                          : const Text("Update"),
+                    ),
                   ),
                 ),
                 Gap(AdminSizes.spaceBtwInputFields * 2),
