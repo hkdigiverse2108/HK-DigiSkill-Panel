@@ -30,6 +30,12 @@ import 'package:hkdigiskill_admin/screens/category/edit_category/edit_category.d
 import 'package:hkdigiskill_admin/screens/coupon/all_coupons/all_coupons.dart';
 import 'package:hkdigiskill_admin/screens/coupon/create_coupon/create_coupon.dart';
 import 'package:hkdigiskill_admin/screens/coupon/update_coupon/edit_coupon.dart';
+import 'package:hkdigiskill_admin/screens/course/course_list/course_list.dart';
+import 'package:hkdigiskill_admin/screens/course/create_course/create_course.dart';
+import 'package:hkdigiskill_admin/screens/course/curriculum/create_curriculum/create_course_curriculum.dart';
+import 'package:hkdigiskill_admin/screens/course/curriculum/curriculums_list/course_curriculums.dart';
+import 'package:hkdigiskill_admin/screens/course/curriculum/edit_curriculum/edit_course_curriculum.dart';
+import 'package:hkdigiskill_admin/screens/course/edit_course/edit_course.dart';
 // import 'package:hkdigiskill_admin/screens/coupon/create_coupon/create_coupon.dart';
 import 'package:hkdigiskill_admin/screens/course/faq/all_faq/all_faq.dart';
 import 'package:hkdigiskill_admin/screens/course/faq/create_faq/create_faq.dart';
@@ -63,6 +69,8 @@ import 'package:hkdigiskill_admin/screens/transactions/transactions.dart';
 import 'package:hkdigiskill_admin/screens/users/users.dart';
 import 'package:hkdigiskill_admin/screens/workshop/all_workshop/all_workshop.dart';
 import 'package:hkdigiskill_admin/screens/workshop/create_workshop/create_workshop.dart';
+import 'package:hkdigiskill_admin/screens/workshop/curriculum/create_curriculum/create_workshop_curriculum.dart';
+import 'package:hkdigiskill_admin/screens/workshop/curriculum/edit_curriculum/edit_workshop_curriculum.dart';
 import 'package:hkdigiskill_admin/screens/workshop/edit_workshop/edit_workshop.dart';
 import 'package:hkdigiskill_admin/screens/workshop/faq/all_faq/all_faq.dart';
 import 'package:hkdigiskill_admin/screens/workshop/faq/create_faq/create_faq.dart';
@@ -70,6 +78,8 @@ import 'package:hkdigiskill_admin/screens/workshop/faq/edit_faq/edit_faq.dart';
 import 'package:hkdigiskill_admin/screens/workshop/testimonials/all_testimonials/all_testimonials.dart';
 import 'package:hkdigiskill_admin/screens/workshop/testimonials/create_testimonial/create_testimonial.dart';
 import 'package:hkdigiskill_admin/screens/workshop/testimonials/edit_testimonial/edit_testimonial.dart';
+
+import '../screens/workshop/curriculum/curriculums_list/workshop_curriculums.dart';
 
 class AppRoute {
   static final List<GetPage> pages = [
@@ -177,6 +187,24 @@ class AppRoute {
     GetPage(
       name: AdminRoutes.wEditTestimonial,
       page: () => WorkshopEditTestimonialScreen(),
+      binding: WorkshopBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.wCurriculum,
+      page: () => WorkshopCurriculums(),
+      binding: WorkshopBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.wCreateCurriculum,
+      page: () => CreateWorkshopCurriculum(),
+      binding: WorkshopBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.wEditCurriculum,
+      page: () => EditWorkshopCurriculum(),
       binding: WorkshopBinding(),
       middlewares: [RoutesMiddleware()],
     ),
@@ -304,6 +332,42 @@ class AppRoute {
     ),
 
     // Course
+    GetPage(
+      name: AdminRoutes.course,
+      page: () => CourseList(),
+      binding: CourseBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.createCourse,
+      page: () => CreateCourse(),
+      binding: CourseBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.editCourse,
+      page: () => EditCourseScreen(),
+      binding: CourseBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.cCurriculum,
+      page: () => CourseCurriculums(),
+      binding: CourseBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.cCreateCurriculum,
+      page: () => CreateCourseCurriculum(),
+      binding: CourseBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.cEditCurriculum,
+      page: () => EditCourseCurriculum(),
+      binding: CourseBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
     GetPage(
       name: AdminRoutes.cFaq,
       page: () => CourseAllFaqScreen(),

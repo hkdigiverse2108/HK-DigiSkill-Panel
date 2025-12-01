@@ -26,6 +26,20 @@ class ApiConstants {
   static const String workshopCreate = '/workshop/add';
   static const String workshopUpdate = '/workshop/edit';
   static const String workshopDelete = '/workshop/delete';
+  static const String workshopCurriculums = '/workshop-curriculum/all';
+  static const String workshopCurriculumsCreate = '/workshop-curriculum/add';
+  static const String workshopCurriculumsUpdate = '/workshop-curriculum/edit';
+  static const String workshopCurriculumsDelete = '/workshop-curriculum/delete';
+
+  // Course
+  static const String course = '/course/all';
+  static const String courseCreate = '/course/add';
+  static const String courseUpdate = '/course/update';
+  static const String courseDelete = '/course/delete';
+  static const String courseCurriculums = '/course-curriculum/all';
+  static const String courseCurriculumsCreate = '/course-curriculum/add';
+  static const String courseCurriculumsUpdate = '/course-curriculum/edit';
+  static const String courseCurriculumsDelete = '/course-curriculum/delete';
 
   // FAQ
   static String faqWithType(DashType type) => '/faq/all?type=${type.name}';

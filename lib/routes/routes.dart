@@ -21,6 +21,9 @@ class AdminRoutes {
   static const wTestimonials = '/workshop-testimonials';
   static const wCreateTestimonial = '/workshop-testimonials-create';
   static const wEditTestimonial = '/workshop-testimonials-edit';
+  static const wCurriculum = '/workshopsCurriculum';
+  static const wCreateCurriculum = '/workshopsCurriculum-create';
+  static const wEditCurriculum = '/workshopsCurriculum-edit';
 
   // media
   static const media = '/media';
@@ -35,15 +38,19 @@ class AdminRoutes {
   static const editPartners = '/edit-partners';
   static const createPartners = '/create-partners';
 
-  static const course = '/course';
   static const wWorkshops = '/workshops';
-  static const wCurriculum = '/workshopsCurriculum';
+
   static const wBuy = '$workshop/buy';
   static const cCourses = '$course/courses';
   static const cLessons = '$course/lessons';
-  static const cCurriculum = '$course/curriculum';
 
   // Course
+  static const course = '/course';
+  static const createCourse = '/course-create';
+  static const editCourse = '/course-edit';
+  static const cCurriculum = '/course-curriculum';
+  static const cCreateCurriculum = '/course-curriculum-create';
+  static const cEditCurriculum = '/course-curriculum-edit';
   static const cBuy = '$course/buy';
   static const cFaq = '/course-faq';
   static const cCreateFaq = '/course-faq-create';
