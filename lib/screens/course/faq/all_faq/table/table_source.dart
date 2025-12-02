@@ -17,6 +17,13 @@ class CourseFaqDataSource extends DataTableSource {
     return DataRow2(
       cells: [
         DataCell(
+          Text(
+            faq.learningCatalog?.name ?? "",
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        DataCell(
           Text(faq.question, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
         DataCell(

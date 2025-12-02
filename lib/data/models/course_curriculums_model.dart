@@ -8,7 +8,7 @@ class CourseCurriculumsModel {
   String description;
   String duration;
   String attachment;
-  List<dynamic> courseLessonsAssigned;
+  List<CourseLessonMiniModel> courseLessonsAssigned;
   int courseLessonsPriority;
   bool curriculumLock;
   bool isDeleted;
@@ -35,27 +35,30 @@ class CourseCurriculumsModel {
     required this.updatedAt,
   });
 
-  factory CourseCurriculumsModel.fromJson(Map<String, dynamic> json) =>
-      CourseCurriculumsModel(
-        id: json["_id"],
-        courseId: CourseId.fromJson(json["courseId"]),
-        date: DateTime.parse(json["date"]),
-        thumbnail: json["thumbnail"],
-        videoLink: json["videoLink"],
-        title: json["title"],
-        description: json["description"],
-        duration: json["duration"],
-        attachment: json["attachment"],
-        courseLessonsAssigned: List<dynamic>.from(
-          json["courseLessonsAssigned"].map((x) => x),
-        ),
-        courseLessonsPriority: json["courseLessonsPriority"],
-        curriculumLock: json["curriculumLock"],
-        isDeleted: json["isDeleted"],
-        isBlocked: json["isBlocked"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-      );
+  factory CourseCurriculumsModel.fromJson(Map<String, dynamic> json) {
+    return CourseCurriculumsModel(
+      id: json["_id"],
+      courseId: CourseId.fromJson(json["courseId"]),
+      date: DateTime.parse(json["date"]),
+      thumbnail: json["thumbnail"] ?? "",
+      videoLink: json["videoLink"] ?? "",
+      title: json["title"] ?? "",
+      description: json["description"] ?? "",
+      duration: json["duration"] ?? "",
+      attachment: json["attachment"] ?? "",
+      courseLessonsAssigned: json["courseLessonsAssigned"] == null
+          ? []
+          : (json["courseLessonsAssigned"] as List)
+                .map((e) => CourseLessonMiniModel.fromJson(e))
+                .toList(),
+      courseLessonsPriority: json["courseLessonsPriority"] ?? 0,
+      curriculumLock: json["curriculumLock"] ?? false,
+      isDeleted: json["isDeleted"] ?? false,
+      isBlocked: json["isBlocked"] ?? false,
+      createdAt: DateTime.parse(json["createdAt"]),
+      updatedAt: DateTime.parse(json["updatedAt"]),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "_id": id,
@@ -67,15 +70,36 @@ class CourseCurriculumsModel {
     "description": description,
     "duration": duration,
     "attachment": attachment,
-    "courseLessonsAssigned": List<dynamic>.from(
-      courseLessonsAssigned.map((x) => x),
-    ),
+    "courseLessonsAssigned": courseLessonsAssigned
+        .map((e) => e.toJson())
+        .toList(),
     "courseLessonsPriority": courseLessonsPriority,
     "curriculumLock": curriculumLock,
     "isDeleted": isDeleted,
     "isBlocked": isBlocked,
     "createdAt": createdAt.toIso8601String(),
     "updatedAt": updatedAt.toIso8601String(),
+  };
+}
+
+class CourseLessonMiniModel {
+  String id;
+  String title;
+  String? subtitle;
+
+  CourseLessonMiniModel({required this.id, required this.title, this.subtitle});
+
+  factory CourseLessonMiniModel.fromJson(Map<String, dynamic> json) =>
+      CourseLessonMiniModel(
+        id: json["_id"],
+        title: json["title"] ?? "",
+        subtitle: json["subtitle"],
+      );
+
+  Map<String, dynamic> toJson() => {
+    "_id": id,
+    "title": title,
+    "subtitle": subtitle,
   };
 }
 

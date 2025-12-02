@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/loaders/loaders.dart';
 import 'package:hkdigiskill_admin/data/models/course_model.dart';
 import 'package:hkdigiskill_admin/data/models/image_model.dart';
+import 'package:hkdigiskill_admin/data/models/lesson_model.dart';
 import 'package:hkdigiskill_admin/data/services/api_service.dart';
 import 'package:hkdigiskill_admin/data/services/storage_service.dart';
 import 'package:hkdigiskill_admin/screens/course/course_list/controllers/course_list_controller.dart';
@@ -18,11 +19,14 @@ class CreateCourseCurriculumController extends GetxController {
   static CreateCourseCurriculumController get instance => Get.find();
 
   var isLoading = false.obs;
+  var isLessonLoading = false.obs;
   var thumbnail = ''.obs;
   var attachment = ''.obs;
   var selectedCourse = ''.obs;
   var courseId = ''.obs;
   var courseList = <CourseModel>[].obs;
+  var selectedLessons = <CourseLessonModel>[].obs;
+  var lessonList = <CourseLessonModel>[].obs;
 
   final dateController = TextEditingController();
   final videoUrlController = TextEditingController();
@@ -43,10 +47,10 @@ class CreateCourseCurriculumController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    setcourseList();
+    setCourseList();
   }
 
-  void setcourseList() {
+  void setCourseList() {
     courseList.value = courseController.dataList;
   }
 
@@ -88,12 +92,38 @@ class CreateCourseCurriculumController extends GetxController {
     if (courseT == "") {
       selectedCourse.value = "";
       courseId.value = "";
+      lessonList.clear();
+      selectedLessons.clear();
       return;
     }
 
     final course = courseList.firstWhere((course) => course.name == courseT);
+    selectedLessons.clear();
     selectedCourse.value = course.name;
     courseId.value = course.id;
+
+    /// 🔥 FETCH LESSONS IMMEDIATELY
+    getLessonByCourseId();
+  }
+
+  Future<void> getLessonByCourseId() async {
+    try {
+      isLessonLoading.value = true;
+      final response = await apiService.get(
+        path: ApiConstants.lessonByCourseId + courseId.value,
+        headers: {'Authorization': storageService.token!},
+        decoder: (json) {
+          final data = json['data']['course_lesson_data'] as List;
+          return data.map((e) => CourseLessonModel.fromJson(e)).toList();
+        },
+      );
+
+      lessonList.value = response;
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      isLessonLoading.value = false;
+    }
   }
 
   Future<void> createCourseCurriculum() async {
@@ -130,6 +160,7 @@ class CreateCourseCurriculumController extends GetxController {
           'attachment': attachment.value,
           'videoLink': videoUrlController.text,
           'date': dateController.text,
+          'courseLessonsAssigned': selectedLessons.map((e) => e.id).toList(),
         },
         decoder: (json) => json as Map<String, dynamic>,
       );

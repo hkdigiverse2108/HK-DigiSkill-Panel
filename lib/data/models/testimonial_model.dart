@@ -12,6 +12,8 @@ class TestimonialModel {
   String? image;
   String? description;
 
+  final LearningCatalogRef? learningCatalog; // dynamic reference
+
   TestimonialModel({
     required this.id,
     required this.name,
@@ -25,6 +27,7 @@ class TestimonialModel {
     required this.updatedAt,
     this.image,
     this.description,
+    this.learningCatalog,
   });
 
   factory TestimonialModel.fromJson(Map<String, dynamic> json) =>
@@ -41,6 +44,9 @@ class TestimonialModel {
         updatedAt: DateTime.parse(json["updatedAt"]),
         image: json["image"],
         description: json["description"],
+        learningCatalog: json["learningCatalogId"] != null
+            ? LearningCatalogRef.fromJson(json["learningCatalogId"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -56,5 +62,24 @@ class TestimonialModel {
     "updatedAt": updatedAt.toIso8601String(),
     "image": image,
     "description": description,
+    "learningCatalogId": learningCatalog?.toJson(),
   };
+}
+
+class LearningCatalogRef {
+  final String id;
+  final String? title;
+  final String? name; // because some modules use 'name', some use 'title'
+
+  LearningCatalogRef({required this.id, this.title, this.name});
+
+  factory LearningCatalogRef.fromJson(Map<String, dynamic> json) {
+    return LearningCatalogRef(
+      id: json["_id"],
+      title: json["title"], // for workshop
+      name: json["name"], // for course/instructor/etc.
+    );
+  }
+
+  Map<String, dynamic> toJson() => {"_id": id, "title": title, "name": name};
 }

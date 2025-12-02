@@ -78,12 +78,21 @@ class CourseFaqController extends GetxController {
   }
 
   void searchQuery(String query) {
+    final lower = query.toLowerCase();
+
     filteredDataList.assignAll(
-      dataList.where(
-        (faq) =>
-            faq.question.toLowerCase().contains(query.toLowerCase()) ||
-            faq.answer.toLowerCase().contains(query.toLowerCase()),
-      ),
+      dataList.where((faq) {
+        final q = faq.question.toLowerCase();
+        final a = faq.answer.toLowerCase();
+
+        // learningCatalog is dynamic -> handle null safely
+        final lcName =
+            (faq.learningCatalog != null && faq.learningCatalog?.name != null)
+            ? faq.learningCatalog!.name!.toLowerCase()
+            : "";
+
+        return q.contains(lower) || a.contains(lower) || lcName.contains(lower);
+      }),
     );
   }
 
@@ -105,17 +114,7 @@ class CourseFaqController extends GetxController {
     }
   }
 
-  void toggleFeatured(String id) {
-    final index = dataList.indexWhere((faq) => faq.id == id);
-    if (index != -1) {
-      final item = dataList[index];
-      dataList[index] = item.copyWith(isFeatured: !item.isFeatured);
-      final filteredIndex = filteredDataList.indexWhere((f) => f.id == id);
-      if (filteredIndex != -1) {
-        filteredDataList[filteredIndex] = dataList[index];
-      }
-    }
-  }
+  void toggleFeatured(String id) {}
 
   @override
   void onClose() {

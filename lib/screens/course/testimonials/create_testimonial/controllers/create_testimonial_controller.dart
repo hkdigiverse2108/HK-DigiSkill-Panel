@@ -3,10 +3,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/loaders/loaders.dart';
+import 'package:hkdigiskill_admin/data/models/course_model.dart';
 import 'package:hkdigiskill_admin/data/models/image_model.dart';
 import 'package:hkdigiskill_admin/data/repositories/network_manager.dart';
 import 'package:hkdigiskill_admin/data/services/api_service.dart';
 import 'package:hkdigiskill_admin/data/services/storage_service.dart';
+import 'package:hkdigiskill_admin/screens/course/course_list/controllers/course_list_controller.dart';
 import 'package:hkdigiskill_admin/screens/course/testimonials/all_testimonials/controllers/testimonials_controller.dart';
 import 'package:hkdigiskill_admin/screens/media/controllers/media_controller.dart';
 import 'package:hkdigiskill_admin/utils/constants/api_constants.dart';
@@ -24,12 +26,34 @@ class CourseCreateTestimonialController extends GetxController {
   final testimonialsController = CourseTestimonialsController.instance;
 
   final createTestimonialFormKey = GlobalKey<FormState>();
+  var selectedCourse = ''.obs;
+  var selectedCourseId = ''.obs;
+  var courseList = <CourseModel>[].obs;
 
   final apiService = ApiService(baseUrl: ApiConstants.baseUrl);
   final storageService = AdminStorageService();
 
   var pickedImagePath = ''.obs;
   var imageType = ImageType.asset.obs;
+
+  final courseController = CourseListController.instance;
+
+  @override
+  void onInit() {
+    super.onInit();
+    setCourseList();
+  }
+
+  void setCourseList() {
+    courseList.value = courseController.dataList;
+  }
+
+  void selectCourse(String courseName) {
+    selectedCourse.value = courseName;
+    selectedCourseId.value = courseController.dataList
+        .firstWhere((element) => element.name == courseName)
+        .id;
+  }
 
   Future<void> onIconButtonPressed() async {
     final controller = Get.put(MediaController());
@@ -69,6 +93,7 @@ class CourseCreateTestimonialController extends GetxController {
           "isFeatured": isFeatured.value,
           "image": pickedImagePath.value,
           "type": DashType.course.name,
+          "learningCatalogId": selectedCourseId.value,
         },
         decoder: (json) => json as Map<String, dynamic>,
       );

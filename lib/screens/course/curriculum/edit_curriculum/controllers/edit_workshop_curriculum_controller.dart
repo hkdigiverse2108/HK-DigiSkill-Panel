@@ -6,6 +6,7 @@ import 'package:hkdigiskill_admin/common/widgets/loaders/loaders.dart';
 import 'package:hkdigiskill_admin/data/models/course_curriculums_model.dart';
 import 'package:hkdigiskill_admin/data/models/course_model.dart';
 import 'package:hkdigiskill_admin/data/models/image_model.dart';
+import 'package:hkdigiskill_admin/data/models/lesson_model.dart';
 import 'package:hkdigiskill_admin/data/services/api_service.dart';
 import 'package:hkdigiskill_admin/data/services/storage_service.dart';
 import 'package:hkdigiskill_admin/screens/course/course_list/controllers/course_list_controller.dart';
@@ -19,12 +20,18 @@ class EditCourseCurriculumController extends GetxController {
   static EditCourseCurriculumController get instance => Get.find();
 
   var isLoading = false.obs;
+  var isLessonLoading = false.obs;
+
   var thumbnail = ''.obs;
   var attachment = ''.obs;
+
   var selectedCourse = ''.obs;
   var courseId = ''.obs;
+
   var courseList = <CourseModel>[].obs;
-  var isDataLoading = false.obs;
+
+  var lessonList = <CourseLessonModel>[].obs;
+  var selectedLessons = <CourseLessonModel>[].obs;
 
   final dateController = TextEditingController();
   final videoUrlController = TextEditingController();
@@ -48,23 +55,45 @@ class EditCourseCurriculumController extends GetxController {
     setCourseList();
   }
 
+  // ---------------------------
+  // SET INITIAL FIELDS
+  // ---------------------------
   void initFields(CourseCurriculumsModel curriculums) {
     titleController.text = curriculums.title;
     descriptionController.text = curriculums.description;
     priorityController.text = curriculums.courseLessonsPriority.toString();
     durationController.text = curriculums.duration;
+
     courseId.value = curriculums.courseId.id;
+    selectedCourse.value = curriculums.courseId.name;
+
     thumbnail.value = curriculums.thumbnail;
     attachment.value = curriculums.attachment;
+
     videoUrlController.text = curriculums.videoLink;
-    selectedCourse.value = curriculums.courseId.name;
     dateController.text = DateFormat('yyyy-MM-dd').format(curriculums.date);
+
+    /// 1️⃣ Fetch lessons for this course
+    getLessonByCourseId().then((_) {
+      /// 2️⃣ Extract assigned lesson IDs
+      final assignedIds = curriculums.courseLessonsAssigned
+          .map((e) => e.id)
+          .toList();
+
+      /// 3️⃣ Preselect matching lessons
+      selectedLessons.value = lessonList
+          .where((lesson) => assignedIds.contains(lesson.id))
+          .toList();
+    });
   }
 
   void setCourseList() {
     courseList.value = courseController.dataList;
   }
 
+  // ---------------------------
+  // THUMBNAIL PICKER
+  // ---------------------------
   void selectThumbnailImage() async {
     final controller = Get.put(MediaController());
     List<ImageModel>? selectedImages = await controller.selectImagesFromMedia();
@@ -74,6 +103,9 @@ class EditCourseCurriculumController extends GetxController {
     }
   }
 
+  // ---------------------------
+  // PICK DATE
+  // ---------------------------
   Future<String?> pickDate(BuildContext context) async {
     final DateTime? date = await showDatePicker(
       context: context,
@@ -99,23 +131,59 @@ class EditCourseCurriculumController extends GetxController {
     return DateFormat('yyyy-MM-dd').format(date);
   }
 
+  // ---------------------------
+  // SELECT COURSE
+  // ---------------------------
   void selectCourse(String courseT) {
-    if (courseT == "") {
+    if (courseT.isEmpty) {
       selectedCourse.value = "";
       courseId.value = "";
+      lessonList.clear();
+      selectedLessons.clear();
       return;
     }
 
     final course = courseList.firstWhere((course) => course.name == courseT);
+
     selectedCourse.value = course.name;
     courseId.value = course.id;
+
+    getLessonByCourseId();
   }
 
+  // ---------------------------
+  // GET LESSONS BY COURSE ID
+  // ---------------------------
+  Future<void> getLessonByCourseId() async {
+    try {
+      isLessonLoading.value = true;
+
+      final response = await apiService.get(
+        path: ApiConstants.lessonByCourseId + courseId.value,
+        headers: {'Authorization': storageService.token!},
+        decoder: (json) {
+          final data = json['data']['course_lesson_data'] as List;
+          return data.map((e) => CourseLessonModel.fromJson(e)).toList();
+        },
+      );
+
+      lessonList.value = response;
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      isLessonLoading.value = false;
+    }
+  }
+
+  // ---------------------------
+  // UPDATE CURRICULUM
+  // ---------------------------
   Future<void> updateCourseCurriculum(
     CourseCurriculumsModel curriculums,
   ) async {
     try {
       isLoading.value = true;
+
       if (!titleSectionForm.currentState!.validate()) return;
       if (!resourceSectionForm.currentState!.validate()) return;
 
@@ -126,6 +194,7 @@ class EditCourseCurriculumController extends GetxController {
         );
         return;
       }
+
       if (thumbnail.value.isEmpty) {
         AdminLoaders.errorSnackBar(
           title: "Curriculum",
@@ -141,13 +210,16 @@ class EditCourseCurriculumController extends GetxController {
           'courseCurriculumId': curriculums.id,
           'title': titleController.text,
           'description': descriptionController.text,
-          'priority': int.parse(priorityController.text),
+          'courseLessonsPriority': int.parse(priorityController.text),
           'duration': durationController.text,
           'courseId': courseId.value,
           'thumbnail': thumbnail.value,
           'attachment': attachment.value,
           'videoLink': videoUrlController.text,
           'date': dateController.text,
+
+          /// 🔥 Send selected lessons
+          'courseLessonsAssigned': selectedLessons.map((e) => e.id).toList(),
         },
         decoder: (json) => json as Map<String, dynamic>,
       );
@@ -181,5 +253,6 @@ class EditCourseCurriculumController extends GetxController {
     attachment.value = "";
     videoUrlController.clear();
     dateController.clear();
+    selectedLessons.clear();
   }
 }

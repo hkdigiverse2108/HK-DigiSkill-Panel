@@ -42,7 +42,6 @@ class AdminRoutes {
 
   static const wBuy = '$workshop/buy';
   static const cCourses = '$course/courses';
-  static const cLessons = '$course/lessons';
 
   // Course
   static const course = '/course';
@@ -58,6 +57,9 @@ class AdminRoutes {
   static const cTestimonials = '/course-testimonials';
   static const cCreateTestimonial = '/course-testimonials-create';
   static const cEditTestimonial = '/course-testimonials-edit';
+  static const cLessons = '/course-lesson';
+  static const cCreateLesson = '/course-lesson-create';
+  static const cEditLesson = '/course-lesson-edit';
 
   // Deleted Account
   static const deletedAccounts = '/deleted-accounts';
@@ -81,17 +83,30 @@ class AdminRoutes {
   static const gallery = '/gallery';
   static const createGallery = '/gallery-create';
   static const editGallery = '/gallery-edit';
-  static const newsLetter = '/news-letter';
   static const banners = '/banners';
   static const createBanner = '/banners-create';
   static const editBanner = '/banners-edit';
+
+  // Legality
   static const legality = '/legality';
   static const privacyPolicy = '/privacy-policy';
   static const termsConditions = '/terms-conditions';
+  static const refundPolicy = '/refund-policy';
+
   static const addNewUsers = '/add-new-users';
   static const users = '/users';
   static const changePassword = '/change-password';
   static const settings = '/settings';
+
+  // Newsletter
+  static const newsLetter = '/newsletter';
+  static const createNewsLetter = '/newsletter-create';
+  static const editNewsLetter = '/newsletter-edit';
+
+  // Instructors
+  static const instructors = '/instructors';
+  static const createInstructor = '/instructors-create';
+  static const editInstructor = '/instructors-edit';
 
   static List sidebarMenuItems = [
     dashboard,
@@ -114,6 +129,8 @@ class AdminRoutes {
     legality,
     privacyPolicy,
     termsConditions,
+    refundPolicy,
+    instructors,
     users,
     settings,
   ];

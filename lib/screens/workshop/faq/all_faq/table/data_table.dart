@@ -39,6 +39,7 @@ class WorkshopFaqTable extends StatelessWidget {
         onPageChanged: (page) {},
         source: WorkshopFaqDataSource(),
         columns: [
+          const DataColumn2(label: Text("Workshop")),
           const DataColumn2(label: Text("Question")),
           DataColumn2(
             label: const Text("Answer"),

@@ -39,6 +39,7 @@ class CourseFaqTable extends StatelessWidget {
         onPageChanged: (page) {},
         source: CourseFaqDataSource(),
         columns: [
+          const DataColumn2(label: Text("Course")),
           const DataColumn2(label: Text("Question")),
           DataColumn2(
             label: const Text("Answer"),

@@ -3,11 +3,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/loaders/loaders.dart';
+import 'package:hkdigiskill_admin/data/models/course_model.dart';
 import 'package:hkdigiskill_admin/data/models/image_model.dart';
 import 'package:hkdigiskill_admin/data/models/testimonial_model.dart';
 import 'package:hkdigiskill_admin/data/repositories/network_manager.dart';
 import 'package:hkdigiskill_admin/data/services/api_service.dart';
 import 'package:hkdigiskill_admin/data/services/storage_service.dart';
+import 'package:hkdigiskill_admin/screens/course/course_list/controllers/course_list_controller.dart';
 import 'package:hkdigiskill_admin/screens/course/testimonials/all_testimonials/controllers/testimonials_controller.dart';
 import 'package:hkdigiskill_admin/screens/media/controllers/media_controller.dart';
 import 'package:hkdigiskill_admin/utils/constants/api_constants.dart';
@@ -29,8 +31,31 @@ class CourseEditTestimonialController extends GetxController {
 
   final controller = CourseTestimonialsController.instance;
 
+  var selectedCourse = ''.obs;
+  var selectedCourseId = ''.obs;
+  var courseList = <CourseModel>[].obs;
+
+  final courseController = CourseListController.instance;
+
   var pickedImagePath = ''.obs;
   var imageType = ImageType.asset.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    setCourseList();
+  }
+
+  void setCourseList() {
+    courseList.value = courseController.dataList;
+  }
+
+  void selectCourse(String courseName) {
+    selectedCourse.value = courseName;
+    selectedCourseId.value = courseController.dataList
+        .firstWhere((course) => course.name == courseName)
+        .id;
+  }
 
   void onIconButtonPressed() async {
     final controller = Get.put(MediaController());
@@ -49,6 +74,11 @@ class CourseEditTestimonialController extends GetxController {
     rate.value = item.rate;
     pickedImagePath.value = item.image ?? '';
     imageType.value = item.image == null ? ImageType.asset : ImageType.network;
+    if (item.learningCatalog != null) {
+      selectedCourseId.value = item.learningCatalog!.id;
+      selectedCourse.value =
+          item.learningCatalog!.title ?? item.learningCatalog!.name ?? "";
+    }
   }
 
   void updateItem(TestimonialModel item) async {
@@ -79,6 +109,7 @@ class CourseEditTestimonialController extends GetxController {
           "description": descriptionController.text,
           "rate": rate.value,
           "isFeatured": isFeatured.value,
+          "learningCatalogId": selectedCourseId.value,
         },
         decoder: (json) => json as Map<String, dynamic>,
       );

@@ -41,6 +41,7 @@ class WorkshopTestimonialsTable extends StatelessWidget {
         columns: const [
           DataColumn2(label: Text('Image')),
           DataColumn2(label: Text('Name')),
+          DataColumn2(label: Text('Workshop')),
           DataColumn2(label: Text('Designation')),
           DataColumn2(label: Text('Rate')),
           DataColumn2(label: Text('Featured')),

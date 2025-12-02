@@ -78,12 +78,23 @@ class WorkshopFaqController extends GetxController {
   }
 
   void searchQuery(String query) {
+    final lower = query.toLowerCase();
+
     filteredDataList.assignAll(
-      dataList.where(
-        (faq) =>
-            faq.question.toLowerCase().contains(query.toLowerCase()) ||
-            faq.answer.toLowerCase().contains(query.toLowerCase()),
-      ),
+      dataList.where((faq) {
+        final q = faq.question.toLowerCase();
+        final a = faq.answer.toLowerCase();
+
+        // Workshop name inside learningCatalog
+        final workshopName =
+            (faq.learningCatalog != null && faq.learningCatalog!.title != null)
+            ? faq.learningCatalog!.title!.toLowerCase()
+            : "";
+
+        return q.contains(lower) ||
+            a.contains(lower) ||
+            workshopName.contains(lower);
+      }),
     );
   }
 
@@ -105,17 +116,7 @@ class WorkshopFaqController extends GetxController {
     }
   }
 
-  void toggleFeatured(String id) {
-    final index = dataList.indexWhere((faq) => faq.id == id);
-    if (index != -1) {
-      final item = dataList[index];
-      dataList[index] = item.copyWith(isFeatured: !item.isFeatured);
-      final filteredIndex = filteredDataList.indexWhere((f) => f.id == id);
-      if (filteredIndex != -1) {
-        filteredDataList[filteredIndex] = dataList[index];
-      }
-    }
-  }
+  void toggleFeatured(String id) {}
 
   @override
   void onClose() {

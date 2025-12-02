@@ -8,8 +8,11 @@ import 'package:hkdigiskill_admin/bindings/deleted_accounts_binding.dart';
 import 'package:hkdigiskill_admin/bindings/faq_binding.dart';
 import 'package:hkdigiskill_admin/bindings/gallery_binding.dart';
 import 'package:hkdigiskill_admin/bindings/get_in_touch_binding.dart';
+import 'package:hkdigiskill_admin/bindings/instructor_binding.dart';
+import 'package:hkdigiskill_admin/bindings/legality_binding.dart';
 import 'package:hkdigiskill_admin/bindings/login_binding.dart';
 import 'package:hkdigiskill_admin/bindings/media_binding.dart';
+import 'package:hkdigiskill_admin/bindings/newsletter_binding.dart';
 import 'package:hkdigiskill_admin/bindings/otp_binding.dart';
 import 'package:hkdigiskill_admin/bindings/partners_binding.dart';
 import 'package:hkdigiskill_admin/bindings/testimonials_binding.dart';
@@ -40,6 +43,9 @@ import 'package:hkdigiskill_admin/screens/course/edit_course/edit_course.dart';
 import 'package:hkdigiskill_admin/screens/course/faq/all_faq/all_faq.dart';
 import 'package:hkdigiskill_admin/screens/course/faq/create_faq/create_faq.dart';
 import 'package:hkdigiskill_admin/screens/course/faq/edit_faq/edit_faq.dart';
+import 'package:hkdigiskill_admin/screens/course/lesson/create_lesson/create_lesson.dart';
+import 'package:hkdigiskill_admin/screens/course/lesson/edit_lesson/edit_lesson.dart';
+import 'package:hkdigiskill_admin/screens/course/lesson/lesson_list/lesson_list.dart';
 import 'package:hkdigiskill_admin/screens/course/testimonials/all_testimonials/all_testimonials.dart';
 import 'package:hkdigiskill_admin/screens/course/testimonials/create_testimonial/create_testimonial.dart';
 import 'package:hkdigiskill_admin/screens/course/testimonials/edit_testimonial/edit_testimonial.dart';
@@ -54,8 +60,15 @@ import 'package:hkdigiskill_admin/screens/gallery/create_gallery/create_gallery.
 import 'package:hkdigiskill_admin/screens/gallery/edit_gallery/edit_gallery.dart';
 import 'package:hkdigiskill_admin/screens/get_in_touch/all_get_in_touch/all_get_in_touch.dart';
 import 'package:hkdigiskill_admin/screens/get_in_touch/edit_get_in_touch/edit_get_in_touch.dart';
+import 'package:hkdigiskill_admin/screens/instructors/all_instructors/all_instructors.dart';
+import 'package:hkdigiskill_admin/screens/instructors/create_instructor/create_instructor.dart';
+import 'package:hkdigiskill_admin/screens/instructors/edit_instructor/edit_instructor.dart';
+import 'package:hkdigiskill_admin/screens/legality/refund_policy/responsive_screens/refund_policy_desktop.dart';
+import 'package:hkdigiskill_admin/screens/legality/terms_condition/responsive_screens/terms_condition_desktop.dart';
 import 'package:hkdigiskill_admin/screens/login/login_page.dart';
 import 'package:hkdigiskill_admin/screens/media/media.dart';
+import 'package:hkdigiskill_admin/screens/newsletter/all_newsletter/newsletter.dart';
+import 'package:hkdigiskill_admin/screens/newsletter/create_newsletter/create_newsletter.dart';
 import 'package:hkdigiskill_admin/screens/otp/otp.dart';
 import 'package:hkdigiskill_admin/screens/our_trusted_partners/all_partners/all_partners.dart';
 import 'package:hkdigiskill_admin/screens/our_trusted_partners/create_partners/create_partners.dart';
@@ -79,6 +92,8 @@ import 'package:hkdigiskill_admin/screens/workshop/testimonials/all_testimonials
 import 'package:hkdigiskill_admin/screens/workshop/testimonials/create_testimonial/create_testimonial.dart';
 import 'package:hkdigiskill_admin/screens/workshop/testimonials/edit_testimonial/edit_testimonial.dart';
 
+import '../screens/legality/privacy_policy/responsive_screens/privacy_policy_desktop.dart'
+    show PrivacyPolicyDesktopScreen;
 import '../screens/workshop/curriculum/curriculums_list/workshop_curriculums.dart';
 
 class AppRoute {
@@ -404,6 +419,24 @@ class AppRoute {
       binding: CourseBinding(),
       middlewares: [RoutesMiddleware()],
     ),
+    GetPage(
+      name: AdminRoutes.cLessons,
+      page: () => LessonList(),
+      binding: CourseBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.cCreateLesson,
+      page: () => CreateLessonScreen(),
+      binding: CourseBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.cEditLesson,
+      page: () => EditLessonScreen(),
+      binding: CourseBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
 
     // Coupon
     GetPage(
@@ -442,6 +475,60 @@ class AppRoute {
       name: AdminRoutes.editBlog,
       page: () => EditBlogScreen(),
       binding: BlogBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+
+    // Newsletter
+    GetPage(
+      name: AdminRoutes.newsLetter,
+      page: () => Newsletter(),
+      binding: NewsletterBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.createNewsLetter,
+      page: () => CreateNewsletterScreen(),
+      binding: NewsletterBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+
+    // Instructors
+    GetPage(
+      name: AdminRoutes.instructors,
+      page: () => AllInstructors(),
+      binding: InstructorBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.createInstructor,
+      page: () => CreateInstructorScreen(),
+      binding: InstructorBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.editInstructor,
+      page: () => EditInstructorScreen(),
+      binding: InstructorBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+
+    // Legality
+    GetPage(
+      name: AdminRoutes.termsConditions,
+      page: () => TermsConditionDesktopScreen(),
+      binding: LegalityBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.privacyPolicy,
+      page: () => PrivacyPolicyDesktopScreen(),
+      binding: LegalityBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.refundPolicy,
+      page: () => RefundPolicyDesktopScreen(),
+      binding: LegalityBinding(),
       middlewares: [RoutesMiddleware()],
     ),
 

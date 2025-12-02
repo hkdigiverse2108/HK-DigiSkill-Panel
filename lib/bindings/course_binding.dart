@@ -8,6 +8,9 @@ import 'package:hkdigiskill_admin/screens/course/edit_course/controllers/edit_co
 import 'package:hkdigiskill_admin/screens/course/faq/all_faq/controllers/faq_controller.dart';
 import 'package:hkdigiskill_admin/screens/course/faq/create_faq/controllers/create_faq_controller.dart';
 import 'package:hkdigiskill_admin/screens/course/faq/edit_faq/controllers/edit_faq_controller.dart';
+import 'package:hkdigiskill_admin/screens/course/lesson/create_lesson/controllers/create_lesson_controller.dart';
+import 'package:hkdigiskill_admin/screens/course/lesson/edit_lesson/controllers/edit_lesson_controller.dart';
+import 'package:hkdigiskill_admin/screens/course/lesson/lesson_list/controllers/lesson_list_controller.dart';
 import 'package:hkdigiskill_admin/screens/course/testimonials/all_testimonials/controllers/testimonials_controller.dart';
 import 'package:hkdigiskill_admin/screens/course/testimonials/create_testimonial/controllers/create_testimonial_controller.dart';
 import 'package:hkdigiskill_admin/screens/course/testimonials/edit_testimonial/controllers/edit_testimonial_controller.dart';
@@ -37,5 +40,8 @@ class CourseBinding extends Bindings {
     Get.lazyPut<CourseEditTestimonialController>(
       () => CourseEditTestimonialController(),
     );
+    Get.lazyPut<LessonListController>(() => LessonListController());
+    Get.lazyPut<CreateLessonController>(() => CreateLessonController());
+    Get.lazyPut<EditLessonController>(() => EditLessonController());
   }
 }

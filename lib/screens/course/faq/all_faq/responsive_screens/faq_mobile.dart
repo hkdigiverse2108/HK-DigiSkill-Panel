@@ -6,7 +6,7 @@ import 'package:hkdigiskill_admin/common/widgets/containers/rounded_container.da
 import 'package:hkdigiskill_admin/common/widgets/data_table/table_header.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
 import 'package:hkdigiskill_admin/screens/course/faq/all_faq/controllers/faq_controller.dart';
-import 'package:hkdigiskill_admin/screens/faq/all_faq/table/data_table.dart';
+import 'package:hkdigiskill_admin/screens/course/faq/all_faq/table/data_table.dart';
 import 'package:hkdigiskill_admin/utils/constants/colors.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 import 'package:hkdigiskill_admin/utils/helpers/helpers.dart';
@@ -42,7 +42,7 @@ class CourseFaqMobileScreen extends StatelessWidget {
                     onSearchChanged: (query) {},
                   ),
                   const Gap(AdminSizes.spaceBtwSections),
-                  const FaqTable(),
+                  const CourseFaqTable(),
                 ],
               ),
             ),

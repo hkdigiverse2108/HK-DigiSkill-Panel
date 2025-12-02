@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/loaders/loaders.dart';
 import 'package:hkdigiskill_admin/data/models/image_model.dart';
+import 'package:hkdigiskill_admin/data/models/workshop_model.dart';
 import 'package:hkdigiskill_admin/data/repositories/network_manager.dart';
 import 'package:hkdigiskill_admin/data/services/api_service.dart';
 import 'package:hkdigiskill_admin/data/services/storage_service.dart';
 import 'package:hkdigiskill_admin/screens/media/controllers/media_controller.dart';
+import 'package:hkdigiskill_admin/screens/workshop/all_workshop/controllers/workshop_controller.dart';
 import 'package:hkdigiskill_admin/screens/workshop/testimonials/all_testimonials/controllers/testimonials_controller.dart';
 import 'package:hkdigiskill_admin/utils/constants/api_constants.dart';
 import 'package:hkdigiskill_admin/utils/constants/enums.dart';
@@ -16,6 +18,7 @@ class WorkshopCreateTestimonialController extends GetxController {
   var isLoading = false.obs;
   var isFeatured = false.obs;
   var rate = 5.obs; // 1-5
+  var workshopController = WorkshopController.instance;
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController designationController = TextEditingController();
@@ -30,6 +33,26 @@ class WorkshopCreateTestimonialController extends GetxController {
 
   var pickedImagePath = ''.obs;
   var imageType = ImageType.asset.obs;
+
+  var selectedWorkshopId = ''.obs;
+  var selectedWorkshopName = ''.obs;
+  var workshopList = <WorkshopModel>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    setWorkshopList();
+  }
+
+  void setWorkshopList() {
+    workshopList.value = workshopController.dataList;
+  }
+
+  void selectWorkshop(String title) {
+    final workshop = workshopList.firstWhere((w) => w.title == title);
+    selectedWorkshopId.value = workshop.id;
+    selectedWorkshopName.value = workshop.title;
+  }
 
   Future<void> onIconButtonPressed() async {
     final controller = Get.put(MediaController());
@@ -69,6 +92,7 @@ class WorkshopCreateTestimonialController extends GetxController {
           "isFeatured": isFeatured.value,
           "image": pickedImagePath.value,
           "type": DashType.workshop.name,
+          "learningCatalogId": selectedWorkshopId.value,
         },
         decoder: (json) => json as Map<String, dynamic>,
       );

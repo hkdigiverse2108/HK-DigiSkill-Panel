@@ -51,6 +51,7 @@ dependencies:
   gap: ^3.0.1
   google_fonts: ^6.3.2
   dropdown_search: ^6.0.2
+  phosphor_flutter: ^2.1.0
   
   # Web Specific
   web: ^1.1.1

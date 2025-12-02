@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/containers/rounded_container.dart';
 import 'package:hkdigiskill_admin/screens/course/curriculum/create_curriculum/controllers/create_course_curriculum_controller.dart';
+import 'package:hkdigiskill_admin/utils/constants/colors.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 import 'package:hkdigiskill_admin/utils/helpers/validators.dart';
 
@@ -118,6 +119,53 @@ class CurriculumTitleAndDescription extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: AdminSizes.spaceBtwItems),
+            Obx(() {
+              if (controller.isLessonLoading.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Assign Lessons',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: AdminSizes.spaceBtwItems),
+                  if (controller.lessonList.isNotEmpty)
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: controller.lessonList.map((lesson) {
+                        final isSelected = controller.selectedLessons.any(
+                          (selected) => selected.id == lesson.id,
+                        );
+                        return FilterChip(
+                          label: Text(lesson.title),
+                          selected: isSelected,
+                          onSelected: (_) {
+                            if (isSelected) {
+                              controller.selectedLessons.removeWhere(
+                                (selected) => selected.id == lesson.id,
+                              );
+                            } else {
+                              controller.selectedLessons.add(lesson);
+                            }
+                            controller.selectedLessons.refresh();
+                          },
+                          selectedColor: AdminColors.primary.withOpacity(0.2),
+                          checkmarkColor: AdminColors.primary,
+                          labelStyle: TextStyle(
+                            color: isSelected ? AdminColors.primary : null,
+                          ),
+                        );
+                      }).toList(),
+                    )
+                  else if (controller.courseId.value.isNotEmpty)
+                    const Text('No lessons available for this course'),
+                ],
+              );
+            }),
           ],
         ),
       ),

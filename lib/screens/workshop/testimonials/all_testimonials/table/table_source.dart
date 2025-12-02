@@ -33,6 +33,13 @@ class WorkshopTestimonialsDataSource extends DataTableSource {
         ),
         DataCell(Text(item.name, maxLines: 1, overflow: TextOverflow.ellipsis)),
         DataCell(
+          Text(
+            item.learningCatalog?.title ?? "",
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        DataCell(
           Text(item.designation, maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
         DataCell(Text(item.rate.toString())),

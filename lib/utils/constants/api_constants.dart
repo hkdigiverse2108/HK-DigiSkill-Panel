@@ -40,6 +40,11 @@ class ApiConstants {
   static const String courseCurriculumsCreate = '/course-curriculum/add';
   static const String courseCurriculumsUpdate = '/course-curriculum/edit';
   static const String courseCurriculumsDelete = '/course-curriculum/delete';
+  static const String courseLessonList = '/course-lesson/all';
+  static const String courseLessonCreate = '/course-lesson/add';
+  static const String courseLessonUpdate = '/course-lesson/edit';
+  static const String courseLessonDelete = '/course-lesson/delete';
+  static const String lessonByCourseId = '/course-lesson/all?courseId=';
 
   // FAQ
   static String faqWithType(DashType type) => '/faq/all?type=${type.name}';
@@ -89,10 +94,26 @@ class ApiConstants {
   static const String galleryUpdate = '/gallery/edit';
   static const String galleryDelete = '/gallery/delete';
 
+  // Instructors
+  static const String instructorList = '/instructor/all';
+  static const String instructorCreate = '/instructor/add';
+  static const String instructorUpdate = '/instructor/edit';
+  static const String instructorDelete = '/instructor/delete';
+
+  // Newsletter
+  static const String newsletterList = '/newsletter/all';
+  static const String newsletterCreate = '/newsletter/add';
+  static const String newsletterUpdate = '/newsletter/edit';
+  static const String newsletterDelete = '/newsletter/delete';
+
   // Users
   static const String users = '/user/all';
   static const String usersDelete = '/user/delete/';
   static const String deletedAccounts = '/user/delete/all';
+
+  // Legality
+  static const String legalityFetch = '/legality?typeFilter=';
+  static const String legalityUpdate = '/legality/add';
 
   // Settings
   static const String settings = '/settings/all';

@@ -1,94 +1,58 @@
-import 'package:hkdigiskill_admin/utils/constants/enums.dart';
-
 class FaqModel {
-  String id;
-  String question;
-  String answer;
-  bool isFeatured;
-  DashType type;
-  bool? isDeleted;
-  bool? isBlocked;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  final String id;
+  final String question;
+  final String answer;
+  final bool isFeatured;
+  final String type;
+
+  final LearningCatalogRef? learningCatalog; // dynamic reference
 
   FaqModel({
     required this.id,
     required this.question,
     required this.answer,
-    required this.isFeatured,
     required this.type,
-    this.isDeleted,
-    this.isBlocked,
-    this.createdAt,
-    this.updatedAt,
+    required this.isFeatured,
+    this.learningCatalog,
   });
 
-  FaqModel copyWith({
-    String? id,
-    String? question,
-    String? answer,
-    bool? isFeatured,
-    DashType? type,
-    bool? isDeleted,
-    bool? isBlocked,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  }) => FaqModel(
-    id: id ?? this.id,
-    question: question ?? this.question,
-    answer: answer ?? this.answer,
-    isFeatured: isFeatured ?? this.isFeatured,
-    type: type ?? this.type,
-    isDeleted: isDeleted ?? this.isDeleted,
-    isBlocked: isBlocked ?? this.isBlocked,
-    createdAt: createdAt ?? this.createdAt,
-    updatedAt: updatedAt ?? this.updatedAt,
-  );
-
-  factory FaqModel.fromJson(Map<String, dynamic> json) => FaqModel(
-    id: json["_id"],
-    question: json["question"],
-    answer: json["answer"],
-    isFeatured: json["isFeatured"],
-    type: json["type"] == null
-        ? DashType.home
-        : FaqTypeExtension.fromString(json["type"]),
-    isDeleted: json["isDeleted"],
-    isBlocked: json["isBlocked"],
-    createdAt: json["createdAt"] == null
-        ? null
-        : DateTime.parse(json["createdAt"]),
-    updatedAt: json["updatedAt"] == null
-        ? null
-        : DateTime.parse(json["updatedAt"]),
-  );
+  factory FaqModel.fromJson(Map<String, dynamic> json) {
+    return FaqModel(
+      id: json["_id"],
+      question: json["question"],
+      answer: json["answer"],
+      type: json["type"],
+      isFeatured: json["isFeatured"] ?? false,
+      learningCatalog: json["learningCatalogId"] != null
+          ? LearningCatalogRef.fromJson(json["learningCatalogId"])
+          : null,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "_id": id,
     "question": question,
     "answer": answer,
-    "isFeatured": isFeatured,
     "type": type,
-    "isDeleted": isDeleted,
-    "isBlocked": isBlocked,
-    "createdAt": createdAt?.toIso8601String(),
-    "updatedAt": updatedAt?.toIso8601String(),
+    "isFeatured": isFeatured,
+    "learningCatalogId": learningCatalog?.toJson(),
   };
 }
 
-extension FaqTypeExtension on DashType {
-  static DashType fromString(String value) {
-    switch (value.toLowerCase()) {
-      case 'course':
-        return DashType.course;
-      case 'workshop':
-        return DashType.workshop;
-      case 'home':
-        return DashType.home;
-      default:
-        return DashType.home; // fallback
-    }
+class LearningCatalogRef {
+  final String id;
+  final String? title;
+  final String? name; // because some modules use 'name', some use 'title'
+
+  LearningCatalogRef({required this.id, this.title, this.name});
+
+  factory LearningCatalogRef.fromJson(Map<String, dynamic> json) {
+    return LearningCatalogRef(
+      id: json["_id"],
+      title: json["title"], // for workshop
+      name: json["name"], // for course/instructor/etc.
+    );
   }
 
-  String toJsonValue() => name; // converts enum → string
+  Map<String, dynamic> toJson() => {"_id": id, "title": title, "name": name};
 }

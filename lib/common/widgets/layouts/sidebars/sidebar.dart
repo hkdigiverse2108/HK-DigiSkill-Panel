@@ -165,6 +165,11 @@ class AdminSidebar extends StatelessWidget {
                       title: 'Testimonials',
                       icon: Iconsax.message,
                     ),
+                    AdminMenuItem(
+                      route: AdminRoutes.instructors,
+                      title: 'Instructors',
+                      icon: Iconsax.user_tag,
+                    ),
                     const AdminMenuItem(
                       route: AdminRoutes.adminUsers,
                       title: 'Admin Users',
@@ -206,6 +211,11 @@ class AdminSidebar extends StatelessWidget {
                           route: AdminRoutes.privacyPolicy,
                           title: 'Privacy Policy',
                           icon: Iconsax.lock,
+                        ),
+                        AdminMenuItem(
+                          route: AdminRoutes.refundPolicy,
+                          title: 'Refund Policy',
+                          icon: Iconsax.money,
                         ),
                         AdminMenuItem(
                           route: AdminRoutes.termsConditions,
