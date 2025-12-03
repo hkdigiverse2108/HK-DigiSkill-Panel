@@ -4,7 +4,8 @@ class AdminRoutes {
   static const forgotPassword = '/forgot-password/';
   static const resetPassword = '/reset-password/';
   static const dashboard = '/dashboard';
-  static const transactions = '/transactions';
+
+  // static const transactions = '/transactions';
 
   // Category
   static const category = '/category';
@@ -24,6 +25,7 @@ class AdminRoutes {
   static const wCurriculum = '/workshopsCurriculum';
   static const wCreateCurriculum = '/workshopsCurriculum-create';
   static const wEditCurriculum = '/workshopsCurriculum-edit';
+  static const wBuy = '/workshop-buy';
 
   // media
   static const media = '/media';
@@ -39,8 +41,6 @@ class AdminRoutes {
   static const createPartners = '/create-partners';
 
   static const wWorkshops = '/workshops';
-
-  static const wBuy = '$workshop/buy';
   static const cCourses = '$course/courses';
 
   // Course
@@ -76,7 +76,8 @@ class AdminRoutes {
   static const testimonials = '/testimonials';
   static const createTestimonial = '/testimonials-create';
   static const editTestimonial = '/testimonials-edit';
-  static const adminUsers = '/admin-users';
+
+  // static const adminUsers = '/admin-users';
 
   static const getInTouch = '/get-in-touch';
   static const editGetInTouch = '/get-in-touch-edit';
@@ -111,16 +112,25 @@ class AdminRoutes {
   static List sidebarMenuItems = [
     dashboard,
     media,
-    transactions,
+    // transactions,
     category,
     workshop,
+    wCurriculum,
+    wFaq,
+    wWorkshops,
+    wTestimonials,
+    cCourses,
+    cBuy,
+    cFaq,
+    cTestimonials,
+    cLessons,
     course,
     couponCode,
     deletedAccounts,
     trustedPartners,
     faq,
     testimonials,
-    adminUsers,
+    // adminUsers,
     blog,
     getInTouch,
     gallery,
@@ -133,5 +143,6 @@ class AdminRoutes {
     instructors,
     users,
     settings,
+    wBuy,
   ];
 }

@@ -59,11 +59,11 @@ class AdminSidebar extends StatelessWidget {
                       title: 'Media',
                       icon: Iconsax.image,
                     ),
-                    AdminMenuItem(
-                      route: AdminRoutes.transactions,
-                      title: 'Transactions',
-                      icon: Iconsax.wallet_2,
-                    ),
+                    // AdminMenuItem(
+                    //   route: AdminRoutes.transactions,
+                    //   title: 'Transactions',
+                    //   icon: Iconsax.wallet_2,
+                    // ),
                     AdminMenuItem(
                       route: AdminRoutes.category,
                       title: 'Category',
@@ -170,11 +170,11 @@ class AdminSidebar extends StatelessWidget {
                       title: 'Instructors',
                       icon: Iconsax.user_tag,
                     ),
-                    const AdminMenuItem(
-                      route: AdminRoutes.adminUsers,
-                      title: 'Admin Users',
-                      icon: Iconsax.user_tag,
-                    ),
+                    // const AdminMenuItem(
+                    //   route: AdminRoutes.adminUsers,
+                    //   title: 'Admin Users',
+                    //   icon: Iconsax.user_tag,
+                    // ),
                     const AdminMenuItem(
                       route: AdminRoutes.blog,
                       title: 'Blog',

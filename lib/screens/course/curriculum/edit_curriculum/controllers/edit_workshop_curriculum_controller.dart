@@ -31,7 +31,7 @@ class EditCourseCurriculumController extends GetxController {
   var courseList = <CourseModel>[].obs;
 
   var lessonList = <CourseLessonModel>[].obs;
-  var selectedLessons = <CourseLessonModel>[].obs;
+  Rx<CourseLessonModel?> selectedLesson = Rx<CourseLessonModel?>(null);
 
   final dateController = TextEditingController();
   final videoUrlController = TextEditingController();
@@ -73,17 +73,15 @@ class EditCourseCurriculumController extends GetxController {
     videoUrlController.text = curriculums.videoLink;
     dateController.text = DateFormat('yyyy-MM-dd').format(curriculums.date);
 
-    /// 1️⃣ Fetch lessons for this course
+    /// fetch lessons for this course
     getLessonByCourseId().then((_) {
-      /// 2️⃣ Extract assigned lesson IDs
-      final assignedIds = curriculums.courseLessonsAssigned
-          .map((e) => e.id)
-          .toList();
+      if (curriculums.courseLessonsAssigned.isNotEmpty) {
+        final assignedLessonId = curriculums.courseLessonsAssigned.first.id;
 
-      /// 3️⃣ Preselect matching lessons
-      selectedLessons.value = lessonList
-          .where((lesson) => assignedIds.contains(lesson.id))
-          .toList();
+        selectedLesson.value = lessonList.firstWhereOrNull(
+              (lesson) => lesson.id == assignedLessonId,
+        );
+      }
     });
   }
 
@@ -139,7 +137,7 @@ class EditCourseCurriculumController extends GetxController {
       selectedCourse.value = "";
       courseId.value = "";
       lessonList.clear();
-      selectedLessons.clear();
+      selectedLesson.value = null;
       return;
     }
 
@@ -148,6 +146,7 @@ class EditCourseCurriculumController extends GetxController {
     selectedCourse.value = course.name;
     courseId.value = course.id;
 
+    selectedLesson.value = null;
     getLessonByCourseId();
   }
 
@@ -179,8 +178,8 @@ class EditCourseCurriculumController extends GetxController {
   // UPDATE CURRICULUM
   // ---------------------------
   Future<void> updateCourseCurriculum(
-    CourseCurriculumsModel curriculums,
-  ) async {
+      CourseCurriculumsModel curriculums,
+      ) async {
     try {
       isLoading.value = true;
 
@@ -204,25 +203,26 @@ class EditCourseCurriculumController extends GetxController {
       }
 
       final response = await apiService.post(
-        path: ApiConstants.courseCurriculumsUpdate,
-        headers: {'Authorization': '${storageService.token}'},
-        body: {
-          'courseCurriculumId': curriculums.id,
-          'title': titleController.text,
-          'description': descriptionController.text,
-          'courseLessonsPriority': int.parse(priorityController.text),
-          'duration': durationController.text,
-          'courseId': courseId.value,
-          'thumbnail': thumbnail.value,
-          'attachment': attachment.value,
-          'videoLink': videoUrlController.text,
-          'date': dateController.text,
+          path: ApiConstants.courseCurriculumsUpdate,
+          headers: {'Authorization': '${storageService.token}'},
+          body: {
+            'courseCurriculumId': curriculums.id,
+            'title': titleController.text,
+            'description': descriptionController.text,
+            'courseLessonsPriority': int.parse(priorityController.text),
+            'duration': durationController.text,
+            'courseId': courseId.value,
+            'thumbnail': thumbnail.value,
+            'attachment': attachment.value,
+            'videoLink': videoUrlController.text,
+            'date': dateController.text,
 
-          /// 🔥 Send selected lessons
-          'courseLessonsAssigned': selectedLessons.map((e) => e.id).toList(),
-        },
-        decoder: (json) => json as Map<String, dynamic>,
-      );
+            /// Single selected lesson but API expects a list → wrap it in a list
+            'courseLessonsAssigned': selectedLesson.value == null
+                ? []
+                : [selectedLesson.value!.id],
+          },
+          decoder: (json) => json as Map<String, dynamic>);
 
       if (response['status'] == 200) {
         curriculumsController.fetchCurriculums();
@@ -239,7 +239,7 @@ class EditCourseCurriculumController extends GetxController {
         message: "Failed to update curriculum",
       );
     } finally {
-      isLoading.value = false;
+    isLoading.value = false;
     }
   }
 
@@ -253,6 +253,6 @@ class EditCourseCurriculumController extends GetxController {
     attachment.value = "";
     videoUrlController.clear();
     dateController.clear();
-    selectedLessons.clear();
+    selectedLesson.value = null;
   }
 }

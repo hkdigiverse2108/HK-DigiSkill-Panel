@@ -20,12 +20,18 @@ class CreateCourseCurriculumController extends GetxController {
 
   var isLoading = false.obs;
   var isLessonLoading = false.obs;
+
   var thumbnail = ''.obs;
   var attachment = ''.obs;
+
   var selectedCourse = ''.obs;
   var courseId = ''.obs;
+
   var courseList = <CourseModel>[].obs;
-  var selectedLessons = <CourseLessonModel>[].obs;
+
+  /// now only ONE lesson allowed
+  var selectedLesson = Rx<CourseLessonModel?>(null);
+
   var lessonList = <CourseLessonModel>[].obs;
 
   final dateController = TextEditingController();
@@ -93,22 +99,25 @@ class CreateCourseCurriculumController extends GetxController {
       selectedCourse.value = "";
       courseId.value = "";
       lessonList.clear();
-      selectedLessons.clear();
+      selectedLesson.value = null;
       return;
     }
 
     final course = courseList.firstWhere((course) => course.name == courseT);
-    selectedLessons.clear();
+
     selectedCourse.value = course.name;
     courseId.value = course.id;
 
-    /// 🔥 FETCH LESSONS IMMEDIATELY
+    selectedLesson.value = null; // reset previous selected lesson
+
+    /// Fetch lessons
     getLessonByCourseId();
   }
 
   Future<void> getLessonByCourseId() async {
     try {
       isLessonLoading.value = true;
+
       final response = await apiService.get(
         path: ApiConstants.lessonByCourseId + courseId.value,
         headers: {'Authorization': storageService.token!},
@@ -129,6 +138,7 @@ class CreateCourseCurriculumController extends GetxController {
   Future<void> createCourseCurriculum() async {
     try {
       isLoading.value = true;
+
       if (!titleSectionForm.currentState!.validate()) return;
       if (!resourceSectionForm.currentState!.validate()) return;
 
@@ -139,10 +149,19 @@ class CreateCourseCurriculumController extends GetxController {
         );
         return;
       }
+
       if (thumbnail.value.isEmpty) {
         AdminLoaders.errorSnackBar(
           title: "Curriculum",
           message: "Please select a thumbnail",
+        );
+        return;
+      }
+
+      if (selectedLesson.value == null) {
+        AdminLoaders.errorSnackBar(
+          title: "Curriculum",
+          message: "Please select a lesson",
         );
         return;
       }
@@ -160,7 +179,9 @@ class CreateCourseCurriculumController extends GetxController {
           'attachment': attachment.value,
           'videoLink': videoUrlController.text,
           'date': dateController.text,
-          'courseLessonsAssigned': selectedLessons.map((e) => e.id).toList(),
+
+          /// API expects list -> send list of one item
+          'courseLessonsAssigned': [selectedLesson.value!.id],
         },
         decoder: (json) => json as Map<String, dynamic>,
       );
@@ -194,5 +215,6 @@ class CreateCourseCurriculumController extends GetxController {
     attachment.value = "";
     videoUrlController.clear();
     dateController.clear();
+    selectedLesson.value = null;
   }
 }

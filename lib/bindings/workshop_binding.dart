@@ -11,6 +11,7 @@ import 'package:hkdigiskill_admin/screens/workshop/faq/edit_faq/controllers/edit
 import 'package:hkdigiskill_admin/screens/workshop/testimonials/all_testimonials/controllers/testimonials_controller.dart';
 import 'package:hkdigiskill_admin/screens/workshop/testimonials/create_testimonial/controllers/create_testimonial_controller.dart';
 import 'package:hkdigiskill_admin/screens/workshop/testimonials/edit_testimonial/controllers/edit_testimonial_controller.dart';
+import 'package:hkdigiskill_admin/screens/workshop/workshop_payments/controllers/workshop_payment_controller.dart';
 
 class WorkshopBinding extends Bindings {
   @override
@@ -41,5 +42,6 @@ class WorkshopBinding extends Bindings {
     Get.lazyPut<WorkshopEditTestimonialController>(
       () => WorkshopEditTestimonialController(),
     );
+    Get.lazyPut<WorkshopPaymentController>(() => WorkshopPaymentController());
   }
 }

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/screens/course/course_list/controllers/course_list_controller.dart';
+import 'package:hkdigiskill_admin/screens/course/course_payments/controllers/course_payment_controller.dart';
 import 'package:hkdigiskill_admin/screens/course/create_course/controllers/create_course_controller.dart';
 import 'package:hkdigiskill_admin/screens/course/curriculum/create_curriculum/controllers/create_course_curriculum_controller.dart';
 import 'package:hkdigiskill_admin/screens/course/curriculum/curriculums_list/controllers/course_curriculum_controller.dart';
@@ -43,5 +44,6 @@ class CourseBinding extends Bindings {
     Get.lazyPut<LessonListController>(() => LessonListController());
     Get.lazyPut<CreateLessonController>(() => CreateLessonController());
     Get.lazyPut<EditLessonController>(() => EditLessonController());
+    Get.lazyPut<CoursePaymentController>(() => CoursePaymentController());
   }
 }

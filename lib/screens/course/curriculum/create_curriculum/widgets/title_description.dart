@@ -124,34 +124,35 @@ class CurriculumTitleAndDescription extends StatelessWidget {
               if (controller.isLessonLoading.value) {
                 return const Center(child: CircularProgressIndicator());
               }
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Assign Lessons',
+                    'Assign Lesson',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: AdminSizes.spaceBtwItems),
+
                   if (controller.lessonList.isNotEmpty)
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
                       children: controller.lessonList.map((lesson) {
-                        final isSelected = controller.selectedLessons.any(
-                          (selected) => selected.id == lesson.id,
-                        );
+                        final isSelected =
+                            controller.selectedLesson.value?.id == lesson.id;
+
                         return FilterChip(
                           label: Text(lesson.title),
                           selected: isSelected,
                           onSelected: (_) {
                             if (isSelected) {
-                              controller.selectedLessons.removeWhere(
-                                (selected) => selected.id == lesson.id,
-                              );
+                              /// unselect
+                              controller.selectedLesson.value = null;
                             } else {
-                              controller.selectedLessons.add(lesson);
+                              /// select new lesson
+                              controller.selectedLesson.value = lesson;
                             }
-                            controller.selectedLessons.refresh();
                           },
                           selectedColor: AdminColors.primary.withOpacity(0.2),
                           checkmarkColor: AdminColors.primary,

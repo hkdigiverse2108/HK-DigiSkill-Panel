@@ -78,7 +78,6 @@ import 'package:hkdigiskill_admin/screens/settings/settings.dart';
 import 'package:hkdigiskill_admin/screens/testimonials/all_testimonials/all_testimonials.dart';
 import 'package:hkdigiskill_admin/screens/testimonials/create_testimonial/create_testimonial.dart';
 import 'package:hkdigiskill_admin/screens/testimonials/edit_testimonial/edit_testimonial.dart';
-import 'package:hkdigiskill_admin/screens/transactions/transactions.dart';
 import 'package:hkdigiskill_admin/screens/users/users.dart';
 import 'package:hkdigiskill_admin/screens/workshop/all_workshop/all_workshop.dart';
 import 'package:hkdigiskill_admin/screens/workshop/create_workshop/create_workshop.dart';
@@ -91,7 +90,9 @@ import 'package:hkdigiskill_admin/screens/workshop/faq/edit_faq/edit_faq.dart';
 import 'package:hkdigiskill_admin/screens/workshop/testimonials/all_testimonials/all_testimonials.dart';
 import 'package:hkdigiskill_admin/screens/workshop/testimonials/create_testimonial/create_testimonial.dart';
 import 'package:hkdigiskill_admin/screens/workshop/testimonials/edit_testimonial/edit_testimonial.dart';
+import 'package:hkdigiskill_admin/screens/workshop/workshop_payments/workshop_payments.dart';
 
+import '../screens/course/course_payments/course_payments.dart';
 import '../screens/legality/privacy_policy/responsive_screens/privacy_policy_desktop.dart'
     show PrivacyPolicyDesktopScreen;
 import '../screens/workshop/curriculum/curriculums_list/workshop_curriculums.dart';
@@ -124,11 +125,11 @@ class AppRoute {
       binding: MediaBinding(),
       middlewares: [RoutesMiddleware()],
     ),
-    GetPage(
-      name: AdminRoutes.transactions,
-      page: () => TransactionsScreen(),
-      middlewares: [RoutesMiddleware()],
-    ),
+    // GetPage(
+    //   name: AdminRoutes.transactions,
+    //   page: () => TransactionsScreen(),
+    //   middlewares: [RoutesMiddleware()],
+    // ),
 
     // Category
     GetPage(
@@ -220,6 +221,12 @@ class AppRoute {
     GetPage(
       name: AdminRoutes.wEditCurriculum,
       page: () => EditWorkshopCurriculum(),
+      binding: WorkshopBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.wBuy,
+      page: () => WorkshopPayments(),
       binding: WorkshopBinding(),
       middlewares: [RoutesMiddleware()],
     ),
@@ -434,6 +441,12 @@ class AppRoute {
     GetPage(
       name: AdminRoutes.cEditLesson,
       page: () => EditLessonScreen(),
+      binding: CourseBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.cBuy,
+      page: () => CoursePayments(),
       binding: CourseBinding(),
       middlewares: [RoutesMiddleware()],
     ),
