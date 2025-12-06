@@ -79,7 +79,7 @@ class EditCourseCurriculumController extends GetxController {
         final assignedLessonId = curriculums.courseLessonsAssigned.first.id;
 
         selectedLesson.value = lessonList.firstWhereOrNull(
-              (lesson) => lesson.id == assignedLessonId,
+          (lesson) => lesson.id == assignedLessonId,
         );
       }
     });
@@ -98,6 +98,15 @@ class EditCourseCurriculumController extends GetxController {
 
     if (selectedImages != null && selectedImages.isNotEmpty) {
       thumbnail.value = selectedImages.first.url;
+    }
+  }
+
+  void selectPdfFile() async {
+    final controller = Get.put(MediaController());
+    List<ImageModel>? selectedImages = await controller.selectImagesFromMedia();
+
+    if (selectedImages != null && selectedImages.isNotEmpty) {
+      attachment.value = selectedImages.first.url;
     }
   }
 
@@ -178,8 +187,8 @@ class EditCourseCurriculumController extends GetxController {
   // UPDATE CURRICULUM
   // ---------------------------
   Future<void> updateCourseCurriculum(
-      CourseCurriculumsModel curriculums,
-      ) async {
+    CourseCurriculumsModel curriculums,
+  ) async {
     try {
       isLoading.value = true;
 
@@ -203,26 +212,27 @@ class EditCourseCurriculumController extends GetxController {
       }
 
       final response = await apiService.post(
-          path: ApiConstants.courseCurriculumsUpdate,
-          headers: {'Authorization': '${storageService.token}'},
-          body: {
-            'courseCurriculumId': curriculums.id,
-            'title': titleController.text,
-            'description': descriptionController.text,
-            'courseLessonsPriority': int.parse(priorityController.text),
-            'duration': durationController.text,
-            'courseId': courseId.value,
-            'thumbnail': thumbnail.value,
-            'attachment': attachment.value,
-            'videoLink': videoUrlController.text,
-            'date': dateController.text,
+        path: ApiConstants.courseCurriculumsUpdate,
+        headers: {'Authorization': '${storageService.token}'},
+        body: {
+          'courseCurriculumId': curriculums.id,
+          'title': titleController.text,
+          'description': descriptionController.text,
+          'courseLessonsPriority': int.parse(priorityController.text),
+          'duration': durationController.text,
+          'courseId': courseId.value,
+          'thumbnail': thumbnail.value,
+          'attachment': attachment.value,
+          'videoLink': videoUrlController.text,
+          'date': dateController.text,
 
-            /// Single selected lesson but API expects a list → wrap it in a list
-            'courseLessonsAssigned': selectedLesson.value == null
-                ? []
-                : [selectedLesson.value!.id],
-          },
-          decoder: (json) => json as Map<String, dynamic>);
+          /// Single selected lesson but API expects a list → wrap it in a list
+          'courseLessonsAssigned': selectedLesson.value == null
+              ? []
+              : [selectedLesson.value!.id],
+        },
+        decoder: (json) => json as Map<String, dynamic>,
+      );
 
       if (response['status'] == 200) {
         curriculumsController.fetchCurriculums();
@@ -239,7 +249,7 @@ class EditCourseCurriculumController extends GetxController {
         message: "Failed to update curriculum",
       );
     } finally {
-    isLoading.value = false;
+      isLoading.value = false;
     }
   }
 

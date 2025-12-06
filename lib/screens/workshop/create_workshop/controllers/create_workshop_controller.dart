@@ -65,6 +65,15 @@ class CreateWorkshopController extends GetxController {
     }
   }
 
+  void selectPdfFile() async {
+    final controller = Get.put(MediaController());
+    List<ImageModel>? selectedImages = await controller.selectImagesFromMedia();
+
+    if (selectedImages != null && selectedImages.isNotEmpty) {
+      pdfFile.value = selectedImages.first.url;
+    }
+  }
+
   Future<void> createWorkshop() async {
     try {
       isLoading.value = true;

@@ -42,6 +42,8 @@ class CourseTable extends StatelessWidget {
           const DataColumn2(label: Text("category")),
           const DataColumn2(label: Text("Description")),
           const DataColumn2(label: Text("Price")),
+          const DataColumn2(label: Text("MRP Price")),
+          const DataColumn2(label: Text("Language")),
           const DataColumn2(label: Text("satisfactionRate")),
           const DataColumn2(label: Text("Actions"), fixedWidth: 120),
         ],

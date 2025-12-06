@@ -3,24 +3,21 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/loaders/loaders.dart';
-import 'package:hkdigiskill_admin/data/models/legality_model.dart';
 import 'package:hkdigiskill_admin/data/services/api_service.dart';
 import 'package:hkdigiskill_admin/data/services/storage_service.dart';
 import 'package:hkdigiskill_admin/utils/constants/api_constants.dart';
 
-class TermsConditionController extends GetxController {
-  static TermsConditionController get instance => Get.find();
+class AboutUsController extends GetxController {
+  static AboutUsController get instance => Get.find();
 
   var isLoading = false.obs;
-  Rxn<LegalityModel> legalityData = Rxn<LegalityModel>();
+  Rxn<AboutUsModel> legalityData = Rxn<AboutUsModel>();
 
   final contentController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   final apiService = ApiService(baseUrl: ApiConstants.baseUrl);
   final storageService = AdminStorageService();
-
-  final String type = "termsCondition";
 
   @override
   void onInit() {
@@ -33,18 +30,18 @@ class TermsConditionController extends GetxController {
       isLoading.value = true;
 
       final response = await apiService.get(
-        path: ApiConstants.legalityFetch + type,
+        path: ApiConstants.legalityAboutUs,
         headers: {'authorization': storageService.token!},
-        decoder: (json) => LegalityModel.fromJson(json['data']),
+        decoder: (json) => AboutUsModel.fromJson(json['data']),
       );
 
       legalityData.value = response;
-      contentController.text = response.content;
+      contentController.text = response.aboutUs;
     } catch (e) {
       log(e.toString());
       AdminLoaders.errorSnackBar(
         title: "Error",
-        message: "Failed to fetch Terms & Conditions",
+        message: "Failed to fetch About Us",
       );
     } finally {
       isLoading.value = false;
@@ -56,9 +53,9 @@ class TermsConditionController extends GetxController {
       isLoading.value = true;
 
       final response = await apiService.post(
-        path: ApiConstants.legalityUpdate,
+        path: ApiConstants.aboutUsUpdate,
         headers: {'authorization': storageService.token!},
-        body: {"type": type, "content": contentController.text},
+        body: {"aboutUs": contentController.text},
         decoder: (json) => json,
       );
 
@@ -77,5 +74,15 @@ class TermsConditionController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+}
+
+class AboutUsModel {
+  final String aboutUs;
+
+  AboutUsModel({required this.aboutUs});
+
+  factory AboutUsModel.fromJson(Map<String, dynamic> json) {
+    return AboutUsModel(aboutUs: json['aboutUs']);
   }
 }

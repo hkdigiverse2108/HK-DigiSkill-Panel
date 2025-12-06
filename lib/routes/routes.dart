@@ -93,6 +93,7 @@ class AdminRoutes {
   static const privacyPolicy = '/privacy-policy';
   static const termsConditions = '/terms-conditions';
   static const refundPolicy = '/refund-policy';
+  static const aboutUs = '/about-us';
 
   static const addNewUsers = '/add-new-users';
   static const users = '/users';

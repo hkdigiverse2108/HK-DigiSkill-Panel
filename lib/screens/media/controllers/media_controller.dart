@@ -30,6 +30,10 @@ class MediaController extends GetxController {
   final RxBool showImagesUploaderSection = false.obs;
   final Rx<MediaCategory> selectedCategory = MediaCategory.folders.obs;
   final RxList<ImageModel> selectedImagesToUpload = <ImageModel>[].obs;
+  final RxList<ImageModel> selectedPdfsToUpload = <ImageModel>[].obs;
+
+  RxList<ImageModel> get selectedImagesToDisplay =>
+      <ImageModel>[...selectedImagesToUpload, ...selectedPdfsToUpload].obs;
 
   final RxList<ImageModel> allImages = <ImageModel>[].obs;
   final RxList<ImageModel> allBannerImages = <ImageModel>[].obs;
@@ -41,6 +45,7 @@ class MediaController extends GetxController {
   final RxList<ImageModel> allGalleryImages = <ImageModel>[].obs;
   final RxList<ImageModel> allCurriculumImages = <ImageModel>[].obs;
   final RxList<ImageModel> allInstructorsImages = <ImageModel>[].obs;
+  final RxList<ImageModel> allPdfImages = <ImageModel>[].obs;
 
   final apiService = ApiService(baseUrl: ApiConstants.baseUrl);
 
@@ -50,9 +55,17 @@ class MediaController extends GetxController {
 
     try {
       final response = await apiService.get(
-        path: "${ApiConstants.media}/$category",
+        path: category == 'pdf'
+            ? ApiConstants.mediaPdf
+            : "${ApiConstants.media}/$category",
         decoder: (json) {
           final images = json['data'] as List;
+
+          if (category == 'pdf') {
+            return images
+                .map((url) => ImageModel.fromString(url as String, isPdf: true))
+                .toList();
+          }
 
           return images
               .map((url) => ImageModel.fromString(url as String))
@@ -90,6 +103,9 @@ class MediaController extends GetxController {
           break;
         case 'instructors':
           allInstructorsImages.value = response;
+          break;
+        case 'pdf':
+          allPdfImages.value = response;
           break;
       }
     } catch (e) {
@@ -138,6 +154,9 @@ class MediaController extends GetxController {
         case MediaCategory.instructors:
           targetedList = allInstructorsImages;
           break;
+        case MediaCategory.pdf:
+          targetedList = allPdfImages;
+          break;
       }
 
       // load more
@@ -164,20 +183,33 @@ class MediaController extends GetxController {
   Future<void> selectLocalImages() async {
     final files = await dropzoneController.pickFiles(
       multiple: true,
-      mime: ['image/jpeg', 'image/png'],
+      mime: ['image/jpeg', 'image/png', 'application/pdf'],
     );
 
     if (files.isNotEmpty) {
       for (final file in files) {
         final bytes = await dropzoneController.getFileData(file);
-        final image = ImageModel(
+
+        final filename = file.name.toLowerCase();
+        final isPdf = filename.endsWith(".pdf");
+
+        final model = ImageModel(
           url: '',
           filename: file.name,
           file: file,
           folder: '',
-          localImageToDisplay: Uint8List.fromList(bytes),
+          localImageToDisplay: isPdf ? null : Uint8List.fromList(bytes),
+          isPdf: isPdf,
+          contentType: isPdf ? 'application/pdf' : 'image/jpeg',
         );
-        selectedImagesToUpload.add(image);
+
+        if (isPdf) {
+          selectedPdfsToUpload.add(model);
+        } else {
+          selectedImagesToUpload.add(model);
+        }
+
+        update();
       }
     }
   }
@@ -205,47 +237,52 @@ class MediaController extends GetxController {
       icon: Iconsax.cloud_add,
       iconColor: AdminColors.primary,
       confirmText: "Upload",
-      onConfirm: () async => uploadImages(),
+      onConfirm: () async => uploadMedia(),
     );
   }
 
-  Future<void> uploadImages() async {
+  Future<void> uploadMedia() async {
     try {
       uploadImagesLoader();
+
+      final allFiles = [
+        ...selectedImagesToUpload.map((e) => e.file!),
+        ...selectedPdfsToUpload.map((e) => e.file!),
+      ];
 
       final response = await apiService.postDropzoneFiles<Map<String, dynamic>>(
         path: ApiConstants.mediaUpload,
         fields: {"category": selectedCategory.value.name},
-        files: selectedImagesToUpload.map((e) => e.file!).toList(),
-        fileFieldName: "images",
+        files: allFiles,
+        fileFieldName: "mixed",
+        // not used anymore in real mapping
         decoder: (json) => json as Map<String, dynamic>,
         dropzoneController: dropzoneController,
       );
 
       if (response['status'] == 200) {
-        // Refresh the media list
+        // Refresh page
         getMediaImages();
 
-        // Clear the selected images
+        // Clear lists
         selectedImagesToUpload.clear();
+        selectedPdfsToUpload.clear();
 
-        // Show success message
         AdminLoaders.successSnackBar(
           title: 'Upload Success',
-          message: response['message'] ?? 'Images uploaded successfully',
+          message: response['message'] ?? 'Media uploaded successfully',
         );
       } else {
-        // Show error message from server or default message
         AdminLoaders.errorSnackBar(
           title: 'Upload Error',
-          message: response['message'] ?? 'Failed to upload images',
+          message: response['message'] ?? 'Failed to upload media',
         );
       }
     } catch (e) {
       log(e.toString());
       AdminLoaders.errorSnackBar(
         title: 'Upload Error',
-        message: "Failed to upload images: $e",
+        message: "Failed to upload media: $e",
       );
     } finally {
       AdminFullScreenLoader.stopLoading();
@@ -306,5 +343,32 @@ class MediaController extends GetxController {
     );
 
     return selectedImages;
+  }
+
+  Future<void> deleteImage(ImageModel image) async {
+    try {
+      isLoading.value = true;
+      final res = await apiService.delete(
+        path: '/upload',
+        decoder: (json) => json as Map<String, dynamic>,
+        body: {"fileUrl": image.url},
+      );
+
+      if (res['status'] == 200) {
+        Get.back();
+        AdminLoaders.successSnackBar(
+          title: 'Success',
+          message: 'Image deleted successfully',
+        );
+        getMediaImages();
+      }
+    } catch (e) {
+      AdminLoaders.errorSnackBar(
+        title: 'Error',
+        message: "Failed to delete media: $e",
+      );
+    } finally {
+      isLoading.value = false;
+    }
   }
 }

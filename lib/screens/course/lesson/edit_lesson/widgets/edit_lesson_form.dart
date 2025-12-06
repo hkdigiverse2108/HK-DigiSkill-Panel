@@ -98,6 +98,28 @@ class EditLessonForm extends GetView<EditLessonController> {
                 ),
                 SizedBox(height: AdminSizes.spaceBtwInputFields),
 
+                // ============= PRIORITY ============
+                TextFormField(
+                  controller: controller.priorityController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: 'Priority',
+                    prefixIcon: Icon(Iconsax.ranking_1),
+                    hintText: 'Enter priority (higher number = higher priority)',
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a priority';
+                    }
+                    final priority = int.tryParse(value);
+                    if (priority == null) {
+                      return 'Please enter a valid number';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: AdminSizes.spaceBtwInputFields),
+
                 // ============= LOCK SWITCH ============
                 Obx(
                   () => CheckboxMenuButton(

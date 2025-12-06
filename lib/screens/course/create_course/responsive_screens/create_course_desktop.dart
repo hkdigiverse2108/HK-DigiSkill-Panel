@@ -5,6 +5,7 @@ import 'package:hkdigiskill_admin/common/widgets/animations/animation_loader.dar
 import 'package:hkdigiskill_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
 import 'package:hkdigiskill_admin/screens/course/create_course/controllers/create_course_controller.dart';
+import 'package:hkdigiskill_admin/screens/course/create_course/widgets/pdf_selection.dart';
 import 'package:hkdigiskill_admin/screens/course/create_course/widgets/price_section.dart';
 import 'package:hkdigiskill_admin/screens/course/create_course/widgets/select_image.dart';
 import 'package:hkdigiskill_admin/screens/course/create_course/widgets/title_section.dart';
@@ -55,7 +56,7 @@ class CreateCourseDesktopScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              flex: AdminDeviceUtility.isTabletScreen(context) ? 2 : 3,
+              flex: AdminDeviceUtility.isTabletScreen(context) ? 1 : 2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -70,6 +71,8 @@ class CreateCourseDesktopScreen extends StatelessWidget {
             ),
             Gap(AdminSizes.defaultSpace),
             Expanded(child: Column(children: [SelectImage()])),
+            Gap(AdminSizes.defaultSpace),
+            Expanded(child: Column(children: [PdfSelection()])),
           ],
         ),
         const PriceSection(),

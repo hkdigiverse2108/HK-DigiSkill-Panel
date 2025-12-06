@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -113,29 +111,37 @@ class MediaContent extends StatelessWidget {
                         .map(
                           (image) => InkWell(
                             onTap: () {
-                              log(image.url);
+                              _openImagePreview(image);
                             },
-                            child: SizedBox(
-                              width: 140,
-                              height: 160,
-                              child: Column(
-                                children: [
-                                  allowSelection
-                                      ? _buildListWithCheckbox(image)
-                                      : _buildSimpleList(image),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: AdminSizes.sm,
-                                      ),
-                                      child: Text(
-                                        image.filename,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
+                            child: Tooltip(
+                              message: image.filename,
+                              child: SizedBox(
+                                width: 140,
+                                height: 160,
+                                child: Column(
+                                  children: [
+                                    allowSelection
+                                        ? _buildListWithCheckbox(
+                                            image,
+                                            image.isPdf,
+                                          )
+                                        : (image.isPdf)
+                                        ? _buildSimpleList(image, true)
+                                        : _buildSimpleList(image, false),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: AdminSizes.sm,
+                                        ),
+                                        child: Text(
+                                          image.filename,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -250,6 +256,11 @@ class MediaContent extends StatelessWidget {
             .where((element) => element.url.isNotEmpty)
             .toList();
         break;
+      case MediaCategory.pdf:
+        images = controller.allPdfImages
+            .where((element) => element.url.isNotEmpty)
+            .toList();
+        break;
     }
     return images;
   }
@@ -266,27 +277,27 @@ class MediaContent extends StatelessWidget {
     );
   }
 
-  Widget _buildSimpleList(ImageModel image) {
+  Widget _buildSimpleList(ImageModel image, bool isPdf) {
     return AdminRoundedImage(
       width: 140,
       height: 120,
-      imageType: ImageType.network,
+      imageType: isPdf ? ImageType.asset : ImageType.network,
       padding: AdminSizes.sm,
-      image: image.url,
+      image: isPdf ? AdminImages.pdfIcon : image.url,
       margin: AdminSizes.spaceBtwItems / 2,
       backgroundColor: AdminColors.primaryBackground,
     );
   }
 
-  Widget _buildListWithCheckbox(ImageModel image) {
+  Widget _buildListWithCheckbox(ImageModel image, bool isPdf) {
     return Stack(
       children: [
         AdminRoundedImage(
           width: 140,
           height: 140,
-          imageType: ImageType.network,
+          imageType: isPdf ? ImageType.asset : ImageType.network,
           padding: AdminSizes.sm,
-          image: image.url,
+          image: isPdf ? AdminImages.pdfIcon : image.url,
           margin: AdminSizes.spaceBtwItems / 2,
           backgroundColor: AdminColors.primaryBackground,
         ),
@@ -321,4 +332,109 @@ class MediaContent extends StatelessWidget {
       ],
     );
   }
+}
+
+void _openImagePreview(ImageModel image) {
+  Get.dialog(
+    Dialog(
+      insetPadding: const EdgeInsets.all(15),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 450),
+        child: Stack(
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                /// IMAGE
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(16),
+                  ),
+                  child: image.isPdf
+                      ? Image.asset(
+                          AdminImages.pdfIcon,
+                          width: double.infinity,
+                          height: 300,
+                          fit: BoxFit.contain,
+                        )
+                      : Image.network(
+                          image.url,
+                          width: double.infinity,
+                          height: 300,
+                          fit: BoxFit.contain,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              height: 300,
+                              width: double.infinity,
+                              color: Colors.grey.shade200,
+                              child: const Icon(
+                                Icons.broken_image,
+                                size: 80,
+                                color: Colors.grey,
+                              ),
+                            );
+                          },
+                        ),
+                ),
+
+                const SizedBox(height: 12),
+
+                /// File name
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    image.filename,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                /// DELETE BUTTON ONLY
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.redAccent,
+                      ),
+                      onPressed: () => _deleteImage(image),
+                      icon: const Icon(Icons.delete),
+                      label: const Text("Delete"),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+              ],
+            ),
+
+            /// TOP RIGHT CLOSE ICON
+            Positioned(
+              right: 6,
+              top: 6,
+              child: IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () => Get.back(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+    barrierDismissible: true,
+  );
+}
+
+void _deleteImage(ImageModel image) async {
+  final controller = MediaController.instance;
+
+  controller.deleteImage(image);
 }

@@ -42,6 +42,7 @@ class LessonTable extends StatelessWidget {
           DataColumn2(label: Text("Title")),
           DataColumn2(label: Text("Course")),
           DataColumn2(label: Text("Subtitle")),
+          DataColumn2(label: Text("Priority")),
           DataColumn2(label: Text("Lock Status")),
           DataColumn2(label: Text("Actions"), fixedWidth: 120),
         ],

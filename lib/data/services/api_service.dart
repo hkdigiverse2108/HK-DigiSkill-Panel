@@ -123,7 +123,7 @@ class ApiService {
     final response = await http.delete(
       uri,
       headers: requestHeaders,
-      // body: encodedBody,
+      body: body != null ? encodedBody : null,
     );
     return _processResponse(response, decoder);
   }
@@ -167,68 +167,50 @@ class ApiService {
       final uri = Uri.parse(baseUrl + path);
       final request = http.MultipartRequest('POST', uri);
 
-      // Set headers if provided
+      // Headers
       final requestHeaders = <String, String>{
         'Accept': 'application/json',
         if (headers != null) ...headers,
       };
       request.headers.addAll(requestHeaders);
 
-      // Add form fields
-      if (fields != null) {
-        request.fields.addAll(fields);
-      }
+      // Fields
+      if (fields != null) request.fields.addAll(fields);
 
       print('Processing ${files.length} files for upload');
 
-      for (var i = 0; i < files.length; i++) {
+      for (int i = 0; i < files.length; i++) {
         final file = files[i];
-        try {
-          print(
-            'Getting file data for ${file.name} (${i + 1}/${files.length})',
-          );
-          final bytes = await dropzoneController.getFileData(file);
-          print('File ${file.name} size: ${bytes.length} bytes');
+        final bytes = await dropzoneController.getFileData(file);
+        final name = file.name.toLowerCase();
 
-          // Create a multipart file with the correct content type
-          final mimeType = _getMimeType(file.name);
+        final isPdf = name.endsWith('.pdf');
+        final mimeType = isPdf ? 'application/pdf' : _getMimeType(file.name);
 
-          // Create a multipart file directly from bytes
-          final multipartFile = http.MultipartFile.fromBytes(
-            'images', // Field name expected by backend
-            bytes,
-            filename: file.name,
-            contentType: mimeType != null ? MediaType.parse(mimeType) : null,
-          );
+        // ⭐ IMPORTANT PART: correct backend field names
+        final fieldName = isPdf ? 'pdf' : 'images';
 
-          request.files.add(multipartFile);
-          print(
-            'Added ${file.name} to request with type: ${mimeType ?? 'unknown'}',
-          );
-        } catch (e) {
-          print('Error processing file ${file.name}: $e');
-          rethrow;
-        }
+        final multipartFile = http.MultipartFile.fromBytes(
+          fieldName,
+          bytes,
+          filename: file.name,
+          contentType: mimeType != null ? MediaType.parse(mimeType) : null,
+        );
+
+        request.files.add(multipartFile);
+
+        print(
+          'Added ${file.name} under "$fieldName" with type "${mimeType ?? 'unknown'}"',
+        );
       }
 
       if (request.files.isEmpty) {
         throw Exception('No valid files were added to the request');
       }
 
-      _logRequest(
-        'POST (multipart)',
-        uri,
-        request.headers,
-        'Files: ${files.map((f) => f.name).join(', ')}, Fields: $fields',
-      );
-
       print('Sending request to ${uri.toString()}');
-      print('Request headers: ${request.headers}');
-      print('Request fields: ${request.fields}');
-      print('Request files count: ${request.files.length}');
-
-      final streamedResponse = await request.send();
-      final response = await http.Response.fromStream(streamedResponse);
+      final streamed = await request.send();
+      final response = await http.Response.fromStream(streamed);
 
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');

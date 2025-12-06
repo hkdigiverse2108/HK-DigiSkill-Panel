@@ -13,6 +13,7 @@ enum MediaCategory {
   gallery,
   curriculum,
   instructors,
+  pdf,
 }
 
 enum DashType { course, workshop, home }

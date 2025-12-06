@@ -41,7 +41,11 @@ class MediaUploader extends StatelessWidget {
                           alignment: Alignment.center,
                           children: [
                             DropzoneView(
-                              mime: const ['image/jpeg', 'image/png'],
+                              mime: const [
+                                'image/jpeg',
+                                'image/png',
+                                'application/pdf',
+                              ],
                               cursor: CursorType.Default,
                               operation: DragOperation.copy,
                               onLoaded: () => log("Zone loaded"),
@@ -52,19 +56,32 @@ class MediaUploader extends StatelessWidget {
                                   controller.dropzoneController = ctrl,
 
                               onDropFile: (DropzoneFileInterface file) async {
+                                final name = file.name.toLowerCase();
+                                final isPdf = name.endsWith('.pdf');
                                 final bytes = await controller
                                     .dropzoneController
                                     .getFileData(file);
-                                final image = ImageModel(
+
+                                final model = ImageModel(
                                   url: '',
                                   filename: file.name,
                                   file: file,
                                   folder: '',
-                                  localImageToDisplay: Uint8List.fromList(
-                                    bytes,
-                                  ),
+                                  localImageToDisplay: isPdf
+                                      ? null
+                                      : Uint8List.fromList(bytes),
+                                  isPdf: isPdf,
+                                  contentType: isPdf
+                                      ? 'application/pdf'
+                                      : 'image/jpeg',
                                 );
-                                controller.selectedImagesToUpload.add(image);
+
+                                if (isPdf) {
+                                  controller.selectedPdfsToUpload.add(model);
+                                } else {
+                                  controller.selectedImagesToUpload.add(model);
+                                }
+                                controller.update();
                               },
                               onDropInvalid: (error) =>
                                   log("Invalid file: $error"),
@@ -134,8 +151,14 @@ class MediaUploader extends StatelessWidget {
                             Row(
                               children: [
                                 TextButton(
-                                  onPressed:
-                                      controller.selectedImagesToUpload.clear,
+                                  onPressed: () {
+                                    controller.selectedImagesToUpload.clear();
+                                    controller.selectedPdfsToUpload.clear();
+                                    // No need to clear selectedImagesToDisplay as it's a computed getter
+                                    // that combines the above two lists
+                                    controller.update(); // Force update the UI
+                                  },
+
                                   child: const Text("Remove All"),
                                 ),
                                 const Gap(AdminSizes.spaceBtwItems),
@@ -158,18 +181,34 @@ class MediaUploader extends StatelessWidget {
                           alignment: WrapAlignment.start,
                           spacing: AdminSizes.spaceBtwItems / 2,
                           runSpacing: AdminSizes.spaceBtwItems / 2,
-                          children: controller.selectedImagesToUpload
-                              .where((e) => e.localImageToDisplay != null)
+                          children: controller.selectedImagesToDisplay
+                              // .where((e) => e.localImageToDisplay != null)
                               .map((e) {
-                                return AdminRoundedImage(
-                                  imageType: ImageType.memory,
-                                  height: 90,
-                                  width: 90,
-                                  padding: AdminSizes.sm,
-                                  memoryImage: e.localImageToDisplay,
-                                  backgroundColor:
-                                      AdminColors.primaryBackground,
-                                );
+                                if (e.isPdf) {
+                                  return Column(
+                                    children: [
+                                      AdminRoundedImage(
+                                        imageType: ImageType.asset,
+                                        image: AdminImages.pdfIcon,
+                                        height: 90,
+                                        width: 90,
+                                        padding: AdminSizes.sm,
+                                        backgroundColor:
+                                            AdminColors.primaryBackground,
+                                      ),
+                                    ],
+                                  );
+                                } else {
+                                  return AdminRoundedImage(
+                                    imageType: ImageType.memory,
+                                    height: 90,
+                                    width: 90,
+                                    padding: AdminSizes.sm,
+                                    memoryImage: e.localImageToDisplay,
+                                    backgroundColor:
+                                        AdminColors.primaryBackground,
+                                  );
+                                }
                               })
                               .toList(),
                         ),

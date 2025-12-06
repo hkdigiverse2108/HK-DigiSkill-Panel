@@ -6,6 +6,7 @@ import 'package:hkdigiskill_admin/common/widgets/breadcrumbs/breadcrumb_with_hea
 import 'package:hkdigiskill_admin/data/models/course_model.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
 import 'package:hkdigiskill_admin/screens/course/edit_course/controllers/edit_course_controller.dart';
+import 'package:hkdigiskill_admin/screens/course/edit_course/widgets/pdf_selection.dart';
 import 'package:hkdigiskill_admin/screens/course/edit_course/widgets/price_section.dart';
 import 'package:hkdigiskill_admin/screens/course/edit_course/widgets/select_image.dart';
 import 'package:hkdigiskill_admin/screens/course/edit_course/widgets/title_section.dart';
@@ -65,7 +66,7 @@ class EditCourseDesktopScreen extends GetView<EditCourseController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              flex: AdminDeviceUtility.isTabletScreen(context) ? 2 : 3,
+              flex: AdminDeviceUtility.isTabletScreen(context) ? 1 : 2,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -78,8 +79,11 @@ class EditCourseDesktopScreen extends GetView<EditCourseController> {
                 ],
               ),
             ),
+
             Gap(AdminSizes.defaultSpace),
             Expanded(child: Column(children: [EditSelectImage()])),
+            Gap(AdminSizes.defaultSpace),
+            Expanded(child: Column(children: [PdfSelection()])),
           ],
         ),
         EditPriceSection(courseModel: courseModel),

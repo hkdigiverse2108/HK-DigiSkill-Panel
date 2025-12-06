@@ -208,6 +208,11 @@ class AdminSidebar extends StatelessWidget {
                       icon: Iconsax.security_safe,
                       subItems: const [
                         AdminMenuItem(
+                          route: AdminRoutes.aboutUs,
+                          title: 'About Us',
+                          icon: Iconsax.document,
+                        ),
+                        AdminMenuItem(
                           route: AdminRoutes.privacyPolicy,
                           title: 'Privacy Policy',
                           icon: Iconsax.lock,

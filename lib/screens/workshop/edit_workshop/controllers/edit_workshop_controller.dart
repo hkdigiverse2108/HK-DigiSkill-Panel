@@ -52,6 +52,15 @@ class EditWorkshopController extends GetxController {
     }
   }
 
+  void selectPdfFile() async {
+    final controller = Get.put(MediaController());
+    List<ImageModel>? selectedImages = await controller.selectImagesFromMedia();
+
+    if (selectedImages != null && selectedImages.isNotEmpty) {
+      pdfFile.value = selectedImages.first.url;
+    }
+  }
+
   void initEditField(WorkshopModel workshop) {
     titleController.text = workshop.title;
     subtitleController.text = workshop.subTitle ?? "";
@@ -96,7 +105,7 @@ class EditWorkshopController extends GetxController {
         return;
       }
 
-      final response = await apiService.put(
+      final response = await apiService.post(
         path: ApiConstants.workshopUpdate,
         headers: {"Authorization": "${storageService.token}"},
         body: {

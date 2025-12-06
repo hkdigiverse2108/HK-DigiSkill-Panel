@@ -60,6 +60,15 @@ class CreateWorkshopCurriculumController extends GetxController {
     }
   }
 
+  void selectPdfFile() async {
+    final controller = Get.put(MediaController());
+    List<ImageModel>? selectedImages = await controller.selectImagesFromMedia();
+
+    if (selectedImages != null && selectedImages.isNotEmpty) {
+      attachment.value = selectedImages.first.url;
+    }
+  }
+
   Future<String?> pickDate(BuildContext context) async {
     final DateTime? date = await showDatePicker(
       context: context,

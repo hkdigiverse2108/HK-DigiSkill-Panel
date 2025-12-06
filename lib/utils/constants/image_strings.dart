@@ -18,4 +18,5 @@ class AdminImages {
   // images
   static const String defaultImage = 'assets/images/d_image.png';
   static const String uploadImage = 'assets/images/gallery.png';
+  static const String pdfIcon = 'assets/images/pdf.png';
 }

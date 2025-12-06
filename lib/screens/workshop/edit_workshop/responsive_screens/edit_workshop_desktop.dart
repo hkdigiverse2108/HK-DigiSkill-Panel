@@ -125,7 +125,7 @@ class EditWorkshopDesktopScreen extends GetView<EditWorkshopController> {
                             },
                       child: controller.isLoading.value
                           ? const CircularProgressIndicator()
-                          : const Text("Create Workshop"),
+                          : const Text("Update Workshop"),
                     ),
                   ),
                 ),

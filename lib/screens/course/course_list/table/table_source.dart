@@ -17,8 +17,16 @@ class CourseTableSource extends DataTableSource {
       cells: [
         DataCell(Text(course.name)),
         DataCell(Text(course.courseCategoryId.name)),
-        DataCell(Text(course.description)),
+        DataCell(
+          Text(
+            course.description,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
         DataCell(Text('₹ ${course.price}')),
+        DataCell(Text('₹ ${course.mrpPrice}')),
+        DataCell(Text(course.language)),
         DataCell(Text(course.satisfactionRate.toString())),
         DataCell(
           AdminTableActionIconButtons(

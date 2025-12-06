@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/animations/animation_loader.dart';
 import 'package:hkdigiskill_admin/common/widgets/containers/rounded_container.dart';
-import 'package:hkdigiskill_admin/screens/legality/terms_condition/controllers/terms_condition_controller.dart';
+import 'package:hkdigiskill_admin/screens/legality/about_us/controllers/about_us_controller.dart';
 import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
-class TermsConditionForm extends GetView<TermsConditionController> {
-  const TermsConditionForm({super.key});
+class AboutUsForm extends GetView<AboutUsController> {
+  const AboutUsForm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class TermsConditionForm extends GetView<TermsConditionController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Terms & Conditions",
+                "About Us",
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               const SizedBox(height: 20),

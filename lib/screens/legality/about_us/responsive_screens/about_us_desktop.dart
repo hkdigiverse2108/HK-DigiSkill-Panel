@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hkdigiskill_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
 import 'package:hkdigiskill_admin/common/widgets/layouts/templates/site_layouts.dart';
-import 'package:hkdigiskill_admin/screens/legality/terms_condition/widgets/terms_condition_form.dart';
+import 'package:hkdigiskill_admin/screens/legality/about_us/widgets/about_us_form.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
-class TermsConditionDesktopScreen extends StatelessWidget {
-  const TermsConditionDesktopScreen({super.key});
+class AboutUsDesktopScreen extends StatelessWidget {
+  const AboutUsDesktopScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +29,11 @@ class _DesktopBody extends StatelessWidget {
         child: Column(
           children: [
             AdminBreadcrumbWithHeading(
-              heading: "Terms & Condition",
-              breadcrumbsItems: ["Terms & Condition"],
+              heading: "About Us",
+              breadcrumbsItems: ["About Us"],
             ),
             Gap(AdminSizes.spaceBtwSections),
-            const TermsConditionForm(),
+            const AboutUsForm(),
           ],
         ),
       ),

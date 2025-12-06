@@ -19,6 +19,7 @@ class CreateCourseController extends GetxController {
   var purchasedCoursesShow = false.obs;
 
   var image = ''.obs;
+  var attachment = ''.obs;
 
   var selectedCategory = ''.obs;
   var categoryId = ''.obs;
@@ -30,6 +31,9 @@ class CreateCourseController extends GetxController {
 
   // price and other
   final priceController = TextEditingController();
+  final mrpPriceController = TextEditingController();
+  final languageController = TextEditingController();
+  final durationController = TextEditingController();
   final enrolledLearnersController = TextEditingController();
   final classCompletedController = TextEditingController();
   final satisfactionController = TextEditingController();
@@ -59,6 +63,15 @@ class CreateCourseController extends GetxController {
 
     if (selectedImages != null && selectedImages.isNotEmpty) {
       image.value = selectedImages.first.url;
+    }
+  }
+
+  void selectPdfFile() async {
+    final controller = Get.put(MediaController());
+    List<ImageModel>? selectedImages = await controller.selectImagesFromMedia();
+
+    if (selectedImages != null && selectedImages.isNotEmpty) {
+      attachment.value = selectedImages.first.url;
     }
   }
 
@@ -93,23 +106,20 @@ class CreateCourseController extends GetxController {
         path: ApiConstants.courseCreate,
         headers: {'Authorization': '${storageService.token}'},
         body: {
-          'name': nameController.text,
-          'description': descriptionController.text,
-          'price': priceController.text.isEmpty
-              ? 0
-              : double.parse(priceController.text),
-          'enrolledLearners': enrolledLearnersController.text.isEmpty
-              ? 0
-              : int.parse(enrolledLearnersController.text),
-          'classCompleted': classCompletedController.text.isEmpty
-              ? 0
-              : int.parse(classCompletedController.text),
-          'satisfactionRate': satisfactionController.text.isEmpty
-              ? 0
-              : int.parse(satisfactionController.text),
-          'purchasedCoursesShow': purchasedCoursesShow.value,
-          'courseCategoryId': categoryId.value,
-          'image': image.value,
+          "name": nameController.text,
+          "description": descriptionController.text,
+          "price": priceController.text,
+          "mrpPrice": mrpPriceController.text,
+          "language": languageController.text,
+          "duration": durationController.text,
+          "enrolledLearners": enrolledLearnersController.text,
+          "classCompleted": classCompletedController.text,
+          "satisfactionRate": satisfactionController.text,
+          "purchasedCoursesShow": purchasedCoursesShow.value,
+          "courseCategoryId": categoryId.value,
+          "image": image.value,
+          "courseCurriculumIds": [],
+          if (attachment.value.isNotEmpty) "pdf": attachment.value,
         },
         decoder: (json) => json as Map<String, dynamic>,
       );
@@ -137,11 +147,28 @@ class CreateCourseController extends GetxController {
     nameController.clear();
     descriptionController.clear();
     priceController.clear();
+    mrpPriceController.clear();
+    languageController.clear();
+    durationController.clear();
     enrolledLearnersController.clear();
     classCompletedController.clear();
     satisfactionController.clear();
     purchasedCoursesShow.value = false;
     categoryId.value = "";
     image.value = "";
+  }
+
+  @override
+  void onClose() {
+    nameController.dispose();
+    descriptionController.dispose();
+    priceController.dispose();
+    mrpPriceController.dispose();
+    languageController.dispose();
+    durationController.dispose();
+    enrolledLearnersController.dispose();
+    classCompletedController.dispose();
+    satisfactionController.dispose();
+    super.onClose();
   }
 }

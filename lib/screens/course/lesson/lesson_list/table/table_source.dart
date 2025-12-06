@@ -39,6 +39,9 @@ class CourseLessonDataSource extends DataTableSource {
           ),
         ),
 
+        // PRIORITY
+        DataCell(Text(lesson.priority.toString())),
+
         // LOCK STATUS
         DataCell(
           GestureDetector(

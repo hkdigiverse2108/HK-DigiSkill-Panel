@@ -39,6 +39,7 @@ import 'package:hkdigiskill_admin/screens/course/curriculum/create_curriculum/cr
 import 'package:hkdigiskill_admin/screens/course/curriculum/curriculums_list/course_curriculums.dart';
 import 'package:hkdigiskill_admin/screens/course/curriculum/edit_curriculum/edit_course_curriculum.dart';
 import 'package:hkdigiskill_admin/screens/course/edit_course/edit_course.dart';
+
 // import 'package:hkdigiskill_admin/screens/coupon/create_coupon/create_coupon.dart';
 import 'package:hkdigiskill_admin/screens/course/faq/all_faq/all_faq.dart';
 import 'package:hkdigiskill_admin/screens/course/faq/create_faq/create_faq.dart';
@@ -63,6 +64,7 @@ import 'package:hkdigiskill_admin/screens/get_in_touch/edit_get_in_touch/edit_ge
 import 'package:hkdigiskill_admin/screens/instructors/all_instructors/all_instructors.dart';
 import 'package:hkdigiskill_admin/screens/instructors/create_instructor/create_instructor.dart';
 import 'package:hkdigiskill_admin/screens/instructors/edit_instructor/edit_instructor.dart';
+import 'package:hkdigiskill_admin/screens/legality/about_us/responsive_screens/about_us_desktop.dart';
 import 'package:hkdigiskill_admin/screens/legality/refund_policy/responsive_screens/refund_policy_desktop.dart';
 import 'package:hkdigiskill_admin/screens/legality/terms_condition/responsive_screens/terms_condition_desktop.dart';
 import 'package:hkdigiskill_admin/screens/login/login_page.dart';
@@ -541,6 +543,12 @@ class AppRoute {
     GetPage(
       name: AdminRoutes.refundPolicy,
       page: () => RefundPolicyDesktopScreen(),
+      binding: LegalityBinding(),
+      middlewares: [RoutesMiddleware()],
+    ),
+    GetPage(
+      name: AdminRoutes.aboutUs,
+      page: () => AboutUsDesktopScreen(),
       binding: LegalityBinding(),
       middlewares: [RoutesMiddleware()],
     ),

@@ -3,6 +3,7 @@ class CourseLessonModel {
   final LessonCourseModel? courseId;
   final String title;
   final String? subtitle;
+  final int priority;
   final bool lessonLock;
   final bool isDeleted;
   final bool isBlocked;
@@ -14,6 +15,7 @@ class CourseLessonModel {
     this.courseId,
     required this.title,
     this.subtitle,
+    this.priority = 0,
     this.lessonLock = false,
     this.isDeleted = false,
     this.isBlocked = false,
@@ -29,6 +31,7 @@ class CourseLessonModel {
           : null,
       title: json['title'] ?? '',
       subtitle: json['subtitle'],
+      priority: json['priority'] ?? 0,
       lessonLock: json['lessonLock'] ?? false,
       isDeleted: json['isDeleted'] ?? false,
       isBlocked: json['isBlocked'] ?? false,
@@ -47,6 +50,7 @@ class CourseLessonModel {
       "courseId": courseId?.toJson(),
       "title": title,
       "subtitle": subtitle,
+      "priority": priority,
       "lessonLock": lessonLock,
       "isDeleted": isDeleted,
       "isBlocked": isBlocked,
@@ -60,6 +64,7 @@ class CourseLessonModel {
     LessonCourseModel? courseId,
     String? title,
     String? subtitle,
+    int? priority,
     bool? lessonLock,
     bool? isDeleted,
     bool? isBlocked,
@@ -71,6 +76,7 @@ class CourseLessonModel {
       courseId: courseId ?? this.courseId,
       title: title ?? this.title,
       subtitle: subtitle ?? this.subtitle,
+      priority: priority ?? this.priority,
       lessonLock: lessonLock ?? this.lessonLock,
       isDeleted: isDeleted ?? this.isDeleted,
       isBlocked: isBlocked ?? this.isBlocked,

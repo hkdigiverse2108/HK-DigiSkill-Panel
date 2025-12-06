@@ -14,6 +14,7 @@ class ImageModel {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final String? contentType;
+  final bool isPdf;
 
   // Not Mapped
   final DropzoneFileInterface? file;
@@ -33,16 +34,18 @@ class ImageModel {
     this.contentType,
     this.file,
     this.localImageToDisplay,
+    this.isPdf = false,
   });
 
   /// Static
   static ImageModel empty() => ImageModel(url: "", folder: "", filename: "");
 
-  factory ImageModel.fromString(String imageUrl) {
+  factory ImageModel.fromString(String imageUrl, {bool isPdf = false}) {
     return ImageModel(
       url: imageUrl,
       filename: imageUrl.split('/').last, // extract file name
       folder: 'gallery',
+      isPdf: isPdf,
     );
   }
 

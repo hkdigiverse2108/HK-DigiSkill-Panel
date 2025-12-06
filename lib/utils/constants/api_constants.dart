@@ -1,7 +1,7 @@
 import 'package:hkdigiskill_admin/utils/constants/enums.dart';
 
 class ApiConstants {
-  static const String baseUrl = 'http://localhost:5555';
+  static const String baseUrl = String.fromEnvironment("API_URL");
 
   // Auth
   static const String login = '/auth/login';
@@ -62,6 +62,7 @@ class ApiConstants {
 
   // media
   static const String media = '/upload/images';
+  static const String mediaPdf = '/upload/pdf';
   static const String mediaDelete = '/upload';
   static const String mediaUpload = '/upload';
 
@@ -116,6 +117,8 @@ class ApiConstants {
   // Legality
   static const String legalityFetch = '/legality?typeFilter=';
   static const String legalityUpdate = '/legality/add';
+  static const String legalityAboutUs = '/about-us';
+  static const String aboutUsUpdate = '/about-us/add/edit';
 
   // Settings
   static const String settings = '/settings/all';

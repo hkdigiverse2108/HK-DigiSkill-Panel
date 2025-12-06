@@ -28,17 +28,56 @@ class PriceSection extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextFormField(
-                    decoration: InputDecoration(labelText: "Price (₹)"),
+                    decoration: InputDecoration(labelText: "Selling Price (₹)"),
                     validator: (value) =>
-                        AdminValidators.validateEmptyText("price", value),
+                        AdminValidators.validateEmptyText("selling price", value),
                     controller: controller.priceController,
+                    keyboardType: TextInputType.number,
                   ),
                 ),
                 const Gap(AdminSizes.spaceBtwInputFields),
                 Expanded(
                   child: TextFormField(
+                    decoration: InputDecoration(labelText: "MRP Price (₹)"),
+                    controller: controller.mrpPriceController,
+                    keyboardType: TextInputType.number,
+                    validator: (value) =>
+                        AdminValidators.validateEmptyText("MRP price", value),
+                  ),
+                ),
+              ],
+            ),
+            const Gap(AdminSizes.spaceBtwInputFields),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    decoration: InputDecoration(labelText: "Language"),
+                    controller: controller.languageController,
+                    validator: (value) =>
+                        AdminValidators.validateEmptyText("language", value),
+                  ),
+                ),
+                const Gap(AdminSizes.spaceBtwInputFields),
+                Expanded(
+                  child: TextFormField(
+                    decoration: InputDecoration(labelText: "Duration (minutes)"),
+                    controller: controller.durationController,
+                    keyboardType: TextInputType.number,
+                    validator: (value) =>
+                        AdminValidators.validateEmptyText("duration", value),
+                  ),
+                ),
+              ],
+            ),
+            const Gap(AdminSizes.spaceBtwInputFields),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
                     decoration: InputDecoration(labelText: "Enrolled Learners"),
                     controller: controller.enrolledLearnersController,
+                    keyboardType: TextInputType.number,
                   ),
                 ),
               ],

@@ -3,20 +3,18 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/containers/rounded_container.dart';
 import 'package:hkdigiskill_admin/common/widgets/images/rounded_image.dart';
+import 'package:hkdigiskill_admin/screens/course/create_course/controllers/create_course_controller.dart';
 import 'package:hkdigiskill_admin/utils/constants/colors.dart';
 import 'package:hkdigiskill_admin/utils/constants/enums.dart';
 import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
-
-import '../controllers/edit_workshop_curriculum_controller.dart'
-    show EditCourseCurriculumController;
 
 class PdfSelection extends StatelessWidget {
   const PdfSelection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = EditCourseCurriculumController.instance;
+    final controller = CreateCourseController.instance;
     return AdminRoundedContainer(
       child: Column(
         children: [

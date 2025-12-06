@@ -3,21 +3,25 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/animations/animation_loader.dart';
 import 'package:hkdigiskill_admin/common/widgets/breadcrumbs/breadcrumb_with_heading.dart';
+import 'package:hkdigiskill_admin/data/models/course_model.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
-import 'package:hkdigiskill_admin/screens/course/create_course/controllers/create_course_controller.dart';
-import 'package:hkdigiskill_admin/screens/course/create_course/widgets/pdf_selection.dart';
-import 'package:hkdigiskill_admin/screens/course/create_course/widgets/price_section.dart';
-import 'package:hkdigiskill_admin/screens/course/create_course/widgets/select_image.dart';
-import 'package:hkdigiskill_admin/screens/course/create_course/widgets/title_section.dart';
+import 'package:hkdigiskill_admin/screens/course/edit_course/controllers/edit_course_controller.dart';
+import 'package:hkdigiskill_admin/screens/course/edit_course/widgets/price_section.dart';
+import 'package:hkdigiskill_admin/screens/course/edit_course/widgets/select_image.dart';
+import 'package:hkdigiskill_admin/screens/course/edit_course/widgets/title_section.dart';
 import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
-class CreateCourseMobileScreen extends StatelessWidget {
-  const CreateCourseMobileScreen({super.key});
+import '../../../workshop/curriculum/edit_curriculum/widgets/pdf_selection.dart';
+
+class EditCourseMobileScreen extends StatelessWidget {
+  const EditCourseMobileScreen({super.key, required this.courseModel});
+
+  final CourseModel courseModel;
 
   @override
   Widget build(BuildContext context) {
-    final controller = CreateCourseController.instance;
+    final controller = EditCourseController.instance;
     return Scaffold(
       body: SingleChildScrollView(
         padding: EdgeInsets.all(AdminSizes.defaultSpace),
@@ -25,9 +29,9 @@ class CreateCourseMobileScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AdminBreadcrumbWithHeading(
-              heading: "Create Course",
+              heading: "Update Course",
               returnToPreviousScreen: true,
-              breadcrumbsItems: [AdminRoutes.course, "Create Course"],
+              breadcrumbsItems: [AdminRoutes.course, "Update Course"],
             ),
             Gap(AdminSizes.spaceBtwSections),
             Obx(
@@ -40,7 +44,7 @@ class CreateCourseMobileScreen extends StatelessWidget {
                         width: 200,
                       ),
                     )
-                  : formSection(context),
+                  : formSection(context, courseModel),
             ),
           ],
         ),
@@ -48,17 +52,17 @@ class CreateCourseMobileScreen extends StatelessWidget {
     );
   }
 
-  Widget formSection(BuildContext context) {
+  Widget formSection(BuildContext context, CourseModel courseModel) {
     return Column(
       children: [
-        const TitleSection(),
+        const EditTitleSection(),
         const Gap(AdminSizes.defaultSpace),
 
-        SelectImage(),
+        EditSelectImage(),
         const Gap(AdminSizes.defaultSpace),
         PdfSelection(),
         const Gap(AdminSizes.defaultSpace),
-        const PriceSection(),
+        EditPriceSection(courseModel: courseModel),
       ],
     );
   }

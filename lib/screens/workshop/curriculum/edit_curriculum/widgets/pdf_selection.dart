@@ -36,12 +36,12 @@ class PdfSelection extends StatelessWidget {
                           child: AdminRoundedImage(
                             imageType: controller.attachment.value.isEmpty
                                 ? ImageType.asset
-                                : ImageType.network,
+                                : ImageType.asset,
                             width: 220,
                             height: 220,
                             image: controller.attachment.value.isEmpty
                                 ? AdminImages.defaultImage
-                                : controller.attachment.value,
+                                : AdminImages.pdfIcon,
                           ),
                         ),
                       ],
@@ -55,7 +55,7 @@ class PdfSelection extends StatelessWidget {
           SizedBox(
             child: ElevatedButton(
               onPressed: () {
-                // controller.selectPdfFile();
+                controller.selectPdfFile();
               },
               child: const Text("Select PDF"),
             ),

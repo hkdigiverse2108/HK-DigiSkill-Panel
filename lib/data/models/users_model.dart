@@ -9,7 +9,7 @@ class UsersModel {
   dynamic referralCode;
   bool agreeTerms;
   String role;
-  int otp;
+  int? otp;
   DateTime otpExpireTime;
   bool isEmailVerified;
   bool isDeleted;

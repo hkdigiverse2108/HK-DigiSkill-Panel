@@ -18,6 +18,7 @@ class CreateLessonController extends GetxController {
   var courseId = ''.obs;
   var lessonLock = false.obs;
   var courseList = <CourseModel>[].obs;
+  final priorityController = TextEditingController(text: '0');
 
   final titleController = TextEditingController();
   final subtitleController = TextEditingController();
@@ -73,6 +74,7 @@ class CreateLessonController extends GetxController {
           'courseId': courseId.value,
           'title': titleController.text,
           'subtitle': subtitleController.text,
+          'priority': int.tryParse(priorityController.text) ?? 0,
           'lessonLock': lessonLock.value,
         },
         decoder: (json) => json as Map<String, dynamic>,
@@ -101,6 +103,7 @@ class CreateLessonController extends GetxController {
   void clearFields() {
     titleController.clear();
     subtitleController.clear();
+    priorityController.text = '0';
     selectedCourse.value = "";
     courseId.value = "";
     lessonLock.value = false;

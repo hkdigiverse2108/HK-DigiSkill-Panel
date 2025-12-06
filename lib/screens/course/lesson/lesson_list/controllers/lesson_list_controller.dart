@@ -68,6 +68,9 @@ class LessonListController extends GetxController {
         case 1:
           compareResult = (a.subtitle ?? '').compareTo(b.subtitle ?? '');
           break;
+        case 2:
+          compareResult = a.priority.compareTo(b.priority);
+          break;
         default:
           return 0;
       }

@@ -3,7 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/containers/rounded_container.dart';
 import 'package:hkdigiskill_admin/common/widgets/images/rounded_image.dart';
-import 'package:hkdigiskill_admin/screens/course/create_course/controllers/create_course_controller.dart';
+import 'package:hkdigiskill_admin/screens/course/edit_course/controllers/edit_course_controller.dart';
 import 'package:hkdigiskill_admin/utils/constants/colors.dart';
 import 'package:hkdigiskill_admin/utils/constants/enums.dart';
 import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
@@ -14,7 +14,7 @@ class PdfSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = CreateCourseController.instance;
+    final controller = EditCourseController.instance;
     return AdminRoundedContainer(
       child: Column(
         children: [

@@ -20,8 +20,8 @@ class LoginController extends GetxController {
   final rememberMe = false.obs;
   final storageService = AdminStorageService();
 
-  final email = TextEditingController(text: "pramitmangukiya602@gmail.com");
-  final password = TextEditingController(text: "Admin@123");
+  final email = TextEditingController();
+  final password = TextEditingController();
   final loginFormKey = GlobalKey<FormState>();
 
   final apiService = ApiService(baseUrl: ApiConstants.baseUrl);
