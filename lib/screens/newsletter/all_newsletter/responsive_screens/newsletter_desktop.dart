@@ -20,6 +20,7 @@ class NewsletterDesktopScreen extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AdminSizes.defaultSpace),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const AdminBreadcrumbWithHeading(
               heading: "Newsletter Subscriptions",

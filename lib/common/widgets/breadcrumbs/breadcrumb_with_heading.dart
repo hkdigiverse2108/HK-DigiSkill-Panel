@@ -28,63 +28,70 @@ class AdminBreadcrumbWithHeading extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            // Dashboard link
-            InkWell(
-              // Last item should not be clickable
-              onTap: () => Get.offAllNamed(AdminRoutes.dashboard),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              // Dashboard link
+              InkWell(
+                // Last item should not be clickable
+                onTap: () => Get.offAllNamed(AdminRoutes.dashboard),
 
-              child: Padding(
-                padding: const EdgeInsets.all(AdminSizes.xs),
-                child: Text(
-                  "Dashboard",
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall!.apply(fontWeightDelta: -1),
+                child: Padding(
+                  padding: const EdgeInsets.all(AdminSizes.xs),
+                  child: Text(
+                    "Dashboard",
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall!.apply(fontWeightDelta: -1),
+                  ),
                 ),
               ),
-            ),
 
-            for (int i = 0; i < breadcrumbsItems.length; i++)
-              Row(
-                children: [
-                  const Text('/'),
-                  InkWell(
-                    onTap: i == breadcrumbsItems.length - 1
-                        ? null
-                        : () => Get.toNamed(breadcrumbsItems[i]),
-                    child: Padding(
-                      padding: const EdgeInsets.all(AdminSizes.xs),
-                      // Format breadcrumbs item: capitalize and remove leading '/'
-                      child: Text(
-                        i == breadcrumbsItems.length - 1
-                            ? breadcrumbsItems[i].capitalize.toString()
-                            : capitalize(breadcrumbsItems[i].substring(1)),
-                        style: Theme.of(
-                          context,
-                        ).textTheme.bodySmall!.apply(fontWeightDelta: -1),
-                      ),
+              for (int i = 0; i < breadcrumbsItems.length; i++) ...[
+                const Text('/'),
+                InkWell(
+                  onTap: i == breadcrumbsItems.length - 1
+                      ? null
+                      : () => Get.toNamed(breadcrumbsItems[i]),
+                  child: Padding(
+                    padding: const EdgeInsets.all(AdminSizes.xs),
+                    // Format breadcrumbs item: capitalize and remove leading '/'
+                    child: Text(
+                      i == breadcrumbsItems.length - 1
+                          ? breadcrumbsItems[i].capitalize.toString()
+                          : capitalize(breadcrumbsItems[i].substring(1)),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall!.apply(fontWeightDelta: -1),
                     ),
                   ),
-                ],
-              ),
-          ],
+                ),
+              ],
+            ],
+          ),
         ),
         const Gap(AdminSizes.sm),
 
         // Heading
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (returnToPreviousScreen)
-              IconButton(
-                onPressed: () => Get.back(),
-                icon: const Icon(Iconsax.arrow_left),
-              ),
-            if (returnToPreviousScreen) const Gap(AdminSizes.spaceBtwItems),
-            AdminPageHeadings(heading: heading),
-          ],
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (returnToPreviousScreen)
+                IconButton(
+                  onPressed: () => Get.back(),
+                  icon: const Icon(Iconsax.arrow_left),
+                ),
+              if (returnToPreviousScreen) const Gap(AdminSizes.spaceBtwItems),
+              AdminPageHeadings(heading: heading),
+            ],
+          ),
         ),
       ],
     );

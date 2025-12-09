@@ -1,7 +1,11 @@
 import 'package:hkdigiskill_admin/utils/constants/enums.dart';
 
 class ApiConstants {
-  static const String baseUrl = String.fromEnvironment("API_URL");
+  static const String baseUrl = 'https://api.hkdigiskill.com';
+
+  // static const String baseUrl = 'http://localhost:5555';
+
+  // static const String baseUrl = String.fromEnvironment("API_URL");
 
   // Auth
   static const String login = '/auth/login';

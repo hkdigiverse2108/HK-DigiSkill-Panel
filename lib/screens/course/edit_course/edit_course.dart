@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/layouts/templates/site_layouts.dart';
 import 'package:hkdigiskill_admin/data/models/course_model.dart';
 import 'package:hkdigiskill_admin/screens/course/edit_course/responsive_screens/edit_course_desktop.dart';
+import 'package:hkdigiskill_admin/screens/course/edit_course/responsive_screens/edit_course_mobile.dart';
 
 class EditCourseScreen extends StatelessWidget {
   const EditCourseScreen({super.key});
@@ -12,6 +13,7 @@ class EditCourseScreen extends StatelessWidget {
     final CourseModel courseModel = Get.arguments;
     return AdminSiteLayouts(
       desktop: EditCourseDesktopScreen(courseModel: courseModel),
+      mobile: EditCourseMobileScreen(courseModel: courseModel),
     );
   }
 }

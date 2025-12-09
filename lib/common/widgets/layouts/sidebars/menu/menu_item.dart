@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/layouts/sidebars/controllers/sidebar_controller.dart';
 import 'package:hkdigiskill_admin/utils/constants/colors.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
-import 'package:iconsax/iconsax.dart';
 
 class AdminMenuItem extends StatefulWidget {
   const AdminMenuItem({
@@ -25,7 +24,6 @@ class AdminMenuItem extends StatefulWidget {
 
 class _AdminMenuItemState extends State<AdminMenuItem> {
   final manuController = Get.put(SidebarController());
-  final isExpanded = false.obs; // ✅ reactive expand/collapse state
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +35,7 @@ class _AdminMenuItemState extends State<AdminMenuItem> {
             onTap: () {
               if (widget.subItems != null && widget.subItems!.isNotEmpty) {
                 // Toggle expansion for items with children
-                isExpanded.value = !isExpanded.value;
+                manuController.toggleExpand(widget.route);
               } else {
                 manuController.menuOnTap(widget.route);
               }
@@ -97,7 +95,7 @@ class _AdminMenuItemState extends State<AdminMenuItem> {
                       Padding(
                         padding: const EdgeInsets.only(right: AdminSizes.sm),
                         child: Icon(
-                          isExpanded.value
+                          manuController.isExpanded(widget.route)
                               ? Icons.arrow_drop_up
                               : Icons.arrow_drop_down,
                           size: 18,
@@ -115,10 +113,17 @@ class _AdminMenuItemState extends State<AdminMenuItem> {
           // Submenu items (visible when expanded)
           if (widget.subItems != null &&
               widget.subItems!.isNotEmpty &&
-              isExpanded.value)
+              manuController.isExpanded(widget.route))
             Padding(
               padding: const EdgeInsets.only(left: 40),
-              child: Column(children: widget.subItems!),
+              child: Column(
+                children: widget.subItems!.map((subItem) {
+                  // Pass the parent route to sub-items
+                  return Builder(
+                    builder: (context) => subItem,
+                  );
+                }).toList(),
+              ),
             ),
         ],
       ),

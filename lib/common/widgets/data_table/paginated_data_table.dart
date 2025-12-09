@@ -88,7 +88,7 @@ class AdminPaginatedDataTable extends StatelessWidget {
           showCheckboxColumn: showCheckboxColumn,
           onPageChanged: onPageChanged,
           showFirstLastButtons: true,
-          renderEmptyRowsInTheEnd: false,
+          // renderEmptyRowsInTheEnd: false,
           onRowsPerPageChanged: (value) {},
 
           empty: Center(

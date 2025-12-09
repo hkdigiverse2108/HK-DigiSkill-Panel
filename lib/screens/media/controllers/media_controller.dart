@@ -318,28 +318,48 @@ class MediaController extends GetxController {
   }) async {
     showImagesUploaderSection.value = true;
 
-    List<ImageModel>? selectedImages = await Get.bottomSheet<List<ImageModel>>(
+    final List<ImageModel>? selectedImages = await showModalBottomSheet(
+      context: Get.context!,
       isScrollControlled: true,
-      enableDrag: true,
-      isDismissible: true,
-
-      backgroundColor: AdminColors.primaryBackground,
-      FractionallySizedBox(
-        heightFactor: 1,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AdminSizes.defaultSpace),
-          child: Column(
-            children: [
-              const MediaUploader(),
-              MediaContent(
-                allowSelection: allowSelection,
-                allowMultipleSelection: allowMultipleSelection,
-                alreadySelectedUrls: selectedUrls ?? [],
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Material(
+          type: MaterialType.transparency, // 👈 VERY IMPORTANT
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width, // 👈 FULL SCREEN WIDTH
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: FractionallySizedBox(
+                heightFactor: 0.95,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: AdminColors.primaryBackground,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(22),
+                    ),
+                  ),
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(24),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 1000),
+                      child: Column(
+                        children: [
+                          const MediaUploader(),
+                          MediaContent(
+                            allowSelection: allowSelection,
+                            allowMultipleSelection: allowMultipleSelection,
+                            alreadySelectedUrls: selectedUrls ?? [],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
 
     return selectedImages;

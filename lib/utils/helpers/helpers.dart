@@ -60,6 +60,16 @@ class AdminHelperFunctions {
     return MediaQuery.of(Get.context!).size.height;
   }
 
+  static bool isHeightValid(double height) {
+    final double screenHeight = MediaQuery.of(Get.context!).size.height;
+    return height >= screenHeight;
+  }
+
+  static bool isWidthValid(double width) {
+    final double screenWidth = MediaQuery.of(Get.context!).size.width;
+    return width >= screenWidth;
+  }
+
   static String getFormattedDate(
     DateTime date, {
     String format = 'dd MMM yyyy',

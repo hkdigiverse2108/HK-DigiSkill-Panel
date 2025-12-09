@@ -12,6 +12,7 @@ import 'package:hkdigiskill_admin/utils/constants/colors.dart';
 import 'package:hkdigiskill_admin/utils/constants/enums.dart';
 import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
+import 'package:hkdigiskill_admin/utils/helpers/helpers.dart';
 import 'package:iconsax/iconsax.dart';
 
 class MediaContent extends StatelessWidget {
@@ -38,32 +39,71 @@ class MediaContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           /// Media Content Header
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    "Image Folders",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const Gap(AdminSizes.spaceBtwItems),
-                  MediaFolderDropdown(
-                    onChanged: (MediaCategory? newValue) {
-                      if (newValue != null) {
-                        controller.selectedCategory.value = newValue;
-                        if (controller.selectedCategory.value !=
-                            MediaCategory.folders) {
-                          controller.getMediaImages();
-                        }
-                      }
-                    },
-                  ),
-                ],
-              ),
+          LayoutBuilder(
+            builder: (context, constraints) =>
+                AdminHelperFunctions.isWidthValid(630)
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Image Folders",
+                        style: Theme.of(context).textTheme.titleMedium,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const Gap(8),
+                      SizedBox(
+                        width: double.infinity,
+                        child: MediaFolderDropdown(
+                          onChanged: (MediaCategory? newValue) {
+                            if (newValue != null) {
+                              controller.selectedCategory.value = newValue;
+                              if (controller.selectedCategory.value !=
+                                  MediaCategory.folders) {
+                                controller.getMediaImages();
+                              }
+                            }
+                          },
+                        ),
+                      ),
+                      Gap(AdminSizes.spaceBtwItems),
+                      if (allowSelection) buildAddSelectedImagesButton(),
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Image Folders",
+                            style: Theme.of(context).textTheme.titleMedium,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const Gap(AdminSizes.spaceBtwItems),
 
-              if (allowSelection) buildAddSelectedImagesButton(),
-            ],
+                          if (!AdminHelperFunctions.isWidthValid(400))
+                            MediaFolderDropdown(
+                              onChanged: (MediaCategory? newValue) {
+                                if (newValue != null) {
+                                  controller.selectedCategory.value = newValue;
+                                  if (controller.selectedCategory.value !=
+                                      MediaCategory.folders) {
+                                    controller.getMediaImages();
+                                  }
+                                }
+                              },
+                            ),
+                        ],
+                      ),
+
+                      if (allowSelection) buildAddSelectedImagesButton(),
+                    ],
+                  ),
           ),
           Gap(AdminSizes.spaceBtwSections),
 
@@ -178,12 +218,34 @@ class MediaContent extends StatelessWidget {
   }
 
   Widget buildAddSelectedImagesButton() {
+    if (AdminHelperFunctions.isWidthValid(320)) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+            child: OutlinedButton.icon(
+              label: const Text('Close'),
+              icon: const Icon(Iconsax.close_circle),
+              onPressed: () => Get.back(),
+            ),
+          ),
+          const SizedBox(width: AdminSizes.spaceBtwItems),
+          Expanded(
+            child: ElevatedButton.icon(
+              label: const Text('Add'),
+              icon: const Icon(Iconsax.image),
+              onPressed: () => Get.back(result: selectedImages),
+            ),
+          ),
+        ],
+      );
+    }
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Close Button
         SizedBox(
           width: 120,
+          height: 40,
           child: OutlinedButton.icon(
             label: const Text('Close'),
             icon: const Icon(Iconsax.close_circle),
@@ -193,6 +255,7 @@ class MediaContent extends StatelessWidget {
         const SizedBox(width: AdminSizes.spaceBtwItems),
         SizedBox(
           width: 120,
+          height: 40,
           child: ElevatedButton.icon(
             label: const Text('Add'),
             icon: const Icon(Iconsax.image),

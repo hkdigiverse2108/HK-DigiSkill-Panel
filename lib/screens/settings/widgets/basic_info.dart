@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:hkdigiskill_admin/common/widgets/containers/rounded_container.dart';
 import 'package:hkdigiskill_admin/screens/settings/controllers/settings_controller.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
+import 'package:hkdigiskill_admin/utils/helpers/helpers.dart';
 import 'package:iconsax/iconsax.dart';
 
 class BasicInfo extends StatelessWidget {
@@ -24,28 +25,51 @@ class BasicInfo extends StatelessWidget {
             ),
           ),
           const Gap(AdminSizes.spaceBtwItems),
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: "email",
-                    prefixIcon: Icon(Iconsax.direct_right),
+          LayoutBuilder(
+            builder: (context, constraints) =>
+                AdminHelperFunctions.isWidthValid(500)
+                ? Column(
+                    children: [
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: "email",
+                          prefixIcon: Icon(Iconsax.direct_right),
+                        ),
+                        controller: controller.emailController,
+                      ),
+                      const Gap(AdminSizes.spaceBtwItems),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: "Phone Number",
+                          prefixIcon: Icon(Iconsax.mobile),
+                        ),
+                        controller: controller.phoneNumberController,
+                      ),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            labelText: "email",
+                            prefixIcon: Icon(Iconsax.direct_right),
+                          ),
+                          controller: controller.emailController,
+                        ),
+                      ),
+                      const Gap(AdminSizes.spaceBtwItems),
+                      Expanded(
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            labelText: "Phone Number",
+                            prefixIcon: Icon(Iconsax.mobile),
+                          ),
+                          controller: controller.phoneNumberController,
+                        ),
+                      ),
+                    ],
                   ),
-                  controller: controller.emailController,
-                ),
-              ),
-              const Gap(AdminSizes.spaceBtwItems),
-              Expanded(
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: "Phone Number",
-                    prefixIcon: Icon(Iconsax.mobile),
-                  ),
-                  controller: controller.phoneNumberController,
-                ),
-              ),
-            ],
           ),
           const Gap(AdminSizes.spaceBtwItems),
           TextFormField(

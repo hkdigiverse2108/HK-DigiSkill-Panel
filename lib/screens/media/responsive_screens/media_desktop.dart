@@ -37,7 +37,11 @@ class MediaDesktopScreen extends StatelessWidget {
                         controller.showImagesUploaderSection.value =
                             !controller.showImagesUploaderSection.value,
                     icon: const Icon(Iconsax.cloud_add),
-                    label: const Text("Upload Image"),
+                    label: const Text(
+                      "Upload Image",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
                   ),
                 ),
               ],

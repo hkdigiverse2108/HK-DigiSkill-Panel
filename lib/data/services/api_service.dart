@@ -1,8 +1,31 @@
 import 'dart:convert';
 
 import 'package:flutter_dropzone/flutter_dropzone.dart';
+import 'package:get/get.dart';
+import 'package:hkdigiskill_admin/data/services/storage_service.dart';
+import 'package:hkdigiskill_admin/routes/routes.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart'; // For MediaType
+
+class TokenExpiredException implements ApiException {
+  @override
+  final int statusCode;
+  @override
+  final String message;
+  @override
+  final String body;
+
+  TokenExpiredException({
+    this.statusCode = 410,
+    this.message = "Token Expired",
+    this.body = "",
+  });
+
+  @override
+  String toString() {
+    return "Login Session Expired";
+  }
+}
 
 class ApiService {
   final String baseUrl;
@@ -37,13 +60,20 @@ class ApiService {
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final jsonResponse = jsonDecode(response.body);
       return decoder(jsonResponse);
-    } else {
-      throw ApiException(
-        statusCode: response.statusCode,
-        message: response.reasonPhrase ?? "Unknown error",
-        body: response.body,
-      );
     }
+
+    // 👇 TOKEN EXPIRED
+    if (response.statusCode == 410) {
+      AdminStorageService().token = null;
+      Get.offAllNamed(AdminRoutes.login);
+      throw TokenExpiredException(body: response.body);
+    }
+
+    throw ApiException(
+      statusCode: response.statusCode,
+      message: response.reasonPhrase ?? "Unknown error",
+      body: response.body,
+    );
   }
 
   Future<T> get<T>({

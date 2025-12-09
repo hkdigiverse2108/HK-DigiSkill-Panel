@@ -15,6 +15,7 @@ import 'package:hkdigiskill_admin/utils/constants/enums.dart';
 import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 import 'package:hkdigiskill_admin/utils/device/device_utility.dart';
+import 'package:hkdigiskill_admin/utils/helpers/helpers.dart';
 
 class MediaUploader extends StatelessWidget {
   const MediaUploader({super.key});
@@ -101,11 +102,17 @@ class MediaUploader extends StatelessWidget {
                                 const Gap(AdminSizes.spaceBtwItems),
                                 const Text(
                                   "Drag and drop image here or click to upload",
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
                                 ),
                                 const Gap(AdminSizes.spaceBtwItems),
                                 OutlinedButton(
                                   onPressed: controller.selectLocalImages,
-                                  child: const Text("Select Image"),
+                                  child: const Text(
+                                    "Select Image",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ],
                             ),
@@ -136,31 +143,46 @@ class MediaUploader extends StatelessWidget {
                                   style: Theme.of(
                                     context,
                                   ).textTheme.titleMedium,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
                                 ),
                                 const Gap(AdminSizes.spaceBtwItems),
-                                MediaFolderDropdown(
-                                  onChanged: (MediaCategory? newValue) {
-                                    if (newValue != null) {
-                                      controller.selectedCategory.value =
-                                          newValue;
-                                    }
-                                  },
-                                ),
+                                AdminHelperFunctions.isWidthValid(400)
+                                    ? const SizedBox.shrink()
+                                    : MediaFolderDropdown(
+                                        onChanged: (MediaCategory? newValue) {
+                                          if (newValue != null) {
+                                            controller.selectedCategory.value =
+                                                newValue;
+                                          }
+                                        },
+                                      ),
                               ],
                             ),
+
                             Row(
                               children: [
-                                TextButton(
-                                  onPressed: () {
-                                    controller.selectedImagesToUpload.clear();
-                                    controller.selectedPdfsToUpload.clear();
-                                    // No need to clear selectedImagesToDisplay as it's a computed getter
-                                    // that combines the above two lists
-                                    controller.update(); // Force update the UI
-                                  },
+                                AdminHelperFunctions.isWidthValid(470)
+                                    ? const SizedBox.shrink()
+                                    : TextButton(
+                                        onPressed: () {
+                                          controller.selectedImagesToUpload
+                                              .clear();
+                                          controller.selectedPdfsToUpload
+                                              .clear();
+                                          // No need to clear selectedImagesToDisplay as it's a computed getter
+                                          // that combines the above two lists
+                                          controller
+                                              .update(); // Force update the UI
+                                        },
 
-                                  child: const Text("Remove All"),
-                                ),
+                                        child: const Text(
+                                          "Remove All",
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                      ),
+
                                 const Gap(AdminSizes.spaceBtwItems),
                                 AdminDeviceUtility.isMobileScreen(context)
                                     ? const SizedBox.shrink()
@@ -176,6 +198,21 @@ class MediaUploader extends StatelessWidget {
                             ),
                           ],
                         ),
+                        const Gap(8),
+
+                        !AdminHelperFunctions.isWidthValid(400)
+                            ? const SizedBox.shrink()
+                            : SizedBox(
+                                width: double.infinity,
+                                child: MediaFolderDropdown(
+                                  onChanged: (MediaCategory? newValue) {
+                                    if (newValue != null) {
+                                      controller.selectedCategory.value =
+                                          newValue;
+                                    }
+                                  },
+                                ),
+                              ),
                         Gap(AdminSizes.spaceBtwSections),
                         Wrap(
                           alignment: WrapAlignment.start,
@@ -223,6 +260,31 @@ class MediaUploader extends StatelessWidget {
                                 ),
                               )
                             : const SizedBox.shrink(),
+
+                        !AdminHelperFunctions.isWidthValid(470)
+                            ? const SizedBox.shrink()
+                            : Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: OutlinedButton(
+                                    onPressed: () {
+                                      controller.selectedImagesToUpload.clear();
+                                      controller.selectedPdfsToUpload.clear();
+                                      // No need to clear selectedImagesToDisplay as it's a computed getter
+                                      // that combines the above two lists
+                                      controller
+                                          .update(); // Force update the UI
+                                    },
+
+                                    child: const Text(
+                                      "Remove All",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  ),
+                                ),
+                              ),
                       ],
                     ),
                   ),

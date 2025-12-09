@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:hkdigiskill_admin/common/widgets/containers/rounded_container.dart';
 import 'package:hkdigiskill_admin/screens/coupon/update_coupon/controllers/edit_coupon_controller.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
+import 'package:hkdigiskill_admin/utils/helpers/helpers.dart';
 import 'package:hkdigiskill_admin/utils/helpers/validators.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -45,44 +46,87 @@ class CouponBasicInfo extends StatelessWidget {
               controller: controller.couponCodeController,
             ),
             const Gap(AdminSizes.spaceBtwInputFields),
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      labelText: "Start Date",
-                      suffixIcon: InkWell(
-                        child: Icon(Iconsax.calendar_1),
-                        onTap: () async {
-                          controller.startDateController.text =
-                              await controller.pickDate(context) ??
-                              controller.startDateController.text;
-                        },
-                      ),
+            LayoutBuilder(
+              builder: (context, constraints) =>
+                  AdminHelperFunctions.isWidthValid(500)
+                  ? Column(
+                      children: [
+                        TextFormField(
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            labelText: "Start Date",
+                            suffixIcon: InkWell(
+                              child: const Icon(Iconsax.calendar_1),
+                              onTap: () async {
+                                controller.startDateController.text =
+                                    await controller.pickDate(context) ??
+                                    controller.startDateController.text;
+                              },
+                            ),
+                          ),
+                          controller: controller.startDateController,
+                        ),
+
+                        const Gap(AdminSizes.spaceBtwInputFields),
+
+                        TextFormField(
+                          readOnly: true,
+                          decoration: InputDecoration(
+                            labelText: "End Date",
+                            suffixIcon: InkWell(
+                              child: const Icon(Iconsax.calendar_1),
+                              onTap: () async {
+                                controller.endDateController.text =
+                                    await controller.pickDate(context) ??
+                                    controller.endDateController.text;
+                              },
+                            ),
+                          ),
+                          controller: controller.endDateController,
+                        ),
+                      ],
+                    )
+                  : Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            readOnly: true,
+                            decoration: InputDecoration(
+                              labelText: "Start Date",
+                              suffixIcon: InkWell(
+                                child: const Icon(Iconsax.calendar_1),
+                                onTap: () async {
+                                  controller.startDateController.text =
+                                      await controller.pickDate(context) ??
+                                      controller.startDateController.text;
+                                },
+                              ),
+                            ),
+                            controller: controller.startDateController,
+                          ),
+                        ),
+
+                        const Gap(AdminSizes.spaceBtwInputFields),
+
+                        Expanded(
+                          child: TextFormField(
+                            readOnly: true,
+                            decoration: InputDecoration(
+                              labelText: "End Date",
+                              suffixIcon: InkWell(
+                                child: const Icon(Iconsax.calendar_1),
+                                onTap: () async {
+                                  controller.endDateController.text =
+                                      await controller.pickDate(context) ??
+                                      controller.endDateController.text;
+                                },
+                              ),
+                            ),
+                            controller: controller.endDateController,
+                          ),
+                        ),
+                      ],
                     ),
-                    controller: controller.startDateController,
-                  ),
-                ),
-                const Gap(AdminSizes.spaceBtwInputFields),
-                Expanded(
-                  child: TextFormField(
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      labelText: "End Date",
-                      suffixIcon: InkWell(
-                        child: Icon(Iconsax.calendar_1),
-                        onTap: () async {
-                          controller.endDateController.text =
-                              await controller.pickDate(context) ??
-                              controller.endDateController.text;
-                        },
-                      ),
-                    ),
-                    controller: controller.endDateController,
-                  ),
-                ),
-              ],
             ),
           ],
         ),

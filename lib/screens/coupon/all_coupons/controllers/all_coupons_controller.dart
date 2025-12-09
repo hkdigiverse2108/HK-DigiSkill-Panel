@@ -83,6 +83,7 @@ class AllCouponsController extends GetxController {
       dataList.where(
         (coupon) =>
             coupon.code.toLowerCase().contains(query.toLowerCase()) ||
+            coupon.title.toLowerCase().contains(query.toLowerCase()) ||
             coupon.discountType.name.toLowerCase().contains(
               query.toLowerCase(),
             ),

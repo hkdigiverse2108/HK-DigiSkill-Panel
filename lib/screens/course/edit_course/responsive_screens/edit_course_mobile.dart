@@ -6,13 +6,12 @@ import 'package:hkdigiskill_admin/common/widgets/breadcrumbs/breadcrumb_with_hea
 import 'package:hkdigiskill_admin/data/models/course_model.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
 import 'package:hkdigiskill_admin/screens/course/edit_course/controllers/edit_course_controller.dart';
+import 'package:hkdigiskill_admin/screens/course/edit_course/widgets/pdf_selection.dart';
 import 'package:hkdigiskill_admin/screens/course/edit_course/widgets/price_section.dart';
 import 'package:hkdigiskill_admin/screens/course/edit_course/widgets/select_image.dart';
 import 'package:hkdigiskill_admin/screens/course/edit_course/widgets/title_section.dart';
 import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
-
-import '../../../workshop/curriculum/edit_curriculum/widgets/pdf_selection.dart';
 
 class EditCourseMobileScreen extends StatelessWidget {
   const EditCourseMobileScreen({super.key, required this.courseModel});

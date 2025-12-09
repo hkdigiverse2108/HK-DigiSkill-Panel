@@ -6,15 +6,15 @@ import 'package:hkdigiskill_admin/common/widgets/breadcrumbs/breadcrumb_with_hea
 import 'package:hkdigiskill_admin/common/widgets/containers/rounded_container.dart';
 import 'package:hkdigiskill_admin/data/models/workshop_curriculums_model.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
-import 'package:hkdigiskill_admin/screens/workshop/curriculum/create_curriculum/widgets/resource_section.dart';
-import 'package:hkdigiskill_admin/screens/workshop/curriculum/create_curriculum/widgets/title_description.dart';
-import 'package:hkdigiskill_admin/screens/workshop/curriculum/create_curriculum/widgets/video_thumbnail_image.dart';
 import 'package:hkdigiskill_admin/screens/workshop/curriculum/edit_curriculum/controllers/edit_workshop_curriculum_controller.dart';
+import 'package:hkdigiskill_admin/screens/workshop/curriculum/edit_curriculum/widgets/title_description.dart';
 import 'package:hkdigiskill_admin/utils/constants/colors.dart';
 import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
 import 'package:hkdigiskill_admin/utils/constants/sizes.dart';
 
 import '../widgets/pdf_selection.dart';
+import '../widgets/resource_section.dart';
+import '../widgets/video_thumbnail_image.dart';
 
 class EditWorkshopCurriculumMobile
     extends GetView<EditWorkshopCurriculumController> {

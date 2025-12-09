@@ -28,6 +28,9 @@ class LoginController extends GetxController {
 
   Future<void> login() async {
     try {
+      if (!loginFormKey.currentState!.validate()) {
+        return;
+      }
       AdminFullScreenLoader.openLoadingDialog(
         "E-mail Address Verified, Otp is being sent...",
         AdminImages.sendOtpAnimation,

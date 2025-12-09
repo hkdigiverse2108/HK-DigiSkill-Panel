@@ -27,6 +27,7 @@ class _DesktopBody extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AdminSizes.defaultSpace),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AdminBreadcrumbWithHeading(
               heading: "About Us",

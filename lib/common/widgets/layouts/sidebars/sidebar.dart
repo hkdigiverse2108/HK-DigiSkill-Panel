@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hkdigiskill_admin/common/widgets/images/circular_image.dart';
 import 'package:hkdigiskill_admin/common/widgets/layouts/sidebars/menu/menu_item.dart';
 import 'package:hkdigiskill_admin/routes/routes.dart';
+import 'package:hkdigiskill_admin/screens/settings/controllers/settings_controller.dart';
 import 'package:hkdigiskill_admin/utils/constants/colors.dart';
 import 'package:hkdigiskill_admin/utils/constants/enums.dart';
 import 'package:hkdigiskill_admin/utils/constants/image_strings.dart';
@@ -28,12 +30,16 @@ class AdminSidebar extends StatelessWidget {
             children: [
               // Gap(AdminSizes.spaceBtwSections),
               // image
-              AdminCircularImage(
-                imageType: ImageType.network,
-                image: AdminImages.profile,
-                width: 100,
-                height: 100,
-                backgroundColor: Colors.transparent,
+              Obx(
+                () => AdminCircularImage(
+                  imageType: ImageType.network,
+                  image:
+                      SettingsController.instance.logo.value ??
+                      AdminImages.profile,
+                  width: 100,
+                  height: 100,
+                  backgroundColor: Colors.transparent,
+                ),
               ),
               // Gap(AdminSizes.spaceBtwSections),
               Padding(

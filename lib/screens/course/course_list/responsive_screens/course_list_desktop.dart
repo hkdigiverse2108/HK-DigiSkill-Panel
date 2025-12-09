@@ -20,6 +20,7 @@ class CourseListDesktopScreen extends StatelessWidget {
       body: SingleChildScrollView(
         padding: EdgeInsets.all(AdminSizes.defaultSpace),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const AdminBreadcrumbWithHeading(
               heading: "Course",
